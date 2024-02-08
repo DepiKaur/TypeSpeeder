@@ -1,0 +1,5 @@
+menu.option.login = Logga in
+menu.option.newUser = Skapa ett nytt konto
+menu.option.exit = Avsluta
+menu.option.chooseOption = Välj en av nedanstående val
+menu.welcome.typeSpeeder = Välkommen till TypeSpeeder!
