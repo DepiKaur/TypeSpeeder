@@ -9,13 +9,18 @@ import jakarta.persistence.Table;
 
 /**
  * @author Depinder Kaur
- * since 2024-02-08
- * version 1.0
+ * @date 2024-02-08
+ * @version 1.0
  * <h2>Player</h2>
- * Player class is a Java POJO class with the fields id, username, password and displayName
- * as well as constructors, getters and setters.
+ * Player class is a Java POJO class with the following fields: id, username, password and displayName
+ * <ul>
+ *     <li>id: type integer</li>
+ *     <li>username: type String</li>
+ *     <li>password: type String</li>
+ *     <li>displayName: type String</li>
+ * </ul>
+ * along with constructors as well as getters and setters.
  */
-
 @Entity
 @Table(name="player")
 public class Player {
@@ -30,7 +35,6 @@ public class Player {
     private String displayName;
 
     public Player() {
-
     }
 
     public Player(String username, String password, String displayName) {
@@ -41,10 +45,6 @@ public class Player {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUsername() {
