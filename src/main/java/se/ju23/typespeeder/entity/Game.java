@@ -11,8 +11,8 @@ import jakarta.persistence.Table;
  * @author Depinder Kaur
  * @date 2024-02-08
  * @version 1.0
- * <h2>GameContent</h2>
- * GameContent is a Java POJO class with following fields:
+ * <h2>Game</h2>
+ * Game is a Java POJO class with following fields:
  * <ul>
  *     <li>id: type integer</li>
  *     <li>difficultyLevel: type String</li>
@@ -23,8 +23,8 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name="game_content")
-public class GameContent {
+@Table(name="game")
+public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,16 +34,16 @@ public class GameContent {
     private String difficultyLevel;
 
 
-    @Column(name="gameType")
+    @Column(name="type")
     private String type;
 
     @Column(name="content")
     private String content;
 
-    public GameContent() {
+    public Game() {
     }
 
-    public GameContent(String difficultyLevel, String type, String content) {
+    public Game(String difficultyLevel, String type, String content) {
         this.difficultyLevel = difficultyLevel;
         this.type = type;
         this.content = content;
@@ -71,7 +71,7 @@ public class GameContent {
 
     @Override
     public String toString() {
-        return "GameContent{" +
+        return "Game{" +
                 "id=" + getId() +
                 ", difficultyLevel=" + getDifficultyLevel() +
                 ", type=" + getType() +
