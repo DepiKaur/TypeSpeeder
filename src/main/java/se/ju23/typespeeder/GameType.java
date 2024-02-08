@@ -5,10 +5,10 @@ package se.ju23.typespeeder;
  * @date 2024-02-08
  * @version 1.0
  * <h2>GameType</h2>
- * GameType is an enum which implements the interface TypeOrDifficultyLevel.
+ * GameType is an enum.
  * Its purpose is to store different types of typing games.
  */
-public enum GameType implements TypeOrDifficultyLevel {
+public enum GameType {
     HIGHLIGHTED_WORDS("Highlighted words or alphabets"),
     CASE_SENSITIVE("Case-sensitive"),
     SPECIAL_CHARACTERS("Special characters"),
@@ -22,8 +22,7 @@ public enum GameType implements TypeOrDifficultyLevel {
         this.type = type;
     }
 
-    @Override
-    public String getTypeOrDifficultyLevel() {
+    public String getType() {
         return type;
     }
 }
