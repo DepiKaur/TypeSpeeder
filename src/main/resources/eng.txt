@@ -1,0 +1,5 @@
+menu.option.login = Log in
+menu.option.newUser = make new account
+menu.option.exit = exit
+menu.option.chooseOption = Choose one of the following options
+menu.welcome.typeSpeeder = Welcome to TypeSpeeder!

@@ -1,5 +1,7 @@
 package se.ju23.typespeeder;
 
+import se.ju23.typespeeder.Consle.Console;
+
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -13,6 +15,7 @@ public class ScannerHelper {
              boolean validNumber = false;
              while (! validNumber){
                  try {
+                     console.print("> ");
                      number = scanner.nextInt();
                      validNumber = true;
                  } catch (Exception e){
