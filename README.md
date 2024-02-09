@@ -1,1 +1,2 @@
-# TypeSpeeder
+# TypeSpeeder Game
+
