@@ -27,4 +27,26 @@ public class ScannerHelper {
          return number;
     }
 
+    public static String getStringInputForLogin() {
+        String input;
+
+        do {
+            input = scanner.nextLine();
+            if(input.contains(" ") || input.contains(",")) {
+                console.t("---Whitespaces or comma NOT allowed---");
+                console.print("Try again: ");
+            }
+        } while(input.trim().isEmpty() || input.contains(" ") || input.contains(","));
+
+        return input;
+    }
+
+    public static String validateStringInputForLogin() {
+        String input;
+        do {
+            input = scanner.nextLine().trim();
+        } while (input.trim().isEmpty());
+        return input;
+    }
+
 }
