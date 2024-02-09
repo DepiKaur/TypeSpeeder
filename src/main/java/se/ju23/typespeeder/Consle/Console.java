@@ -2,6 +2,7 @@ package se.ju23.typespeeder.Consle;
 
 import org.springframework.stereotype.Component;
 
+import java.awt.*;
 import java.util.HashMap;
 
 @Component
@@ -9,6 +10,11 @@ public class Console {
     private HashMap<String, String> language;
     private final  String ANSI_RED = "\u001B[31m";
     private final String ANSI_RESET = "\u001B[0m";
+
+    private final String ANSI_BLUE = "\u001B[34m";
+
+    private final String ANSI_BLACK = "\u001B[30m";
+
 
     public void setLanguage(HashMap<String, String> langaugeMap){
         language = langaugeMap;

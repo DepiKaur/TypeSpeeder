@@ -15,10 +15,6 @@ import java.util.HashMap;
 public class MenuService {
     @Autowired
     Console console;
-
-    HashMap<String, String> enMap = new HashMap<>();
-    HashMap<String, String> svMap = new HashMap<>();
-
     String[] optionList = {
             "menu.option.login",
             "menu.option.newUser",
