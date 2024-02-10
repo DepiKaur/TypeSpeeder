@@ -75,7 +75,7 @@ public class ScannerHelper {
     public static String getStringInput() {               //to handle invalid user-input instead of a String
         String input;
         do {
-            input = scanner.nextLine().toLowerCase().trim();
+            input = scanner.nextLine();
         } while (input.trim().isEmpty());
         return input;
     }
