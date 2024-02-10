@@ -11,5 +11,7 @@ import java.util.Optional;
  */
 public interface PlayerRepo extends JpaRepository<Player, Integer> {
 
-    Player findByUsername(String username);
+    Optional<Player> findByUsername(String username);
+
+    Optional<Player> findByUsernameAndPassword(String username, String password);
 }
