@@ -25,4 +25,16 @@ public enum GameType {
     public String getType() {
         return type;
     }
+
+    public static GameType fromType(String type){
+
+        for(GameType gameType : values()){
+            if(gameType.getType().equals(type)){
+                return gameType;
+            }
+        }
+
+        return null;
+
+    }
 }
