@@ -39,17 +39,17 @@ public class PlayerServiceTest {
     }
 
     @Test
-    public void testIfUsernameAlreadyExists() {
+    public void testCheckIfUsernameAlreadyExists() {
         String username1 = "Alfred";
         String username2 = "Bob";
 
         Player p1 = new Player("Alfred", "password", "freddy");
 
         when(repo.findByUsername(username1)).thenReturn(Optional.of(p1));
-        assertTrue(playerService.ifUsernameAlreadyExists(username1));
+        assertTrue(playerService.checkIfUsernameAlreadyExists(username1));
 
         when(repo.findByUsername(username2)).thenReturn(Optional.empty());
-        assertFalse(playerService.ifUsernameAlreadyExists(username2));
+        assertFalse(playerService.checkIfUsernameAlreadyExists(username2));
     }
 
 }

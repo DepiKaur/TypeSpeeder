@@ -10,7 +10,7 @@ import java.util.Optional;
 
 /**
  * @author Depinder Kaur
- * @version 0.1.0
+ * @version 1.0
  * <h2>PlayerService</h2>
  * PlayerService class has the following helper methods for the Player class:
  * <ul>
@@ -35,7 +35,7 @@ public class PlayerService {
 
     public Player createAccount() {
         String username = getValidUsername();
-        String password = getValidPassword();
+        String password = ScannerHelper.getStringInputForPassword();
         String displayName = getValidDisplayName();
         Player newPlayer = new Player(username, password, displayName);
         return playerRepo.save(newPlayer);
@@ -43,25 +43,18 @@ public class PlayerService {
 
     private String getValidUsername() {
         String username = null;
-        boolean isValid = false;
+        boolean usernameIsValid = false;
 
-        while (!isValid) {
+        while (!usernameIsValid) {
             console.print("Enter username: ");
             username = ScannerHelper.getStringInputForUsernameOrDisplayName();
-            if (ifUsernameAlreadyExists(username)) {
+            if (checkIfUsernameAlreadyExists(username)) {
                 console.error("Oops! Desired username is not available. Try another one!");
             } else {
-                isValid = true;
+                usernameIsValid = true;
             }
         }
         return username;
-    }
-
-    private String getValidPassword() {
-        console.t("NOTE: A password must contain atleast 1 capital letter, " +
-                "\n1 small letter, 2 digits and be 6 characters long.");
-        console.print("Enter password: ");
-        return ScannerHelper.getStringInputForPassword();
     }
 
     private String getValidDisplayName() {
@@ -69,7 +62,7 @@ public class PlayerService {
         return ScannerHelper.getStringInputForUsernameOrDisplayName();
     }
 
-    public boolean ifUsernameAlreadyExists(String username) {
+    public boolean checkIfUsernameAlreadyExists(String username) {
         Optional<Player> optionalPlayer = playerRepo.findByUsername(username);
         return optionalPlayer.isPresent();
     }
@@ -108,7 +101,7 @@ public class PlayerService {
 
     private void updatePassword(Player player) {
         console.t("Current password: " + player.getPassword());
-        String updatedPassword = getValidPassword();
+        String updatedPassword = ScannerHelper.getStringInputForPassword();
         player.setPassword(updatedPassword);
         playerRepo.save(player);
         console.t("Password has been successfully updated!");
