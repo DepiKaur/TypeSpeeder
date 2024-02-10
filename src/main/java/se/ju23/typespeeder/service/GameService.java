@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import se.ju23.typespeeder.GameDifficultyLevel;
 import se.ju23.typespeeder.GameType;
 import se.ju23.typespeeder.entity.Game;
+import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.repo.GameRepo;
 
 /**
@@ -57,4 +58,34 @@ public class GameService {
             gameRepo.save(game3);
         }
     }
+
+    public Game getGameByLevelAndType(GameDifficultyLevel level, GameType type) {
+        return gameRepo.findByDifficultyLevelAndType(level.getDifficultyLevel(), type.getType());
+    }
+
+    //TODO calculate points by game, user-input
+
+
+    public void calculateResult(Player player, Game game, String userInput, int timeTaken){
+
+
+
+
+    }
+
+    private int calculatePoints(Game game, String userInput) {
+
+        switch (GameType.fromType(game.getType())){
+            case HIGHLIGHTED_WORDS -> calculatePointsForHighlightedGame(game.getContent(),userInput);
+        }
+
+
+
+       return 0;
+    }
+
+    private int calculatePointsForHighlightedGame(String gameContent, String userInput){
+        return 100;
+    }
+
 }
