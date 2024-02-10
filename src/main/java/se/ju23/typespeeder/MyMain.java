@@ -11,6 +11,6 @@ public class MyMain implements CommandLineRunner {
     private MenuService menuService;
     @Override
     public void run(String... args) throws Exception {
-        menuService.startMenu();
+        menuService.displayMenu();
     }
 }
