@@ -1,102 +1,125 @@
 package se.ju23.typespeeder.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.ju23.typespeeder.Consle.Console;
 import se.ju23.typespeeder.ScannerHelper;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.repo.PlayerRepo;
 
+import java.util.Optional;
+
 /**
  * @author Depinder Kaur
  * @version 0.1.0
- *
+ * <h2>PlayerService</h2>
+ * PlayerService class has the following helper methods for the Player class:
+ * <ul>
+ *     <li>create a new account</li>
+ *     <li>update a player's info</li>
+ *     <li>validate login info</li>
+ * </ul>
  * @date 2024-02-09
  */
 
 @Service
 public class PlayerService {
 
-    @Autowired
     private Console console;
 
-    @Autowired
     private PlayerRepo playerRepo;
 
-    public void createAccount() {
+    public PlayerService(PlayerRepo playerRepo, Console console) {
+        this.playerRepo = playerRepo;
+        this.console = console;
+    }
+
+    public Player createAccount() {
+        String username = getValidUsername();
+        String password = getValidPassword();
+        String displayName = getValidDisplayName();
+        Player newPlayer = new Player(username, password, displayName);
+        return playerRepo.save(newPlayer);
+    }
+
+    private String getValidUsername() {
         String username = null;
         boolean isValid = false;
 
         while (!isValid) {
             console.print("Enter username: ");
-             username = ScannerHelper.getStringInputForLogin();
-            if (isUsernameAlreadyPresent(username)) {
+            username = ScannerHelper.getStringInputForUsernameOrDisplayName();
+            if (ifUsernameAlreadyExists(username)) {
                 console.error("Oops! Desired username is not available. Try another one!");
             } else {
                 isValid = true;
             }
         }
+        return username;
+    }
 
+    private String getValidPassword() {
+        console.t("NOTE: A password must contain atleast 1 capital letter, " +
+                "\n1 small letter, 2 digits and be 6 characters long.");
         console.print("Enter password: ");
-        String password = ScannerHelper.getStringInputForLogin();
+        return ScannerHelper.getStringInputForPassword();
+    }
 
+    private String getValidDisplayName() {
         console.print("Enter display name: ");
-        String displayName = ScannerHelper.getStringInputForLogin();
-
-        Player newPlayer = new Player(username, password, displayName);
-        playerRepo.save(newPlayer);
+        return ScannerHelper.getStringInputForUsernameOrDisplayName();
     }
 
-    private boolean isUsernameAlreadyPresent(String username) {
-        Player player = playerRepo.findByUsername(username);
-        if (player == null) {
-            return false;
-        }
-        return true;
+    public boolean ifUsernameAlreadyExists(String username) {
+        Optional<Player> optionalPlayer = playerRepo.findByUsername(username);
+        return optionalPlayer.isPresent();
     }
 
-    public void validatePlayerLogin() {
+    public boolean validatePlayerLogin() {
         console.print("Enter username: ");
         String username = ScannerHelper.validateStringInputForLogin();
-        String validPassword = null;
-        if (isUsernameAlreadyPresent(username)) {
-            Player player = playerRepo.findByUsername(username);
-            validPassword = player.getPassword();
-        }
-
         console.print("Enter password: ");
         String password = ScannerHelper.validateStringInputForLogin();
-        if (!password.equals(validPassword)) {
-            console.error("Username or Password does not match. Access denied !");
-            return;  //TODO return to main menu
-        }
-        //TODO show player menu
+
+        Optional<Player> optionalPlayer = playerRepo.findByUsernameAndPassword(username, password);
+        return optionalPlayer.isPresent();
     }
 
-    public void updateLoginInfo() {
-        console.t("Update one of the following: ");
-        String[] optionList = {"Username", "Password", "Display Name", "Exit"};
+    public void updateLoginInfo(Player player) {
+        console.t("Choose one of the following: ");
+        String[] optionList = {"Update username", "Update password", "Update Display Name", "Exit"};
         console.print(optionList);
-
         int userChoice = ScannerHelper.getInt();
+
         switch (userChoice) {
-            case 1 -> updateUsername();
-            case 2 -> updatePassword();
-            case 3 -> updateDisplayName();
+            case 1 -> updateUsername(player);
+            case 2 -> updatePassword(player);
+            case 3 -> updateDisplayName(player);
             case 4 -> { }                    //TODO return to main menu
         }
     }
 
-    private void updateUsername() {
-
+    private void updateUsername(Player player) {
+        console.t("Current username: " + player.getUsername());
+        String updatedUsername = getValidUsername();
+        player.setUsername(updatedUsername);
+        playerRepo.save(player);
+        console.t("Username has been successfully updated!");
     }
 
-    private void updatePassword() {
-
+    private void updatePassword(Player player) {
+        console.t("Current password: " + player.getPassword());
+        String updatedPassword = getValidPassword();
+        player.setPassword(updatedPassword);
+        playerRepo.save(player);
+        console.t("Password has been successfully updated!");
     }
 
-    private void updateDisplayName() {
-
+    private void updateDisplayName(Player player) {
+        console.t("Current display name: " + player.getDisplayName());
+        String updatedDisplayName = getValidDisplayName();
+        player.setDisplayName(updatedDisplayName);
+        playerRepo.save(player);
+        console.t("Display name has been successfully updated!");
     }
 
 }
