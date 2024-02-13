@@ -76,6 +76,7 @@ public class MenuHandler {
     }
 
 
+
     private void loggedInMenu(PlayerService playerService){
         login(playerService);
         if (currentPlayer.isEmpty()) {
