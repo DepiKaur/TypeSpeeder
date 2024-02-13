@@ -54,10 +54,9 @@ public class MenuHandler {
      */
     private Language setLanguage() {
         LanguageMenu languageMenu = new LanguageMenu();
-        languageMenu.dsiplayMenu();
+        languageMenu.displayMenu();
         return languageMenu.setLanguage();
     }
-
 
     /**
      * This method starts the login process.
@@ -68,7 +67,7 @@ public class MenuHandler {
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt) {
-                case 1 -> logedInMenu(playerService);
+                case 1 -> loggedInMenu(playerService);
                 case 2 -> playerService.createAccount();
                 case 3 -> {languageChose = false; running = false;}
             }
@@ -77,10 +76,15 @@ public class MenuHandler {
     }
 
 
-    private void logedInMenu(PlayerService playerService){
+    private void loggedInMenu(PlayerService playerService){
         login(playerService);
+        if (currentPlayer.isEmpty()) {
+            console.error("Player NOT found!");
+            return;
+        }
         menu = new Menu(console, currentPlayer.get());
-        while(isLoggedIn()){
+        boolean isLoggedIn = true;
+        while(isLoggedIn){
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt){
@@ -88,25 +92,16 @@ public class MenuHandler {
                 case 2 -> console.print("printing information such as username, display name, level and points");
                 case 3 -> console.print("choose a game");
                 case 4 -> console.print("show the ranking list");
-                case 5 -> currentPlayer = Optional.empty();
+                case 5 -> isLoggedIn = false;
             }
         }
     }
 
     private void login(PlayerService playerService) {
         if (currentPlayer.isEmpty()) {
-            currentPlayer = playerService.PlayerLogin();
+            currentPlayer = playerService.playerLogin();
         } else {
             console.error("you are already logged in");
         }
     }
-
-    private boolean isLoggedIn(){
-        if(currentPlayer.isPresent()){
-            return true;
-        }
-        return false;
-    }
-
-
 }
