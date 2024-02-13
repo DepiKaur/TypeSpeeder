@@ -40,7 +40,6 @@ public class MenuHandler {
         while (running) {
             menuToLogin(playerService);
         }
-
     }
 
     /**
@@ -54,7 +53,6 @@ public class MenuHandler {
         languageMenu.displayMenu();
         return languageMenu.setLanguage();
     }
-
 
     /**
      * This method starts the login process.
@@ -75,8 +73,13 @@ public class MenuHandler {
 
     private void loggedInMenu(PlayerService playerService){
         login(playerService);
+        if (currentPlayer.isEmpty()) {
+            console.error("Player NOT found!");
+            return;
+        }
         menu = new Menu(console, currentPlayer.get());
-        while(currentPlayer.isPresent()){
+        boolean isLoggedIn = true;
+        while(isLoggedIn){
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt){
@@ -84,20 +87,16 @@ public class MenuHandler {
                 case 2 -> console.print("printing information such as username, display name, level and points");
                 case 3 -> console.print("choose a game");
                 case 4 -> console.print("show the ranking list");
-                case 5 -> currentPlayer = Optional.empty();
+                case 5 -> isLoggedIn = false;
             }
         }
-
-
     }
 
     private void login(PlayerService playerService) {
         if (currentPlayer.isEmpty()) {
-            currentPlayer = playerService.PlayerLogin();
+            currentPlayer = playerService.playerLogin();
         } else {
             console.error("you are already logged in");
         }
     }
-
-
 }
