@@ -6,7 +6,9 @@ import se.ju23.typespeeder.GameDifficultyLevel;
 import se.ju23.typespeeder.GameType;
 import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
+import se.ju23.typespeeder.entity.Result;
 import se.ju23.typespeeder.repo.GameRepo;
+import se.ju23.typespeeder.repo.ResultRepo;
 
 import java.util.Optional;
 
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class GameService {
 
     private GameRepo gameRepo;
+    private ResultRepo resultRepo;
 
     @Autowired
-    public GameService(GameRepo gameRepo) {
+    public GameService(GameRepo gameRepo, ResultRepo resultRepo) {
         this.gameRepo = gameRepo;
+        this.resultRepo = resultRepo;
     }
 
     /*
@@ -68,31 +72,44 @@ public class GameService {
         return gameRepo.findByDifficultyLevelAndType(level.getDifficultyLevel(), type.getType());
     }
 
-    public int calculateResultForMostCorrect(Player player, Game game, String userInput, int timeTaken){
-        GuessEvaluation guessEvaluation = calculatePoints(game, userInput);
-        return guessEvaluation.numOfCorrect();
+    public void calculateResultAndSave(Player player, Game game, String userInput, int timeTaken) {
+
+        Evaluation evaluation = evaluateUserInput(game, userInput);
+        int numOfCorrect = evaluation.numOfCorrect();
+        int numOfMostCorrectInOrder = evaluation.numOfMostCorrectInOrder();
+        int totalNumInGivenString = evaluation.totalNumInGivenString();
+
+        double accuracyForCorrect = getAccuracyRoundedToTwoDigits(numOfCorrect, totalNumInGivenString);
+        double accuracyForMostCorrectInOrder = getAccuracyRoundedToTwoDigits(numOfMostCorrectInOrder, totalNumInGivenString);
+
+        int pointsForCorrect = calculatePointsFromAccuracy(accuracyForCorrect);
+        int pointsForMostCorrectInOrder = calculatePointsFromAccuracy(accuracyForMostCorrectInOrder);
+
+        Result result = new Result(player, game, pointsForCorrect, pointsForMostCorrectInOrder, timeTaken);
+        System.out.println(result);
     }
 
-    public int calculateResultForMostCorrectInOrder(Player player, Game game, String userInput, int timeTaken) {
-        GuessEvaluation guessEvaluation = calculatePoints(game, userInput);
-        return guessEvaluation.numOfMostCorrectInOrder();
-    }
-
-    private GuessEvaluation calculatePoints(Game game, String userInput) {
-        GuessEvaluation guessEvaluation = null;
+    private Evaluation evaluateUserInput(Game game, String userInput) {
+        Evaluation evaluation = null;
 
         switch (GameType.fromType(game.getType())){
-            case WRITE_WORDS, CASE_SENSITIVE -> guessEvaluation = calculatePointsForWordGame(game.getContent(), userInput);
-            case COUNT_NUMBER -> guessEvaluation = calculatePointsForCountNumberGame(game.getContent(), Integer.parseInt(userInput));
+            case WRITE_WORDS, CASE_SENSITIVE -> evaluation = evaluateInputForWordGame(game.getContent(), userInput);
+            case COUNT_NUMBER -> evaluation = evaluateInputForCountGame(game.getContent(), userInput);
         }
-
-        return guessEvaluation;
+        return evaluation;
     }
 
-    public GuessEvaluation calculatePointsForWordGame(String gameContent, String userInput) {
+    private Evaluation evaluateInputForWordGame(String gameContent, String userInput) {
         int correct = calculateNumOfCorrect(gameContent, userInput);
         int mostCorrectInOrder = calculateNumOfMostCorrectInOrder(gameContent, userInput);
-        return new GuessEvaluation(correct, mostCorrectInOrder);
+        return new Evaluation(correct, mostCorrectInOrder, gameContent.length());
+    }
+
+    private Evaluation evaluateInputForCountGame(String gameContent, String userInput) {
+        int numOfCorrect = Integer.parseInt(userInput);
+        int numOfMostCorrectInOrder = Integer.parseInt(userInput);
+        int numOfSpecialChar = calculateNumOfSpecialChars(gameContent);
+        return new Evaluation(numOfCorrect, numOfMostCorrectInOrder, numOfSpecialChar);
     }
 
     private int calculateNumOfCorrect(String gameContent, String userInput) {
@@ -121,24 +138,42 @@ public class GameService {
         return mostCorrect;
     }
 
-    public GuessEvaluation calculatePointsForCountNumberGame(String gameContent, int userInput) {
-        int correct = 0;        // this changes to 1 if user counts the exact no. of "?" in the given string
-        int actualNumOfQuestionMarks = 0;
+    private int calculateNumOfSpecialChars(String gameContent) {
+        int actualNumOfSpecialChar = 0;
 
         String[] parts = gameContent.split("\n");
         for (String s : parts) {
             for (int i = 0; i < s.length(); i++) {
                 if (s.charAt(i) == '?') {                 // to calculate the no. of "?" in the given text
-                    actualNumOfQuestionMarks++;
+                    actualNumOfSpecialChar++;
                 }
             }
         }
 
-        if (userInput == actualNumOfQuestionMarks) {
-            correct = 1;                               // user gets 1 point for correct answer, otherwise it remains 0
-        }
-        return new GuessEvaluation(correct, 0);
+        return actualNumOfSpecialChar;
     }
 
+    private double getAccuracyRoundedToTwoDigits(int num, int total) {
+        double accuracy = ((double)num / total) * 100;
+        return (Math.round(accuracy * 100.0))/100.0;
+    }
+
+    private int calculatePointsFromAccuracy(double accuracy) {
+        if (accuracy >= 0 && accuracy <= 20) {
+            return 1;
+        } else if (accuracy >= 21 && accuracy <= 40) {
+            return 2;
+        } else if (accuracy >= 41 && accuracy <= 60) {
+            return 3;
+        } else if (accuracy >= 61 && accuracy <= 85) {
+            return 4;
+        } else if (accuracy >= 26 && accuracy <= 99) {
+            return 5;
+        } else if (accuracy == 100) {
+            return 10;
+        } else {
+            return 0;
+        }
+    }
 
 }
