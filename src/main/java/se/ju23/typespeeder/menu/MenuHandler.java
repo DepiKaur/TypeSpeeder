@@ -25,6 +25,7 @@ import java.util.Optional;
 public class MenuHandler {
     private Console console;
     private MenuService menu;
+    private boolean languageChose = false;
     private boolean running = true;
     private static Language language;
 
@@ -35,10 +36,11 @@ public class MenuHandler {
      */
     public void run(PlayerService playerService) {
         language = setLanguage();
+        languageChose = true;
         console= new Console(language);
         playerService.setConsole(console);
 
-        while (running) {
+        while (languageChose) {
             menuToLogin(playerService);
         }
 
@@ -68,16 +70,17 @@ public class MenuHandler {
             switch (chosenInt) {
                 case 1 -> logedInMenu(playerService);
                 case 2 -> playerService.createAccount();
-                case 3 -> running = false;
+                case 3 -> {languageChose = false; running = false;}
             }
         }
+        console.printLine("Thank you for using TypeSpeeder!");
     }
 
 
     private void logedInMenu(PlayerService playerService){
         login(playerService);
         menu = new Menu(console, currentPlayer.get());
-        while(currentPlayer.isPresent()){
+        while(isLoggedIn()){
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt){
@@ -88,8 +91,6 @@ public class MenuHandler {
                 case 5 -> currentPlayer = Optional.empty();
             }
         }
-
-
     }
 
     private void login(PlayerService playerService) {
@@ -98,6 +99,13 @@ public class MenuHandler {
         } else {
             console.error("you are already logged in");
         }
+    }
+
+    private boolean isLoggedIn(){
+        if(currentPlayer.isPresent()){
+            return true;
+        }
+        return false;
     }
 
 
