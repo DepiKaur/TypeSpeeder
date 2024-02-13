@@ -1,8 +1,10 @@
 package se.ju23.typespeeder.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.ScannerHelper;
+import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.repo.PlayerRepo;
 
@@ -21,17 +23,27 @@ import java.util.Optional;
  * @date 2024-02-09
  */
 
-@Service
+//@Service
+@Component
 public class PlayerService {
 
+    @Autowired
     private Console console;
-
+    @Autowired
     private PlayerRepo playerRepo;
 
-    public PlayerService(PlayerRepo playerRepo, Console console) {
+   /* public PlayerService(PlayerRepo playerRepo, Console console) {
         this.playerRepo = playerRepo;
         this.console = console;
-    }
+    }*/
+
+   /* public PlayerService(Console console) {
+        this.console = console;
+    }*/
+     public Console setConsole(Console console){
+        this.console = console;
+         return console;
+     }
 
     public Player createAccount() {
         String username = getValidUsername();
@@ -46,7 +58,7 @@ public class PlayerService {
         boolean usernameIsValid = false;
 
         while (!usernameIsValid) {
-            console.print("player.menu.enter.username");
+            console.t("player.menu.enter.username");
             username = ScannerHelper.getStringInputForUsernameOrDisplayName();
             if (checkIfUsernameAlreadyExists(username)) {
                 console.error("Oops! Desired username is not available. Try another one!");
@@ -58,7 +70,7 @@ public class PlayerService {
     }
 
     private String getValidDisplayName() {
-        console.print("player.menu.enter.displayName");
+        console.t("player.menu.enter.displayName");
         return ScannerHelper.getStringInputForUsernameOrDisplayName();
     }
 
@@ -67,15 +79,16 @@ public class PlayerService {
         return optionalPlayer.isPresent();
     }
 
-    public boolean validatePlayerLogin() {
-        console.print("player.menu.enter.username ");
+    public Optional<Player> PlayerLogin() {
+        console.t("player.menu.enter.username");
         String username = ScannerHelper.validateStringInputForLogin();
-        console.print("player.menu.enter.password");
+        console.t("player.menu.enter.password");
         String password = ScannerHelper.validateStringInputForLogin();
 
-        Optional<Player> optionalPlayer = playerRepo.findByUsernameAndPassword(username, password);
-        return optionalPlayer.isPresent();
+        return playerRepo.findByUsernameAndPassword(username, password);
+        // return optionalPlayer.isPresent();
     }
+
 
     public void updateLoginInfo(Player player) {
         console.t("menu.option.chooseOption");
@@ -87,7 +100,8 @@ public class PlayerService {
             case 1 -> updateUsername(player);
             case 2 -> updatePassword(player);
             case 3 -> updateDisplayName(player);
-            case 4 -> { }                    //TODO return to main menu
+            case 4 -> {
+            }                    //TODO return to main menu
         }
     }
 

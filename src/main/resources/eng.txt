@@ -19,4 +19,4 @@ menu.option.changeUserInfo = Update your information (username, password, displa
 menu.option.showUserInfo = Show your information
 menu.option.chooseGame = Choose a game to play
 menu.option.showRankingList = Show the ranking list
-
+menu.option.logout = Log out

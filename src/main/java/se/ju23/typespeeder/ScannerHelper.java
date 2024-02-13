@@ -30,7 +30,7 @@ public class ScannerHelper {
         int number = 0;
         while (number < 1 || number > maxValue) {
             try {
-                console.printLine("> ");
+                console.print("> ");
                 number = scanner.nextInt();
                 if (number < 1 || number > maxValue) {
                     console.tln("input.wrong.number");

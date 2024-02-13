@@ -19,3 +19,4 @@ menu.option.changeUserInfo = Uppdatera din information (användareamn, lösenord
 menu.option.showUserInfo = Visa din information
 menu.option.chooseGame = Välj ett spel för att spela
 menu.option.showRankingList = Visa rankinglista
+menu.option.logout = Logga ut
