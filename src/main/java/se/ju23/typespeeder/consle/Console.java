@@ -60,6 +60,13 @@ public class Console {
         }
     }
 
+    public void print(String[] stringList){
+        for(int i = 0; i< stringList.length; i++){
+            print(i +1 +".");
+            tln(stringList[i]);
+        }
+    }
+
     /**
      * Prints a translated text without adding a new line at the end.
      *

@@ -1,7 +1,7 @@
 package se.ju23.typespeeder.service;
 
 import org.springframework.stereotype.Service;
-import se.ju23.typespeeder.Consle.Console;
+import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.ScannerHelper;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.repo.PlayerRepo;
@@ -81,7 +81,7 @@ public class PlayerService {
         console.t("Choose one of the following: ");
         String[] optionList = {"Update username", "Update password", "Update Display Name", "Exit"};
         console.print(optionList);
-        int userChoice = ScannerHelper.getInt();
+        int userChoice = ScannerHelper.getInt(optionList.length);
 
         switch (userChoice) {
             case 1 -> updateUsername(player);
