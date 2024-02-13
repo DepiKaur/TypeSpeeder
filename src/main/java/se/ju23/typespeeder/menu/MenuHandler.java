@@ -36,12 +36,11 @@ public class MenuHandler {
      */
     public void run(PlayerService playerService) {
         language = setLanguage();
-        languageChose = true;
         console= new Console(language);
         playerService.setConsole(console);
 
-        while (languageChose) {
-            menuToLogin(playerService);
+        while (running) {
+            menuToLogin(playerService, new LoginMenu(console));
         }
 
     }
@@ -61,15 +60,14 @@ public class MenuHandler {
     /**
      * This method starts the login process.
      */
-    private void menuToLogin(PlayerService playerService) {
-        menu = new LoginMenu(language);
+    private void menuToLogin(PlayerService playerService, MenuService menu) {
         while (running) {
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt) {
                 case 1 -> loggedInMenu(playerService);
                 case 2 -> playerService.createAccount();
-                case 3 -> {languageChose = false; running = false;}
+                case 3 -> {running = false;}
             }
         }
         console.printLine("Thank you for using TypeSpeeder!");
@@ -84,7 +82,6 @@ public class MenuHandler {
             return;
         }
         menu = new Menu(console, currentPlayer.get());
-
         while(currentPlayer.isPresent()){
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
