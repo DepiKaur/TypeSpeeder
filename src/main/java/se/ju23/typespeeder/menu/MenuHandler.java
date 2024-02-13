@@ -1,6 +1,5 @@
 package se.ju23.typespeeder.menu;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.ScannerHelper;
 import se.ju23.typespeeder.consle.Console;
@@ -52,7 +51,7 @@ public class MenuHandler {
      */
     private Language setLanguage() {
         LanguageMenu languageMenu = new LanguageMenu();
-        languageMenu.dsiplayMenu();
+        languageMenu.displayMenu();
         return languageMenu.setLanguage();
     }
 
@@ -66,7 +65,7 @@ public class MenuHandler {
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt) {
-                case 1 -> logedInMenu(playerService);
+                case 1 -> loggedInMenu(playerService);
                 case 2 -> playerService.createAccount();
                 case 3 -> running = false;
             }
@@ -74,7 +73,7 @@ public class MenuHandler {
     }
 
 
-    private void logedInMenu(PlayerService playerService){
+    private void loggedInMenu(PlayerService playerService){
         login(playerService);
         menu = new Menu(console, currentPlayer.get());
         while(currentPlayer.isPresent()){
