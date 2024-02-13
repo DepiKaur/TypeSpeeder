@@ -6,7 +6,6 @@ import se.ju23.typespeeder.consle.Language;
 import se.ju23.typespeeder.service.MenuService;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Sofie Van Dingenen
@@ -27,6 +26,7 @@ public class Menu implements MenuService {
 
     /**
      * Initilizes a new created Menu obejct.
+     *
      * @param language Language is used to get the Console to print out the text in the correct language. Default language is English.
      */
     public Menu(Language language) {
@@ -44,7 +44,8 @@ public class Menu implements MenuService {
 
     /**
      * Returns a lsit with itmes to be shown in the menu display.
-      * @return ArrayList of Strings
+     *
+     * @return ArrayList of Strings
      */
     public ArrayList<String> getMenuOptions() {
         ArrayList<String> optionsList = new ArrayList<>();

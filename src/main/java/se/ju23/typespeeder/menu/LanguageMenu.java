@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Since 2024-02-08
  *
  * <h2>LanguageMenu</h2>
- *
+ * <p>
  * LanguageMenu class has methods to show and choose a language.
  */
 public class LanguageMenu {
@@ -40,6 +40,7 @@ public class LanguageMenu {
 
     /**
      * Returns a language in a list chosen by the user.
+     *
      * @return the language chosen by the user.
      */
     public Language setLanguage() {

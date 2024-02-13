@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Since 2024-02-12
  *
  * <h2>LoginMenu</h2>
- *
+ * <p>
  * LoginMenu implements all the methods in the <i>MenuService</i> interface.
  */
 
