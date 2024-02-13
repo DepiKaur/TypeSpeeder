@@ -31,19 +31,24 @@ public class Result {
     @JoinColumn(name="game_id")
     private Game game;
 
-    private int points;
+    @Column(name="points_for_correct")
+    private int pointsForCorrect;
 
-    @Column(name="time_taken_in_sec")
-    private int timeTakenInSec;
+    @Column(name="points_for_correct_in_order")
+    private int pointsForCorrectInOrder;
+
+    @Column(name="time_taken_in_ms")
+    private int timeTakenInMilliSec;
 
     public Result() {
     }
 
-    public Result(Player player, Game game, int points, int timeTakenInSec) {
+    public Result(Player player, Game game, int pointsForCorrect, int pointsForCorrectInOrder, int timeTakenInMilliSec) {
         this.player = player;
         this.game = game;
-        this.points = points;
-        this.timeTakenInSec = timeTakenInSec;
+        this.pointsForCorrect = pointsForCorrect;
+        this.pointsForCorrectInOrder = pointsForCorrectInOrder;
+        this.timeTakenInMilliSec = timeTakenInMilliSec;
     }
 
     public int getId() {
@@ -66,20 +71,24 @@ public class Result {
         this.game = game;
     }
 
-    public int getPoints() {
-        return points;
+    public int getPointsForCorrect() {
+        return pointsForCorrect;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void setPointsForCorrect(int pointsForCorrect) {
+        this.pointsForCorrect = pointsForCorrect;
     }
 
-    public int getTimeTakenInSec() {
-        return timeTakenInSec;
+    public int getPointsForCorrectInOrder() {
+        return pointsForCorrectInOrder;
     }
 
-    public void setTimeTakenInSec(int timeTakenInSec) {
-        this.timeTakenInSec = timeTakenInSec;
+    public void setPointsForCorrectInOrder(int pointsForCorrectInOrder) {
+        this.pointsForCorrectInOrder = pointsForCorrectInOrder;
+    }
+
+    public int getTimeTakenInMilliSec() {
+        return timeTakenInMilliSec;
     }
 
     @Override
@@ -87,9 +96,10 @@ public class Result {
         return "Result{" +
                 "id=" + id +
                 ", player=" + player.getDisplayName() +
-                ", game=" + game.getType() +
-                ", points=" + points +
-                ", timeTakenInSec=" + timeTakenInSec +
+                ", game=" + game.getType() + "(level:" + game.getDifficultyLevel() + ")" +
+                ", pointsForCorrect=" + pointsForCorrect +
+                ", pointsForCorrectInOrder=" + pointsForCorrectInOrder +
+                ", timeTakenInMilliSec=" + timeTakenInMilliSec +
                 '}';
     }
 }
