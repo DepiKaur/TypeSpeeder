@@ -46,7 +46,7 @@ public class PlayerService {
         boolean usernameIsValid = false;
 
         while (!usernameIsValid) {
-            console.print("Enter username: ");
+            console.print("player.menu.enter.username");
             username = ScannerHelper.getStringInputForUsernameOrDisplayName();
             if (checkIfUsernameAlreadyExists(username)) {
                 console.error("Oops! Desired username is not available. Try another one!");
@@ -58,7 +58,7 @@ public class PlayerService {
     }
 
     private String getValidDisplayName() {
-        console.print("Enter display name: ");
+        console.print("player.menu.enter.displayName");
         return ScannerHelper.getStringInputForUsernameOrDisplayName();
     }
 
@@ -68,9 +68,9 @@ public class PlayerService {
     }
 
     public boolean validatePlayerLogin() {
-        console.print("Enter username: ");
+        console.print("player.menu.enter.username ");
         String username = ScannerHelper.validateStringInputForLogin();
-        console.print("Enter password: ");
+        console.print("player.menu.enter.password");
         String password = ScannerHelper.validateStringInputForLogin();
 
         Optional<Player> optionalPlayer = playerRepo.findByUsernameAndPassword(username, password);
@@ -78,8 +78,8 @@ public class PlayerService {
     }
 
     public void updateLoginInfo(Player player) {
-        console.t("Choose one of the following: ");
-        String[] optionList = {"Update username", "Update password", "Update Display Name", "Exit"};
+        console.t("menu.option.chooseOption");
+        String[] optionList = {"menu.option.update.username", "menu.option.update.password", "menu.option.update.displayName", "menu.option.exit"};
         console.print(optionList);
         int userChoice = ScannerHelper.getInt(optionList.length);
 
@@ -92,27 +92,30 @@ public class PlayerService {
     }
 
     private void updateUsername(Player player) {
-        console.t("Current username: " + player.getUsername());
+        console.t("menu.show.current.username");
+        console.printLine(player.getUsername());
         String updatedUsername = getValidUsername();
         player.setUsername(updatedUsername);
         playerRepo.save(player);
-        console.t("Username has been successfully updated!");
+        console.t("menu.show.username.updated");
     }
 
     private void updatePassword(Player player) {
-        console.t("Current password: " + player.getPassword());
+        console.t("menu.show.current.password");
+        console.printLine(player.getPassword());
         String updatedPassword = ScannerHelper.getStringInputForPassword();
         player.setPassword(updatedPassword);
         playerRepo.save(player);
-        console.t("Password has been successfully updated!");
+        console.t("menu.show.password.updated");
     }
 
     private void updateDisplayName(Player player) {
-        console.t("Current display name: " + player.getDisplayName());
+        console.t("menu.show.current.displayName");
+        console.printLine(player.getDisplayName());
         String updatedDisplayName = getValidDisplayName();
         player.setDisplayName(updatedDisplayName);
         playerRepo.save(player);
-        console.t("Display name has been successfully updated!");
+        console.t("menu.show.displayName.updated");
     }
 
 }

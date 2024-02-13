@@ -1,5 +1,22 @@
 menu.option.login = Log in
-menu.option.newUser = make new account
-menu.option.exit = exit
+menu.option.newUser = Make new account
+menu.option.exit = Exit
 menu.option.chooseOption = Choose one of the following options
 menu.welcome.typeSpeeder = Welcome to TypeSpeeder!
+menu.option.update.username = Update your username
+menu.option.update.password = Update your password
+menu.option.update.displayName = Update your display name
+menu.show.username.updated = Username has been successfully updated!
+menu.show.password.updated = Password has been successfully updated!
+menu.show.displayName.updated = Display name has been successfully updated!
+menu.show.current.username = Current username: 
+menu.show.current.password = Current password: 
+menu.show.current.displayName = Current display name: 
+player.menu.enter.username = Enter Username: 
+player.menu.enter.displayName = Enter display name: 
+player.menu.enter.password = Enter password: 
+menu.option.changeUserInfo = Update your information (username, password, display name)
+menu.option.showUserInfo = Show your information
+menu.option.chooseGame = Choose a game to play
+menu.option.showRankingList = Show the ranking list
+
