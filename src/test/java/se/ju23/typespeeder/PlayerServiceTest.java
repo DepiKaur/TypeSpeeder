@@ -28,14 +28,11 @@ public class PlayerServiceTest {
     private PlayerService playerService;
 
     @Mock
-    private Console console;
-
-    @Mock
     private PlayerRepo repo;
 
     @BeforeEach
     public void setup() {
-        playerService = new PlayerService(repo, console);
+        playerService = new PlayerService();
     }
 
     @Test
