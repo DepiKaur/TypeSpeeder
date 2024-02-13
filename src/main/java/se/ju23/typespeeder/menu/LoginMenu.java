@@ -21,8 +21,8 @@ public class LoginMenu implements MenuService {
 
     private ArrayList<String> list;
 
-    public LoginMenu(Language language) {
-        console = new Console(language);
+    public LoginMenu(Console console) {
+        this.console = console;
     }
 
     @Override

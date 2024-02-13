@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class LanguageMenu {
     private Console console = new Console();
 
-    public void dsiplayMenu() {
+    public void displayMenu() {
         console.print("""
                 --------------------------------------
                 TypeSpeeder

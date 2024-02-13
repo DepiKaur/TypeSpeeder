@@ -78,7 +78,7 @@ public class PlayerService {
         return optionalPlayer.isPresent();
     }
 
-    public Optional<Player> PlayerLogin() {
+    public Optional<Player> playerLogin() {
         console.t("player.menu.enter.username");
         String username = ScannerHelper.validateStringInputForLogin();
         console.t("player.menu.enter.password");
