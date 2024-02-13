@@ -58,26 +58,22 @@ public class ScannerHelper {
     }
 
     public static String getStringInputForPassword() {
-        scanner.nextLine();
-
+        //scanner.nextLine();
         console.t("NOTE: A password must contain atleast 1 capital letter, " +
-                "\n1 small letter, 2 digits and be 6 characters long.");
+                "\n1 small letter, 2 digits and be 6 characters long.\n");
         console.print("Enter password: ");
 
         String input = null;
         boolean match = false;
 
         while (!match) {
-
             input = scanner.nextLine();
             match = input.matches("^(?=.*\\d{2,})(?=.*[a-z])(?=.*[A-Z]).{6,}$");
             if (!match) {
                 console.print("Try again: ");
             }
         }
-
         return input;
-
     }
 
     public static String validateStringInputForLogin() {

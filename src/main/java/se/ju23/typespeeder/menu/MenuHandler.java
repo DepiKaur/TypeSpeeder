@@ -28,20 +28,18 @@ public class MenuHandler {
     private boolean running = true;
     private static Language language;
 
-    PlayerService playerService = new PlayerService();
     private Optional<Player> currentPlayer = Optional.empty();
-
 
     /**
      * This method starts the whole program.
      */
-    public void run() {
+    public void run(PlayerService playerService) {
         language = setLanguage();
         console= new Console(language);
         playerService.setConsole(console);
 
         while (running) {
-            menuToLogin();
+            menuToLogin(playerService);
         }
 
     }
@@ -62,13 +60,13 @@ public class MenuHandler {
     /**
      * This method starts the login process.
      */
-    private void menuToLogin() {
+    private void menuToLogin(PlayerService playerService) {
         menu = new LoginMenu(language);
         while (running) {
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt) {
-                case 1 -> logedInMenu();
+                case 1 -> logedInMenu(playerService);
                 case 2 -> playerService.createAccount();
                 case 3 -> running = false;
             }
@@ -76,8 +74,8 @@ public class MenuHandler {
     }
 
 
-    private void logedInMenu(){
-        login();
+    private void logedInMenu(PlayerService playerService){
+        login(playerService);
         menu = new Menu(console, currentPlayer.get());
         while(currentPlayer.isPresent()){
             menu.displayMenu();
@@ -94,7 +92,7 @@ public class MenuHandler {
 
     }
 
-    private void login() {
+    private void login(PlayerService playerService) {
         if (currentPlayer.isEmpty()) {
             currentPlayer = playerService.PlayerLogin();
         } else {

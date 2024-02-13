@@ -27,7 +27,6 @@ import java.util.Optional;
 @Component
 public class PlayerService {
 
-    @Autowired
     private Console console;
     @Autowired
     private PlayerRepo playerRepo;
