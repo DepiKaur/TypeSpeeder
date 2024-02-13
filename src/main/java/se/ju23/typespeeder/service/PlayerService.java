@@ -2,7 +2,6 @@ package se.ju23.typespeeder.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import se.ju23.typespeeder.ScannerHelper;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Player;
@@ -31,14 +30,6 @@ public class PlayerService {
     @Autowired
     private PlayerRepo playerRepo;
 
-   /* public PlayerService(PlayerRepo playerRepo, Console console) {
-        this.playerRepo = playerRepo;
-        this.console = console;
-    }*/
-
-   /* public PlayerService(Console console) {
-        this.console = console;
-    }*/
      public Console setConsole(Console console){
         this.console = console;
          return console;
@@ -49,6 +40,7 @@ public class PlayerService {
         String password = ScannerHelper.getStringInputForPassword();
         String displayName = getValidDisplayName();
         Player newPlayer = new Player(username, password, displayName);
+        System.out.println("New account for '" + username + "' has been successfully created!");
         return playerRepo.save(newPlayer);
     }
 
@@ -78,19 +70,18 @@ public class PlayerService {
         return optionalPlayer.isPresent();
     }
 
-    public Optional<Player> PlayerLogin() {
+    public Optional<Player> playerLogin() {
         console.t("player.menu.enter.username");
         String username = ScannerHelper.validateStringInputForLogin();
         console.t("player.menu.enter.password");
         String password = ScannerHelper.validateStringInputForLogin();
 
         return playerRepo.findByUsernameAndPassword(username, password);
-        // return optionalPlayer.isPresent();
     }
-
 
     public void updateLoginInfo(Player player) {
         console.t("menu.option.chooseOption");
+        System.out.println();
         String[] optionList = {"menu.option.update.username", "menu.option.update.password", "menu.option.update.displayName", "menu.option.exit"};
         console.print(optionList);
         int userChoice = ScannerHelper.getInt(optionList.length);
@@ -99,8 +90,7 @@ public class PlayerService {
             case 1 -> updateUsername(player);
             case 2 -> updatePassword(player);
             case 3 -> updateDisplayName(player);
-            case 4 -> {
-            }                    //TODO return to main menu
+            case 4 -> { }
         }
     }
 
@@ -130,5 +120,4 @@ public class PlayerService {
         playerRepo.save(player);
         console.t("menu.show.displayName.updated");
     }
-
 }
