@@ -102,13 +102,4 @@ public class MenuHandler {
             console.error("you are already logged in");
         }
     }
-
-    private boolean isLoggedIn(){
-        if(currentPlayer.isPresent()){
-            return true;
-        }
-        return false;
-    }
-
-
 }
