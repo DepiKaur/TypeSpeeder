@@ -1,6 +1,6 @@
 package se.ju23.typespeeder;
 
-import se.ju23.typespeeder.Consle.Console;
+import se.ju23.typespeeder.consle.Console;
 
 import java.util.InputMismatchException;
 import java.util.Locale;
