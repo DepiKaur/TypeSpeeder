@@ -84,8 +84,8 @@ public class MenuHandler {
             return;
         }
         menu = new Menu(console, currentPlayer.get());
-        boolean isLoggedIn = true;
-        while(isLoggedIn){
+
+        while(currentPlayer.isPresent()){
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt){
@@ -93,7 +93,7 @@ public class MenuHandler {
                 case 2 -> console.print("printing information such as username, display name, level and points");
                 case 3 -> console.print("choose a game");
                 case 4 -> console.print("show the ranking list");
-                case 5 -> isLoggedIn = false;
+                case 5 -> currentPlayer = Optional.empty();
             }
         }
     }
