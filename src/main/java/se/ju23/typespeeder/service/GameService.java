@@ -1,7 +1,7 @@
 package se.ju23.typespeeder.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.GameDifficultyLevel;
 import se.ju23.typespeeder.GameType;
 import se.ju23.typespeeder.entity.Game;
@@ -17,7 +17,7 @@ import java.util.Optional;
  * @version <h2></h2>
  * @date 2024-02-10
  */
-@Service
+@Component
 public class GameService {
 
     private GameRepo gameRepo;

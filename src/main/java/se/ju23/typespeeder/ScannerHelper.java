@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 /**
- * @author Sofie Van Dingenen
+ * @author Sofie Van Dingenen, Depinder Kaur
  * since 2024-02-08
  * @version 1.0.0
  *
@@ -19,7 +19,6 @@ import java.util.Scanner;
 public class ScannerHelper {
    private static final Console console = new Console();
    private static final Scanner scanner = new Scanner(System.in).useLocale(Locale.FRANCE);
-
 
     /**
      * Returns an int that the users chooses between 1 and the max value.

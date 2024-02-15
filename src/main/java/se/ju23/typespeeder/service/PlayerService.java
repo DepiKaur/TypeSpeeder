@@ -21,8 +21,6 @@ import java.util.Optional;
  * </ul>
  * @date 2024-02-09
  */
-
-//@Service
 @Component
 public class PlayerService {
 
@@ -30,9 +28,8 @@ public class PlayerService {
     @Autowired
     private PlayerRepo playerRepo;
 
-     public Console setConsole(Console console){
+     public void setConsole(Console console){
         this.console = console;
-         return console;
      }
 
     public Player createAccount() {
@@ -80,6 +77,7 @@ public class PlayerService {
     }
 
     public void updateLoginInfo(Player player) {
+        System.out.println();
         console.t("menu.option.chooseOption");
         System.out.println();
         String[] optionList = {"menu.option.update.username", "menu.option.update.password", "menu.option.update.displayName", "menu.option.exit"};

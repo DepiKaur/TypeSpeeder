@@ -94,27 +94,32 @@ public class MenuHandler {
             switch (chosenInt) {
                 case 1 -> playerService.updateLoginInfo(currentPlayer.get());
                 case 2 -> console.print("printing information such as username, display name, level and points");
-                case 3 -> startGame();
+                case 3 -> startGame(currentPlayer.get());
                 case 4 -> console.print("show the ranking list");
                 case 5 -> currentPlayer = Optional.empty();
             }
         }
     }
 
-    public void startGame() {
+    public void startGame(Player player) {
         console.printDashes();
-        GameType gamechoice = ScannerHelper.getGameType(GameType.values());
-        GameDifficultyLevel dificultyLevel = ScannerHelper.getDificultyLevel(GameDifficultyLevel.values());
-        Optional<Game> currentGame = gameService.getGameByLevelAndType(dificultyLevel, gamechoice);
+        GameType gameChoice = ScannerHelper.getGameType(GameType.values());
+        GameDifficultyLevel difficultyLevel = ScannerHelper.getDificultyLevel(GameDifficultyLevel.values());
+        Optional<Game> optionalGame = gameService.getGameByLevelAndType(difficultyLevel, gameChoice);
 
-        String content = currentGame.get().getContent();
+        if (optionalGame.isEmpty()) {
+            console.error("Desired game NOT found!");
+            return;
+        }
+        String content = optionalGame.get().getContent();
         console.printLine(content);
+
         long startTime = System.currentTimeMillis();
         String userInput = ScannerHelper.getStringInput();
         long stopTime = System.currentTimeMillis();
         int timeTakenInMilliSec = Math.round(stopTime - startTime);
 
-        gameService.calculateResultAndSave(currentPlayer.get(), currentGame.get(), userInput, timeTakenInMilliSec);
+        gameService.calculateResultAndSave(player, optionalGame.get(), userInput, timeTakenInMilliSec);
     }
 
 
