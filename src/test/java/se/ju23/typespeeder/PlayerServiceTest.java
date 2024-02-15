@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.repo.PlayerRepo;
 import se.ju23.typespeeder.service.PlayerService;
