@@ -105,6 +105,6 @@ public class Console {
     }
 
     public void error(String message) {
-        tln(ANSI_RED + message + ANSI_RESET);
+        System.out.println(ANSI_RED + message + ANSI_RESET);
     }
 }

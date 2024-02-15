@@ -33,7 +33,7 @@ public class ScannerHelper {
                 console.print("> ");
                 number = scanner.nextInt();
                 if (number < 1 || number > maxValue) {
-                    console.tln("input.wrong.number");
+                    console.error("input.wrong.number");
                 }
             } catch (InputMismatchException e) {
                 scanner.nextLine();
@@ -49,8 +49,8 @@ public class ScannerHelper {
         do {
             input = scanner.nextLine();
             if (input.contains(" ") || input.contains(",")) {
-                console.t("---Whitespaces or comma NOT allowed---");
-                console.print("Try again: ");
+                console.error("---Whitespaces or comma NOT allowed---");
+                console.printLine("Try again: ");
             }
         } while (input.trim().isEmpty() || input.contains(" ") || input.contains(","));
 
@@ -59,7 +59,7 @@ public class ScannerHelper {
 
     public static String getStringInputForPassword() {
         //scanner.nextLine();
-        console.t("NOTE: A password must contain atleast 1 capital letter, " +
+        console.print("NOTE: A password must contain atleast 1 capital letter, " +
                 "\n1 small letter, 2 digits and be 6 characters long.\n");
         console.print("Enter password: ");
 
