@@ -160,11 +160,11 @@ public class GameService {
         } else if (accuracy >= 21 && accuracy <= 40) {
             return 2;
         } else if (accuracy >= 41 && accuracy <= 60) {
-            return 3;
-        } else if (accuracy >= 61 && accuracy <= 85) {
             return 4;
-        } else if (accuracy >= 26 && accuracy <= 99) {
-            return 5;
+        } else if (accuracy >= 61 && accuracy <= 85) {
+            return 6;
+        } else if (accuracy >= 86 && accuracy <= 99) {
+            return 8;
         } else if (accuracy == 100) {
             return 10;
         } else {
