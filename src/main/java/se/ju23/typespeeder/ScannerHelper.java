@@ -17,8 +17,8 @@ import java.util.Scanner;
  */
 
 public class ScannerHelper {
-   private static Console console = new Console();
-   private static Scanner scanner = new Scanner(System.in).useLocale(Locale.FRANCE);
+   private static final Console console = new Console();
+   private static final Scanner scanner = new Scanner(System.in).useLocale(Locale.FRANCE);
 
 
     /**
