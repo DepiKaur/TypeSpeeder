@@ -5,5 +5,5 @@ package se.ju23.typespeeder.service;
  * @version <h2></h2>
  * @date 2024-02-12
  */
-public record GuessEvaluation(int numOfCorrect, int numOfMostCorrectInOrder) {
+public record Evaluation(int numOfCorrect, int numOfMostCorrectInOrder, int totalNumInGivenString) {
 }
