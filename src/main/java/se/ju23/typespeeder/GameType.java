@@ -9,12 +9,12 @@ package se.ju23.typespeeder;
  * Its purpose is to store different types of typing games.
  */
 public enum GameType {
-    WRITE_WORDS("Write words"),
-    CASE_SENSITIVE("Case-sensitive"),
-    SPECIAL_CHARACTERS("Special characters"),
-    COUNT_NUMBER("Number of appearances"),
-    WRITE_SENTENCE("Write complete sentences"),
-    SHORTER_PARAGRAPHS("Shorter paragraphs");
+    WRITE_WORDS("Write words- only small letters"),
+    CASE_SENSITIVE("Write case-sensitive text"),
+    SPECIAL_CHARACTERS("Write text with special characters eg. @, £, €"),
+    COUNT_NUMBER("Count number of '?' in given text"),
+    WRITE_SENTENCE("Write a complete sentence"),
+    SHORTER_PARAGRAPHS("Write a short paragraph");
 
     private String type;
 
@@ -33,7 +33,6 @@ public enum GameType {
                 return gameType;
             }
         }
-
         return null;
     }
 }
