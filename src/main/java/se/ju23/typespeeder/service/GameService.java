@@ -159,7 +159,7 @@ public class GameService {
     }
 
     private int calculatePointsFromAccuracy(double accuracy) {
-        if (accuracy >= 0 && accuracy <= 20) {
+        if (accuracy > 0 && accuracy <= 20) {
             return 1;
         } else if (accuracy >= 21 && accuracy <= 40) {
             return 2;
