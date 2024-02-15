@@ -27,34 +27,6 @@ public class MyMain implements CommandLineRunner {
     @Override
     public void run(String... args) {
         menu.run(playerService, gameService);
-
-
-
-        /*
-
-        Optional<Player> p1 = playerRepo.findByUsername("David");
-        if (p1.isEmpty()) {
-            System.out.println("<<<<<<<<<<<<<< Player NOT found >>>>>>>>>>>>>>>");
-            return;
-        }
-        Optional<Game> opGame = gameService.getGameByLevelAndType(GameDifficultyLevel.EASY, GameType.WRITE_WORDS);
-        if (opGame.isEmpty()) {
-            System.out.println("<<<<<<<<<<<<<<<   Desired game NOT found  >>>>>>>>>>>>>>>>>");
-            return;
-        }
-
-        //TODO this part should be removed to that place where the user starts playing a game (to calculate time-taken)
-        System.out.println(opGame.get().getContent());
-        long startTime = System.currentTimeMillis();
-        String userInput = ScannerHelper.getStringInput();
-        long stopTime = System.currentTimeMillis();
-
-        int timeTakenInMilliSec = Math.round(stopTime - startTime);
-
-        gameService.calculateResultAndSave(p1.get(),opGame.get(), userInput, timeTakenInMilliSec);
-
-         */
-
     }
 
 }

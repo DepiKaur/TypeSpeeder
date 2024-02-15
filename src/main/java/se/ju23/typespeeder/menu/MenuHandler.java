@@ -47,7 +47,6 @@ public class MenuHandler {
         while (running) {
             menuToLogin(playerService, new LoginMenu(console));
         }
-
     }
 
     /**
@@ -72,19 +71,16 @@ public class MenuHandler {
             switch (chosenInt) {
                 case 1 -> loggedInMenu(playerService);
                 case 2 -> playerService.createAccount();
-                case 3 -> {
-                    running = false;
-                }
+                case 3 -> running = false;
             }
         }
         console.printLine("Thank you for using TypeSpeeder!");
     }
 
-
     private void loggedInMenu(PlayerService playerService) {
         login(playerService);
         if (currentPlayer.isEmpty()) {
-            console.error("Player NOT found!");
+            console.error("Incorrect Username or Password!");
             return;
         }
         menu = new Menu(console, currentPlayer.get());
@@ -121,7 +117,6 @@ public class MenuHandler {
 
         gameService.calculateResultAndSave(player, optionalGame.get(), userInput, timeTakenInMilliSec);
     }
-
 
     private void login(PlayerService playerService) {
         if (currentPlayer.isEmpty()) {
