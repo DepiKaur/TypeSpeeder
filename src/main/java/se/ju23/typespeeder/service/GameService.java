@@ -14,7 +14,12 @@ import java.util.Optional;
 
 /**
  * @author Depinder Kaur
- * @version <h2></h2>
+ * @version 0.1.0
+ * <h2>GameService</h2>
+ * <p>
+ *     GameService is a helper class that contains methods for the game logic.
+ *     This includes calculating accuracy of player's input, assigning points on the basis of accuracy
+ *     and finally assigning level on the basis of achieved points.
  * @date 2024-02-10
  */
 @Component
@@ -29,35 +34,20 @@ public class GameService {
         this.resultRepo = resultRepo;
     }
 
-    /*
+/*
     public void loadSampleGames(boolean enabled) {
 
         Game game1 = new Game(GameDifficultyLevel.EASY.getDifficultyLevel(),
-                GameType.COUNT_NUMBER.getType(),
-                """
-                        I hope children will forgive ? me if I dedicate
-                        book to ? grown-up. I have a serious excuse: this
-                        grown-up is the best friend I have in the world. I
-                        have another excuse: this ? grown-up understands
-                        ? everything, even books for children.""");
+                GameType.WRITE_SENTENCE.getType(),
+                "Heidi soon came to her, and was delighted to have the beautiful picture books to look at.");
 
         Game game2 = new Game(GameDifficultyLevel.MEDIUM.getDifficultyLevel(),
-                GameType.COUNT_NUMBER.getType(),
-                """
-                        I hope children will forgive ? me if I ded??cate
-                        book to ? grown-up. I have a serious excuse: this
-                        grown-up ?? the best friend I have ? the world. I
-                        have another excuse: this ? grown-up understands
-                        ? everything, e?en books for ? children.""");
+                GameType.WRITE_SENTENCE.getType(),
+                "Punctually at nine o'clock, he left the room and anxiously went to find Miss Sesemann in the forest.");
 
         Game game3 = new Game(GameDifficultyLevel.HARD.getDifficultyLevel(),
-                GameType.COUNT_NUMBER.getType(),
-                """
-                        I hope childr@n will forgive ? me if I ded??cate
-                        book to ? grown-up. I have @ serious excuse: this
-                        grown-up ?? the best friend # have ? the world. I
-                        have @nother exc#se: this ? grown#up underst@nds
-                        ? everything, e?en b@@ks for ? children.""");
+                GameType.WRITE_SENTENCE.getType(),
+                "Sebastian and Tinette sped to the dining-room, all rather dishevelled to find Miss Rottenmeier as cheerful as usual.");
 
         if (enabled) {
             gameRepo.save(game1);
@@ -66,13 +56,13 @@ public class GameService {
         }
     }
 
-         */
+ */
 
     public Optional<Game> getGameByLevelAndType(GameDifficultyLevel level, GameType type) {
         return gameRepo.findByDifficultyLevelAndType(level.getDifficultyLevel(), type.getType());
     }
 
-    public void calculateResultAndSave(Player player, Game game, String userInput, int timeTaken) {
+    public void calculateResultAndSave(Player player, Game game, String userInput, int timeInMillis) {
 
         Evaluation evaluation = evaluateUserInput(game, userInput);
         int numOfCorrect = evaluation.numOfCorrect();
@@ -85,15 +75,21 @@ public class GameService {
         int pointsForCorrect = calculatePointsFromAccuracy(accuracyForCorrect);
         int pointsForMostCorrectInOrder = calculatePointsFromAccuracy(accuracyForMostCorrectInOrder);
 
-        Result result = new Result(player, game, pointsForCorrect, pointsForMostCorrectInOrder, timeTaken);
-        System.out.println(result);
+        Result result = new Result(player, game, pointsForCorrect, pointsForMostCorrectInOrder, timeInMillis);
+        resultRepo.save(result);
+
+        int timeInSec = Math.round((float)timeInMillis / 1000);
+        System.out.println("** Result **\nCorrect: " + pointsForCorrect + " points\nCorrect in order: " +
+                                pointsForMostCorrectInOrder + " points\nTime taken: " + timeInSec + " sec");
     }
 
     private Evaluation evaluateUserInput(Game game, String userInput) {
         Evaluation evaluation = null;
 
         switch (GameType.fromType(game.getType())){
-            case WRITE_WORDS, CASE_SENSITIVE -> evaluation = evaluateInputForWordGame(game.getContent(), userInput);
+            case WRITE_WORDS, CASE_SENSITIVE, SPECIAL_CHARACTERS, WRITE_SENTENCE -> {
+                evaluation = evaluateInputForWordGame(game.getContent(), userInput);
+            }
             case COUNT_NUMBER -> evaluation = evaluateInputForCountGame(game.getContent(), userInput);
         }
         return evaluation;
