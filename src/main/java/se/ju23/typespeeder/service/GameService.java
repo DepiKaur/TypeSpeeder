@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.GameDifficultyLevel;
 import se.ju23.typespeeder.GameType;
+import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.entity.Result;
@@ -25,6 +26,7 @@ import java.util.Optional;
 @Component
 public class GameService {
 
+    private Console console;
     private GameRepo gameRepo;
     private ResultRepo resultRepo;
 
@@ -62,7 +64,7 @@ public class GameService {
         return gameRepo.findByDifficultyLevelAndType(level.getDifficultyLevel(), type.getType());
     }
 
-    public void calculateResultAndSave(Player player, Game game, String userInput, int timeInMillis) {
+    public Result calculateResultAndSave(Player player, Game game, String userInput, int timeInMilli) {
 
         Evaluation evaluation = evaluateUserInput(game, userInput);
         int numOfCorrect = evaluation.numOfCorrect();
@@ -75,12 +77,18 @@ public class GameService {
         int pointsForCorrect = calculatePointsFromAccuracy(accuracyForCorrect);
         int pointsForMostCorrectInOrder = calculatePointsFromAccuracy(accuracyForMostCorrectInOrder);
 
-        Result result = new Result(player, game, pointsForCorrect, pointsForMostCorrectInOrder, timeInMillis);
-        resultRepo.save(result);
+        Result result = new Result(player, game, pointsForCorrect, pointsForMostCorrectInOrder, timeInMilli);
+        return resultRepo.save(result);
+    }
 
-        int timeInSec = Math.round((float)timeInMillis / 1000);
-        System.out.println("** Result **\nCorrect: " + pointsForCorrect + " points\nCorrect in order: " +
-                                pointsForMostCorrectInOrder + " points\nTime taken: " + timeInSec + " sec");
+    public void printResult(Result result) {
+        int pointsForCorrect = result.getPointsForCorrect();;
+        int pointsForMostCorrectInOrder = result.getPointsForCorrectInOrder();
+        int timeInMilli = result.getTimeTakenInMilliSec();
+
+        int timeInSec = Math.round((float)timeInMilli / 1000);
+        console.tln("** Result **\nCorrect: " + pointsForCorrect + " points\nCorrect in order: " +
+                pointsForMostCorrectInOrder + " points\nTime taken: " + timeInSec + " sec");
     }
 
     private Evaluation evaluateUserInput(Game game, String userInput) {
@@ -149,7 +157,7 @@ public class GameService {
         return actualNumOfSpecialChar;
     }
 
-    private double getAccuracyRoundedToTwoDigits(int num, int total) {
+    public double getAccuracyRoundedToTwoDigits(int num, int total) {
         double accuracy = ((double)num / total) * 100;
         return (Math.round(accuracy * 100.0))/100.0;
     }

@@ -29,7 +29,7 @@ public enum GameType {
     public static GameType fromType(String type){
 
         for(GameType gameType : values()){
-            if(gameType.getType().equals(type)){
+            if(gameType.getType().equalsIgnoreCase(type)){
                 return gameType;
             }
         }
