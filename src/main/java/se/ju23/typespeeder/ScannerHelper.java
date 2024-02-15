@@ -33,11 +33,11 @@ public class ScannerHelper {
                 console.print("> ");
                 number = scanner.nextInt();
                 if (number < 1 || number > maxValue) {
-                    console.error("input.wrong.number");
+                    console.error("Not a valid number try again with a number from the list!");
                 }
             } catch (InputMismatchException e) {
                 scanner.nextLine();
-                console.error("input.notNumber");
+                console.error("Not a number try again with a number!");
             }
         }
         return number;
@@ -74,6 +74,17 @@ public class ScannerHelper {
             }
         }
         return input;
+    }
+
+    public static GameType getGameType(GameType[] options){
+        console.print(options);
+        int userchoice = getInt(options.length);
+        return options[userchoice-1];
+    }
+    public static GameDifficultyLevel getDificultyLevel(GameDifficultyLevel[] options){
+        console.print(options);
+        int userchoice = getInt(options.length);
+        return options[userchoice-1];
     }
 
     public static String validateStringInputForLogin() {

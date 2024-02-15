@@ -1,6 +1,8 @@
 package se.ju23.typespeeder.consle;
 
 import org.springframework.stereotype.Component;
+import se.ju23.typespeeder.GameDifficultyLevel;
+import se.ju23.typespeeder.GameType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +68,23 @@ public class Console {
             tln(stringList[i]);
         }
     }
+    public void print(GameType[] list){
+        int choicenumber = 1;
+        for (GameType menuChoice : list) {
+            print(choicenumber + ". " );
+            tln(menuChoice.getType());
+            choicenumber++;
+        }
+    }
 
+    public void print(GameDifficultyLevel[] list){
+        int choicenumber = 1;
+        for (GameDifficultyLevel menuChoice : list) {
+            print(choicenumber + ". " );
+            tln(menuChoice.getDifficultyLevel());
+            choicenumber++;
+        }
+    }
     /**
      * Prints a translated text without adding a new line at the end.
      *

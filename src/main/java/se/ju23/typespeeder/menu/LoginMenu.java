@@ -19,8 +19,6 @@ import java.util.ArrayList;
 public class LoginMenu implements MenuService {
     private final Console console;
 
-    private ArrayList<String> list;
-
     public LoginMenu(Console console) {
         this.console = console;
     }
@@ -36,7 +34,7 @@ public class LoginMenu implements MenuService {
 
     @Override
     public ArrayList<String> getMenuOptions() {
-        list = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
         list.add("menu.option.login");
         list.add("menu.option.newUser");
         list.add("menu.option.exit");

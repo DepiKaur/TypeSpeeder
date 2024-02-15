@@ -3,6 +3,7 @@ package se.ju23.typespeeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.menu.MenuHandler;
@@ -23,16 +24,19 @@ public class MyMain implements CommandLineRunner {
     private PlayerService playerService;
 
     private MenuHandler menu ;
+    private Console console = new Console();
 
     @Autowired
-    public MyMain(PlayerService playerService, MenuHandler menu) {
+    public MyMain(PlayerService playerService, MenuHandler menu, GameService gameService) {
         this.playerService = playerService;
         this.menu = menu;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        menu.run(playerService);
+        menu.run(playerService, gameService);
+
+
 
         /*
 
