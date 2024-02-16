@@ -34,4 +34,4 @@ rankinglist.show =    Fastest     |   Most correct    |   Most correct in order
 menu.thankyou = Thank you for using TypeSpeeder!
 menu.welcome.user = Welcome
 menu.option.goBack = Go back
-player.menu.enter.password.note = NOTE: A password must contain atleast 1 capital letter, " + "\n1 small letter, 2 digits and be 6 characters long.\n"
+player.menu.enter.password.note = NOTE: A password must contain at least 1 capital letter, 1 small letter, 2 digits and be 6 characters long.

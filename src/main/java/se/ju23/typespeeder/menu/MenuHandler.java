@@ -1,6 +1,5 @@
 package se.ju23.typespeeder.menu;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.GameDifficultyLevel;
@@ -141,23 +140,23 @@ public class MenuHandler {
         console.tln("rankinglist.show");
         console.printLine("----------------------------------------------------------------");
 
-       printList(calculateRank());
+       console.printList(calculateRank());
 
         }
 
 
     private ArrayList<String> calculateRank(){
-        ArrayList<String> rankingList = new ArrayList<>();
-        List<String> mostCorrect = sortRank(resultService.getPlayerAverageMostCorrectPoints());
-        List< String> fastest = sortRank(resultService.getPlayerAverageTime());
-        List< String> mostCorrectInOrder = sortRank(resultService.getPlayerAverageMostCorrectPointsInOrder());
+        ArrayList<String> rankingList;
+        List<String> mostCorrect = resultService.sortRank(resultService.getPlayerAverageMostCorrectPoints());
+        List< String> fastest = resultService.sortRank(resultService.getPlayerAverageTime());
+        List< String> mostCorrectInOrder = resultService.sortRank(resultService.getPlayerAverageMostCorrectPointsInOrder());
 
         ArrayList<String> templist =combine(fastest, mostCorrect);
         rankingList = combine(templist, mostCorrectInOrder);
 
         return rankingList;
     }
-    private List<String> sortRank(HashMap<String, Integer> rankingList) {
+    /*private List<String> sortRank(HashMap<String, Integer> rankingList) {
         ArrayList<String> sortedList = new ArrayList<>();
         List<Map.Entry<String, Integer>> entries = new ArrayList<>(rankingList.entrySet());
         Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
@@ -173,14 +172,14 @@ public class MenuHandler {
         }
 
                 return sortedList;
-    }
-    private void printList(ArrayList<String> list){
-        for(String s: list){
-            System.out.println(s);
-        }
+    }*/
 
-    }
-
+    /**
+     * Returns a combined ArrayList of two lists.
+     * @param list1 List that will be combined, must be of the same length as the other list
+     * @param list2 second list that will be combined, must have the same length as the other list
+     * @return A combined ArrayList looking like: display name: score | display name: score
+     */
     private ArrayList<String> combine(List<String> list1, List<String> list2){
         ArrayList<String> newList = new ArrayList<>();
         for(int i=0; i <list1.size(); i++){

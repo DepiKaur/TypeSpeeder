@@ -61,6 +61,12 @@ public class Console {
             tln(stringList.get(i));
         }
     }
+    public void printList(ArrayList<String> stringList) {
+        for (int i = 0; i < stringList.size(); i++) {
+            System.out.print(i + 1 + ".");
+            System.out.println(stringList.get(i));
+        }
+    }
 
     public void print(String[] stringList){
         for(int i = 0; i< stringList.length; i++){
