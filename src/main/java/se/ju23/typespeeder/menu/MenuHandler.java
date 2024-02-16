@@ -80,7 +80,7 @@ public class MenuHandler {
                 case 3 -> running = false;
             }
         }
-        console.printLine("Thank you for using TypeSpeeder!");
+        console.tln("menu.thankyou");
     }
 
     private void loggedInMenu(PlayerService playerService) {
@@ -89,7 +89,7 @@ public class MenuHandler {
             console.error("Incorrect Username or Password!");
             return;
         }
-        menu = new Menu(console, currentPlayer.get());
+        menu = new GameMenu(console);
         while (currentPlayer.isPresent()) {
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
@@ -97,7 +97,7 @@ public class MenuHandler {
                 case 1 -> playerService.updateLoginInfo(currentPlayer.get());
                 case 2 -> console.print("printing information such as username, display name, level and points");
                 case 3 -> startGame(currentPlayer.get());
-                case 4 -> console.print("show the ranking list");
+                case 4 -> showRankingList();
                 case 5 -> currentPlayer = Optional.empty();
             }
         }
@@ -133,13 +133,13 @@ public class MenuHandler {
         }
     }
 
-    public void showRankingList() {
-        // console.printDashes();
-        System.out.println("RANKINGLIST");
+    private void showRankingList() {
+        console.printDashes();
+        console.tln("rankinglist.title");
 
-        System.out.println("----------------------------------------------------------------");
-        System.out.println("    Fastest     |   Most correct    |   Most correct in order   ");
-        System.out.println("----------------------------------------------------------------");
+        console.printDashes();
+        console.tln("rankinglist.show");
+        console.printLine("----------------------------------------------------------------");
 
        printList(calculateRank());
 
@@ -169,7 +169,6 @@ public class MenuHandler {
         });
 
         for(Map.Entry<String, Integer> entry: entries){
-           // sortedMap.put(entry.getKey(), entry.getValue());
             sortedList.add(entry.getKey() +": "+ entry.getValue());
         }
 

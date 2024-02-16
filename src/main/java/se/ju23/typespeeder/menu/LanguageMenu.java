@@ -47,9 +47,11 @@ public class LanguageMenu {
         console.print(getMenuOptions());
         int chosenInt = ScannerHelper.getInt(getMenuOptions().size());
         if (chosenInt == 1) {
+            console.printLine("English is chosen");
             return new Language("eng");
         }
         if (chosenInt == 2) {
+            System.out.println("Svenska valt");
             return new Language("sv");
         }
         return new Language();

@@ -26,8 +26,8 @@ public class LoginMenu implements MenuService {
     @Override
     public void displayMenu() {
         console.printDashes();
-
         console.tln("menu.welcome.typeSpeeder");
+        console.printLine("");
         console.tln("menu.option.chooseOption");
         console.print(getMenuOptions());
     }
@@ -40,11 +40,6 @@ public class LoginMenu implements MenuService {
         list.add("menu.option.exit");
 
         return list;
-    }
-
-    @Override
-    public int getUserChoice() {
-        return 0;
     }
 
 }
