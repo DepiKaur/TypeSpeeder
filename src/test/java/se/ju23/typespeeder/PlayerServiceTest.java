@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.repo.PlayerRepo;
 import se.ju23.typespeeder.service.PlayerService;
@@ -25,13 +26,12 @@ import static org.mockito.Mockito.when;
 public class PlayerServiceTest {
 
     private PlayerService playerService;
-
     @Mock
-    private PlayerRepo repo;
+    private PlayerRepo playerRepo;
 
     @BeforeEach
     public void setup() {
-        playerService = new PlayerService();
+        playerService = new PlayerService(playerRepo);
     }
 
     @Test
@@ -41,10 +41,10 @@ public class PlayerServiceTest {
 
         Player p1 = new Player("Alfred", "password", "freddy");
 
-        when(repo.findByUsername(username1)).thenReturn(Optional.of(p1));
+        when(playerRepo.findByUsername(username1)).thenReturn(Optional.of(p1));
         assertTrue(playerService.checkIfUsernameAlreadyExists(username1));
 
-        when(repo.findByUsername(username2)).thenReturn(Optional.empty());
+        when(playerRepo.findByUsername(username2)).thenReturn(Optional.empty());
         assertFalse(playerService.checkIfUsernameAlreadyExists(username2));
     }
 

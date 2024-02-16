@@ -25,10 +25,15 @@ import java.util.Optional;
 public class PlayerService {
 
     private Console console;
-    @Autowired
+
     private PlayerRepo playerRepo;
 
-     public void setConsole(Console console){
+    @Autowired
+    public PlayerService(PlayerRepo playerRepo) {
+        this.playerRepo = playerRepo;
+    }
+
+    public void setConsole(Console console){
         this.console = console;
      }
 

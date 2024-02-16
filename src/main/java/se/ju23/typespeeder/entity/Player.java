@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
  *     <li>username: String</li>
  *     <li>password: String</li>
  *     <li>displayName: String</li>
+ *     <li>gameLevel: int</li>
  * </ul>
  * along with constructors as well as getters and setters.
  */
@@ -33,6 +34,8 @@ public class Player {
     @Column(name="display_name")
     private String displayName;
 
+    private int gameLevel;
+
     public Player() {
     }
 
@@ -40,6 +43,7 @@ public class Player {
         this.username = username;
         this.password = password;
         this.displayName = displayName;
+        this.gameLevel = 0;
     }
 
     public int getId() {
@@ -70,6 +74,10 @@ public class Player {
         this.displayName = displayName;
     }
 
+    public int getGameLevel() {
+        return gameLevel;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
@@ -77,6 +85,7 @@ public class Player {
                 ", username='" + getUsername() + '\'' +
                 ", password='" + getPassword() + '\'' +
                 ", displayName='" + getDisplayName() + '\'' +
+                ", gameLevel='" + getGameLevel() + '\'' +
                 '}';
     }
 }
