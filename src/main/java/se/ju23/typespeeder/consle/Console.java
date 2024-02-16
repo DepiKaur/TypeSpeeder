@@ -116,8 +116,8 @@ public class Console {
      * Prints a dashed line.
      */
     public void printDashes() {
-        System.out.println("""
-                                
+        System.out.print("""
+                
                 --------------------------------------------------
                 """);
     }

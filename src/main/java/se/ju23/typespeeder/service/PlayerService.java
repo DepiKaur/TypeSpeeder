@@ -34,7 +34,7 @@ public class PlayerService {
 
     public Player createAccount() {
         String username = getValidUsername();
-        String password = ScannerHelper.getStringInputForPassword();
+        String password = getValidPassword();
         String displayName = getValidDisplayName();
         Player newPlayer = new Player(username, password, displayName);
         System.out.println("New account for '" + username + "' has been successfully created!");
@@ -80,7 +80,7 @@ public class PlayerService {
         System.out.println();
         console.t("menu.option.chooseOption");
         System.out.println();
-        String[] optionList = {"menu.option.update.username", "menu.option.update.password", "menu.option.update.displayName", "menu.option.exit"};
+        String[] optionList = {"menu.option.update.username", "menu.option.update.password", "menu.option.update.displayName", "menu.option.goBack"};
         console.print(optionList);
         int userChoice = ScannerHelper.getInt(optionList.length);
 
@@ -104,7 +104,7 @@ public class PlayerService {
     private void updatePassword(Player player) {
         console.t("menu.show.current.password");
         console.printLine(player.getPassword());
-        String updatedPassword = ScannerHelper.getStringInputForPassword();
+        String updatedPassword = getValidPassword();
         player.setPassword(updatedPassword);
         playerRepo.save(player);
         console.t("menu.show.password.updated");
@@ -117,5 +117,10 @@ public class PlayerService {
         player.setDisplayName(updatedDisplayName);
         playerRepo.save(player);
         console.t("menu.show.displayName.updated");
+    }
+    private String getValidPassword(){
+         console.tln("player.menu.enter.password.note");
+         console.t("player.menu.enter.password");
+         return ScannerHelper.getStringInputForPassword();
     }
 }

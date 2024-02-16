@@ -20,6 +20,7 @@ public class ScannerHelper {
    private static final Console console = new Console();
    private static final Scanner scanner = new Scanner(System.in).useLocale(Locale.FRANCE);
 
+
     /**
      * Returns an int that the users chooses between 1 and the max value.
      * @param maxValue the highest number the user can enter.
@@ -58,9 +59,9 @@ public class ScannerHelper {
 
     public static String getStringInputForPassword() {
         //scanner.nextLine();
-        console.print("NOTE: A password must contain atleast 1 capital letter, " +
+        /*console.print("NOTE: A password must contain at least 1 capital letter, " +
                 "\n1 small letter, 2 digits and be 6 characters long.\n");
-        console.print("Enter password: ");
+        console.print("Enter password: ");*/
 
         String input = null;
         boolean match = false;
@@ -74,7 +75,6 @@ public class ScannerHelper {
         }
         return input;
     }
-
     public static GameType getGameType(GameType[] options){
         console.print(options);
         int userchoice = getInt(options.length);
