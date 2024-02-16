@@ -89,7 +89,7 @@ public class MenuHandler {
             console.error("Incorrect Username or Password!");
             return;
         }
-        menu = new Menu(console, currentPlayer.get());
+        menu = new GameMenu(console);
         while (currentPlayer.isPresent()) {
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
