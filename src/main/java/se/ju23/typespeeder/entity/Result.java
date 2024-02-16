@@ -11,7 +11,20 @@ import jakarta.persistence.Table;
 
 /**
  * @author Depinder Kaur
- * @version <h2></h2>
+ * @version 0.1.0
+ * <h2>Result</h2>
+ * <p>
+ *     Result class is a <i>Java POJO class</i> with the following fields:
+ * <ul>
+ *     <li>id: integer</li>
+ *     <li>player: Player</li>
+ *     <li>game: Game</li>
+ *     <li>pointsForCorrect: int</li>
+ *     <li>pointsForCorrectInOrder: int</li>
+ *     <li>timeTakenInMilliSec: int</li>
+ * </ul>
+ * along with constructors as well as getters and setters.
+ * </p>
  * @date 2024-02-10
  */
 
@@ -75,16 +88,8 @@ public class Result {
         return pointsForCorrect;
     }
 
-    public void setPointsForCorrect(int pointsForCorrect) {
-        this.pointsForCorrect = pointsForCorrect;
-    }
-
     public int getPointsForCorrectInOrder() {
         return pointsForCorrectInOrder;
-    }
-
-    public void setPointsForCorrectInOrder(int pointsForCorrectInOrder) {
-        this.pointsForCorrectInOrder = pointsForCorrectInOrder;
     }
 
     public int getTimeTakenInMilliSec() {
@@ -94,12 +99,12 @@ public class Result {
     @Override
     public String toString() {
         return "Result{" +
-                "id=" + id +
-                ", player=" + player.getDisplayName() +
-                ", game=" + game.getType() + "(level:" + game.getDifficultyLevel() + ")" +
-                ", pointsForCorrect=" + pointsForCorrect +
-                ", pointsForCorrectInOrder=" + pointsForCorrectInOrder +
-                ", timeTakenInMilliSec=" + timeTakenInMilliSec +
+                "id=" + getId() +
+                ", player=" + getPlayer().getDisplayName() +
+                ", game=" + getGame().getType() + "(level:" + getGame().getDifficultyLevel() + ")" +
+                ", pointsForCorrect=" + getPointsForCorrect() +
+                ", pointsForCorrectInOrder=" + getPointsForCorrectInOrder() +
+                ", timeTakenInMilliSec=" + getTimeTakenInMilliSec() +
                 '}';
     }
 }

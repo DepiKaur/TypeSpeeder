@@ -21,7 +21,7 @@ public class ResultUtil {
     /**
      * This method returns the number of letters which are at the correct position
      * in the user input when compared to the game content.
-     * @param gameContent This is content of the game that user chooses to play.
+     * @param gameContent This is content of the game chosen by the user.
      * @param userInput This is the input given by user.
      * @return The number of letters at the correct position in the user input.
      */
@@ -37,6 +37,14 @@ public class ResultUtil {
         return correct;
     }
 
+    /**
+     * This method calculates the num of letters which are at the correct position
+     * in the user input till a mismatch occurs when compared to the chosen game's
+     * content.
+     * @param gameContent This is content of the game chosen by the user.
+     * @param userInput This is the input given by user.
+     * @return The number of letters most correct in order.
+     */
     public static int calculateNumOfMostCorrectInOrder(String gameContent, String userInput) {
         int mostCorrect = 0;
         int index = Math.min(gameContent.length(), userInput.length());
@@ -51,36 +59,55 @@ public class ResultUtil {
         return mostCorrect;
     }
 
+    /**
+     * This method calculates the number of ? present in the content of the chosen game.
+     * @param gameContent This is the content of the game being played.
+     * @return The number of ? in the content of the game.
+     */
     public static int calculateNumOfQuestionMarks(String gameContent) {
-        int actualNumOfSpecialChar = 0;
+        int numOfQuestionMarks = 0;
 
         String[] parts = gameContent.split("\n");
         for (String s : parts) {
             for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) == '?') {                 // to calculate the no. of "?" in the given text
-                    actualNumOfSpecialChar++;
+                if (s.charAt(i) == '?') {
+                    numOfQuestionMarks++;
                 }
             }
         }
 
-        return actualNumOfSpecialChar;
+        return numOfQuestionMarks;
     }
 
+    /**
+     * This method calculates accuracy from two given numbers and returns its value rounded to two decimal places.
+     * @param num Any integer, but here it is the number of correct/most correct in order in the user's input.
+     * @param total Any integer, but here it is the total number of characters in the chosen game's content.
+     * @return The accuracy calculated to two decimal places.
+     */
     public static double getAccuracyRoundedToTwoDigits(int num, int total) {
         double accuracy = ((double)num / total) * 100;
         return (Math.round(accuracy * 100.0))/100.0;
     }
 
-    public static int calculatePointsFromAccuracy(double accuracy) {       //accuracy has 2 decimal-digits only
-        if (accuracy > 0 && accuracy <= 20) {
+    /**
+     * This method calculates points depending upon the given value of accuracy.
+     * <i>Note that if the accuracy is below 10, then the user gets -1 point.</i>
+     * @param accuracy It is a double value, but rounded-off to two decimal places.
+     * @return Points as an integer value.
+     */
+    public static int calculatePointsFromAccuracy(double accuracy) {
+        if (accuracy > 0 && accuracy <= 10) {
+            return -1;
+        } else if (accuracy > 10 && accuracy <= 25) {
             return 1;
-        } else if (accuracy >= 21 && accuracy <= 40) {
+        } else if (accuracy > 25 && accuracy <= 40) {
             return 2;
-        } else if (accuracy >= 41 && accuracy <= 60) {
+        } else if (accuracy > 40 && accuracy <= 60) {
             return 4;
-        } else if (accuracy >= 61 && accuracy <= 85) {
+        } else if (accuracy > 60 && accuracy <= 85) {
             return 6;
-        } else if (accuracy >= 86 && accuracy <= 99.99) {
+        } else if (accuracy > 85 && accuracy < 100) {
             return 8;
         } else if (accuracy == 100) {
             return 10;

@@ -18,7 +18,6 @@ public class ResultService {
     @Autowired
     PlayerRepo playerRepo;
 
-
     public HashMap<String, Integer> getPlayerAverageMostCorrectPoints() {
         HashMap<String, Integer> players = new HashMap<>();
         List<Player> allPlayers = playerRepo.findAll();

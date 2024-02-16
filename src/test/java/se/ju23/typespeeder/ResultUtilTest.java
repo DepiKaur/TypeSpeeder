@@ -66,7 +66,7 @@ public class ResultUtilTest {
 
     @Test
     public void testCalculatePointsFromAccuracy() {
-        double accuracy1 = 99.97, accuracy2 = 40, accuracy3 = -3.9, accuracy4 = 100;
+        double accuracy1 = 99.97, accuracy2 = 9.98, accuracy3 = -3.9, accuracy4 = 100;
 
         int result1 = ResultUtil.calculatePointsFromAccuracy(accuracy1);
         int result2 = ResultUtil.calculatePointsFromAccuracy(accuracy2);
@@ -74,7 +74,7 @@ public class ResultUtilTest {
         int result4 = ResultUtil.calculatePointsFromAccuracy(accuracy4);
 
         assertEquals(8, result1);
-        assertEquals(2, result2);
+        assertEquals(-1, result2);
         assertEquals(0, result3);
         assertEquals(10, result4);
     }

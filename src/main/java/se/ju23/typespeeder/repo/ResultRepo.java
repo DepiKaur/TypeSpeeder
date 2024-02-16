@@ -10,7 +10,12 @@ import java.util.Optional;
 
 /**
  * @author Depinder Kaur
- * @version <h2></h2>
+ * @version 0.1.0
+ * <h2>ResultRepo</h2>
+ * <p>
+ *     ResultRepo is an interface to fetch result data from the database.
+ *     It has only one method to find a player by its id.
+ * </p>
  * @date 2024-02-10
  */
 public interface ResultRepo extends JpaRepository<Result, Integer> {

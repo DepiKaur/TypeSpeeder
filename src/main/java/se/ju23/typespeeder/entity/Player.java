@@ -12,12 +12,12 @@ import jakarta.persistence.Table;
  * @date 2024-02-08
  * @version 1.0
  * <h2>Player</h2>
- * Player class is a Java POJO class with the following fields: id, username, password and displayName
+ * Player class is a <i>Java POJO class</i> with the following fields:
  * <ul>
- *     <li>id: type integer</li>
- *     <li>username: type String</li>
- *     <li>password: type String</li>
- *     <li>displayName: type String</li>
+ *     <li>id: integer</li>
+ *     <li>username: String</li>
+ *     <li>password: String</li>
+ *     <li>displayName: String</li>
  * </ul>
  * along with constructors as well as getters and setters.
  */
@@ -30,7 +30,6 @@ public class Player {
     private int id;
     private String username;
     private String password;
-
     @Column(name="display_name")
     private String displayName;
 

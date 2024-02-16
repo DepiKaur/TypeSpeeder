@@ -70,10 +70,25 @@ public class GameService {
 
  */
 
+    /**
+     * This method returns optional game using its difficulty level and type.
+     * @param level This is of type GameDifficultyLevel which is an enum.
+     * @param type This is of type GameType which is an enum.
+     * @return Optional game
+     */
+
     public Optional<Game> getGameByLevelAndType(GameDifficultyLevel level, GameType type) {
         return gameRepo.findByDifficultyLevelAndType(level.getDifficultyLevel(), type.getType());
     }
 
+    /**
+     * This method calculates the result of a game played by the user and saves it in the database.
+     * @param player The user which plays a game.
+     * @param game The game played by the user.
+     * @param userInput The input given by the user.
+     * @param timeInMilli The time (in milliseconds) user takes to write input.
+     * @return The result of the game played by the user.
+     */
     public Result calculateResultAndSave(Player player, Game game, String userInput, int timeInMilli) {
 
         Evaluation evaluation = evaluateUserInput(game, userInput);
@@ -91,6 +106,15 @@ public class GameService {
         return resultRepo.save(result);
     }
 
+    /**
+     * This method will print the result of a game which includes
+     * <ul>
+     *     <li>points for correct</li>
+     *     <li>points for most correct in order</li>
+     *     <li>time taken (in seconds)</li>
+     * </ul>
+     * @param result This is used to print the result in the terminal.
+     */
     public void printResult(Result result) {
         int pointsForCorrect = result.getPointsForCorrect();;
         int pointsForMostCorrectInOrder = result.getPointsForCorrectInOrder();
@@ -101,6 +125,12 @@ public class GameService {
                 pointsForMostCorrectInOrder + " points\nTime taken: " + timeInSec + " sec");
     }
 
+    /**
+     * This method creates an evaluation of the user input depending on the type of game that was played.
+     * @param game This is used to get the type of game that was played by the user.
+     * @param userInput This is the user input.
+     * @return An object of type <i>Evaluation</i> which is a record.
+     */
     private Evaluation evaluateUserInput(Game game, String userInput) {
         Evaluation evaluation = null;
 
