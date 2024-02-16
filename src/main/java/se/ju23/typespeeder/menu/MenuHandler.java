@@ -10,6 +10,7 @@ import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
 import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
+import se.ju23.typespeeder.entity.Result;
 import se.ju23.typespeeder.service.GameService;
 import se.ju23.typespeeder.service.MenuService;
 import se.ju23.typespeeder.service.PlayerService;
@@ -120,7 +121,8 @@ public class MenuHandler {
         long stopTime = System.currentTimeMillis();
         int timeTakenInMilliSec = Math.round(stopTime - startTime);
 
-        gameService.calculateResultAndSave(player, optionalGame.get(), userInput, timeTakenInMilliSec);
+        Result result = gameService.calculateResultAndSave(player, optionalGame.get(), userInput, timeTakenInMilliSec);
+        gameService.printResult(result);
     }
 
     private void login(PlayerService playerService) {
