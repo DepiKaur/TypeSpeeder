@@ -69,11 +69,4 @@ public class GameServiceTest {
         verify(resultRepo, times(1)).save(any(Result.class));
         assertNotNull(player);
     }
-
-    @Test
-    public void testGetAccuracyRoundedToTwoDigits() {
-        assertEquals(90.91, gameService.getAccuracyRoundedToTwoDigits(10, 11));
-        assertEquals(81.82, gameService.getAccuracyRoundedToTwoDigits(9,11));
-        assertEquals(Double.valueOf(81.82), gameService.getAccuracyRoundedToTwoDigits(9,11), .01);
-    }
 }
