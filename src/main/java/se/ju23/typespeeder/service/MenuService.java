@@ -19,7 +19,6 @@ public interface MenuService {
 
      ArrayList<String> getMenuOptions();
 
-     int getUserChoice();
 
 
 

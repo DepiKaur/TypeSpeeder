@@ -42,9 +42,4 @@ public class LoginMenu implements MenuService {
         return list;
     }
 
-    @Override
-    public int getUserChoice() {
-        return 0;
-    }
-
 }

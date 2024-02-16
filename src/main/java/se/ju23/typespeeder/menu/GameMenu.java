@@ -1,8 +1,6 @@
 package se.ju23.typespeeder.menu;
 
-import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.consle.Console;
-import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.service.MenuService;
 
 import java.util.ArrayList;
@@ -10,27 +8,25 @@ import java.util.ArrayList;
 /**
  * @author Sofie Van Dingenen
  * @version 1.0
- * since 2024-02-10
+ * since 2024-02-16
  * <p>
- * <H2>Menu</H2>
+ * <H2>GameMenu</H2>
  *
  * <p>
  * Menu implements  all the methods in the <i>MenuService </i> interFace.
  */
+public class GameMenu implements MenuService {
 
-@Component
-public class Menu implements MenuService {
+    private Console console;
 
-
-
-
-    public Menu() {
+    public GameMenu(Console console){
+        this.console = console;
     }
-
+    @Override
     public void displayMenu() {
-        System.out.println("------------------------");
-        System.out.println("menu.option.chooseOption");
-        System.out.println(getMenuOptions());
+        console.printDashes();
+        console.tln("menu.option.chooseOption");
+        console.print(getMenuOptions());
     }
 
     /**
@@ -38,14 +34,16 @@ public class Menu implements MenuService {
      *
      * @return ArrayList of Strings
      */
+    @Override
     public ArrayList<String> getMenuOptions() {
         ArrayList<String> optionsList = new ArrayList<>();
-        optionsList.add("Välj språk (svenska/engelska):");
-        optionsList.add("Svenska valt.");
+        optionsList.add("menu.option.changeUserInfo");
+        optionsList.add("menu.option.showUserInfo");
         optionsList.add("menu.option.chooseGame");
         optionsList.add("menu.option.showRankingList");
         optionsList.add("menu.option.logout");
 
         return optionsList;
     }
+
 }
