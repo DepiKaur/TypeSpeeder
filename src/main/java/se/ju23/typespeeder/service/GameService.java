@@ -13,14 +13,24 @@ import se.ju23.typespeeder.repo.ResultRepo;
 
 import java.util.Optional;
 
+import static se.ju23.typespeeder.service.ResultUtil.calculateNumOfCorrect;
+import static se.ju23.typespeeder.service.ResultUtil.calculateNumOfMostCorrectInOrder;
+import static se.ju23.typespeeder.service.ResultUtil.calculateNumOfQuestionMarks;
+import static se.ju23.typespeeder.service.ResultUtil.calculatePointsFromAccuracy;
+import static se.ju23.typespeeder.service.ResultUtil.getAccuracyRoundedToTwoDigits;
+
 /**
  * @author Depinder Kaur
  * @version 0.1.0
  * <h2>GameService</h2>
  * <p>
- *     GameService is a helper class that contains methods for the game logic.
- *     This includes calculating accuracy of player's input, assigning points on the basis of accuracy
- *     and finally assigning level on the basis of achieved points.
+ *  GameService is a helper class that contains methods for the game logic.
+ *  This class contains method for calculating a game's result, printing it
+ *  in the terminal as well as saving it in the database.
+ * <p>
+ *    It even contains methods to evaluate user input, depending on the type
+ *    of game played by the user.
+ * </p>
  * @date 2024-02-10
  */
 @Component
@@ -112,72 +122,8 @@ public class GameService {
     private Evaluation evaluateInputForCountGame(String gameContent, String userInput) {
         int numOfCorrect = Integer.parseInt(userInput);
         int numOfMostCorrectInOrder = Integer.parseInt(userInput);
-        int numOfSpecialChar = calculateNumOfSpecialChars(gameContent);
+        int numOfSpecialChar = calculateNumOfQuestionMarks(gameContent);
         return new Evaluation(numOfCorrect, numOfMostCorrectInOrder, numOfSpecialChar);
-    }
-
-    private int calculateNumOfCorrect(String gameContent, String userInput) {
-        int correct = 0;
-        int index = Math.min(gameContent.length(), userInput.length());
-
-        for (int i = 0; i < index; i++) {
-            if (gameContent.charAt(i) == userInput.charAt(i)) {
-                correct++;
-            }
-        }
-        return correct;
-    }
-
-    private int calculateNumOfMostCorrectInOrder(String gameContent, String userInput) {
-        int mostCorrect = 0;
-        int index = Math.min(gameContent.length(), userInput.length());
-
-        for (int i = 0; i < index; i++) {
-            if (gameContent.charAt(i) == userInput.charAt(i)) {
-                mostCorrect++;
-            } else {
-                break;
-            }
-        }
-        return mostCorrect;
-    }
-
-    private int calculateNumOfSpecialChars(String gameContent) {
-        int actualNumOfSpecialChar = 0;
-
-        String[] parts = gameContent.split("\n");
-        for (String s : parts) {
-            for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) == '?') {                 // to calculate the no. of "?" in the given text
-                    actualNumOfSpecialChar++;
-                }
-            }
-        }
-
-        return actualNumOfSpecialChar;
-    }
-
-    public double getAccuracyRoundedToTwoDigits(int num, int total) {
-        double accuracy = ((double)num / total) * 100;
-        return (Math.round(accuracy * 100.0))/100.0;
-    }
-
-    private int calculatePointsFromAccuracy(double accuracy) {
-        if (accuracy > 0 && accuracy <= 20) {
-            return 1;
-        } else if (accuracy >= 21 && accuracy <= 40) {
-            return 2;
-        } else if (accuracy >= 41 && accuracy <= 60) {
-            return 4;
-        } else if (accuracy >= 61 && accuracy <= 85) {
-            return 6;
-        } else if (accuracy >= 86 && accuracy <= 99) {
-            return 8;
-        } else if (accuracy == 100) {
-            return 10;
-        } else {
-            return 0;
-        }
     }
 
 }
