@@ -1,5 +1,7 @@
 package se.ju23.typespeeder.menu;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.GameDifficultyLevel;
 import se.ju23.typespeeder.GameType;
@@ -11,8 +13,9 @@ import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.service.GameService;
 import se.ju23.typespeeder.service.MenuService;
 import se.ju23.typespeeder.service.PlayerService;
+import se.ju23.typespeeder.service.ResultService;
 
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Sofie Van Dingenen
@@ -26,6 +29,8 @@ import java.util.Optional;
  */
 @Component
 public class MenuHandler {
+    @Autowired
+    private ResultService resultService;
     private Console console;
     private MenuService menu;
     private boolean languageChose = false;
@@ -124,5 +129,62 @@ public class MenuHandler {
         } else {
             console.error("you are already logged in");
         }
+    }
+
+    public void showRankingList() {
+        // console.printDashes();
+        System.out.println("RANKINGLIST");
+
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("    Fastest     |   Most correct    |   Most correct in order   ");
+        System.out.println("----------------------------------------------------------------");
+
+       printList(calculateRank());
+
+        }
+
+
+    private ArrayList<String> calculateRank(){
+        ArrayList<String> rankingList = new ArrayList<>();
+        List<String> mostCorrect = sortRank(resultService.getPlayerAverageMostCorrectPoints());
+        List< String> fastest = sortRank(resultService.getPlayerAverageTime());
+        List< String> mostCorrectInOrder = sortRank(resultService.getPlayerAverageMostCorrectPointsInOrder());
+
+        ArrayList<String> templist =combine(fastest, mostCorrect);
+        rankingList = combine(templist, mostCorrectInOrder);
+
+        return rankingList;
+    }
+    private List<String> sortRank(HashMap<String, Integer> rankingList) {
+        ArrayList<String> sortedList = new ArrayList<>();
+        List<Map.Entry<String, Integer>> entries = new ArrayList<>(rankingList.entrySet());
+        Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+
+               return o1.getValue().compareTo(o2.getValue());
+            }
+        });
+
+        for(Map.Entry<String, Integer> entry: entries){
+           // sortedMap.put(entry.getKey(), entry.getValue());
+            sortedList.add(entry.getKey() +": "+ entry.getValue());
+        }
+
+                return sortedList;
+    }
+    private void printList(ArrayList<String> list){
+        for(String s: list){
+            System.out.println(s);
+        }
+
+    }
+
+    private ArrayList<String> combine(List<String> list1, List<String> list2){
+        ArrayList<String> newList = new ArrayList<>();
+        for(int i=0; i <list1.size(); i++){
+            newList.add(list1.get(i)+"    |   " + list2.get(i));
+        }
+        return newList;
     }
 }

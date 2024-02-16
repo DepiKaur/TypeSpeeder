@@ -26,7 +26,8 @@ public class MyMain implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        menu.run(playerService, gameService);
+       // menu.run(playerService, gameService);
+        menu.showRankingList();
     }
 
 }
