@@ -143,7 +143,7 @@ public class ResultUtil {
         }
     }
 
-    public static int getPointsFromLevel(int level) {
+    public static int getMinimumPointsForLevel(int level) {
         switch(level) {
             case 1 -> {
                 return 0;
@@ -183,4 +183,6 @@ public class ResultUtil {
             }
         }
     }
+
+
 }
