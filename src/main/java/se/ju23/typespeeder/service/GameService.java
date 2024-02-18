@@ -169,7 +169,7 @@ public class GameService {
 
         int currentLevel = player.getLevel();
         if (result.getBonusPoints() != 0) {
-            console.tln("BONUS: " + bonusPoints + " points");
+            console.tln("BONUS: " + bonusPoints + " p");
             player.setLevel(currentLevel + 1);
             currentLevel = player.getLevel();
         }

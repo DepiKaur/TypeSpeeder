@@ -116,7 +116,7 @@ public class ResultUtil {
     }
 
     public static int getLevelFromPoints(int points) {
-        if (points >= 1 && points < 50) {
+        if (points >= 0 && points < 50) {
             return 1;
         } else if (points >= 50 && points < 100) {
             return 2;
@@ -146,7 +146,7 @@ public class ResultUtil {
     public static int getPointsFromLevel(int level) {
         switch(level) {
             case 1 -> {
-                return 1;
+                return 0;
             }
             case 2 -> {
                 return 50;
@@ -179,7 +179,7 @@ public class ResultUtil {
                 return 500;
             }
             default -> {
-                return 0;
+                return -1;
             }
         }
     }
