@@ -1,6 +1,5 @@
 package se.ju23.typespeeder.menu;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.GameDifficultyLevel;
@@ -10,7 +9,6 @@ import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
 import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
-import se.ju23.typespeeder.entity.Result;
 import se.ju23.typespeeder.service.GameService;
 import se.ju23.typespeeder.service.MenuService;
 import se.ju23.typespeeder.service.PlayerService;
@@ -113,6 +111,9 @@ public class MenuHandler {
             console.error("Desired game NOT found!");
             return;
         }
+        console.printDashes();
+        gameService.printWarnings(player);
+        console.printDashes();
         String content = optionalGame.get().getContent();
         console.printLine(content);
 
@@ -121,8 +122,7 @@ public class MenuHandler {
         long stopTime = System.currentTimeMillis();
         int timeTakenInMilliSec = Math.round(stopTime - startTime);
 
-        Result result = gameService.calculateResultAndSave(player, optionalGame.get(), userInput, timeTakenInMilliSec);
-        gameService.printResult(result);
+        gameService.calculateAndSaveResult(player, optionalGame.get(), userInput, timeTakenInMilliSec);
     }
 
     private void login(PlayerService playerService) {

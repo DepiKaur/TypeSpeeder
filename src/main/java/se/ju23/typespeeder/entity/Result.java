@@ -53,6 +53,12 @@ public class Result {
     @Column(name="time_taken_in_ms")
     private int timeTakenInMilliSec;
 
+    @Column(name="bonus_points")
+    private int bonusPoints;
+
+    @Column(name="deducted_points")
+    private int deductedPoints;
+
     public Result() {
     }
 
@@ -62,6 +68,18 @@ public class Result {
         this.pointsForCorrect = pointsForCorrect;
         this.pointsForCorrectInOrder = pointsForCorrectInOrder;
         this.timeTakenInMilliSec = timeTakenInMilliSec;
+        this.bonusPoints = 0;
+        this.deductedPoints = 0;
+    }
+
+    public Result(Player player, Game game, int pointsForCorrect, int pointsForCorrectInOrder, int timeTakenInMilliSec, int bonusPoints, int deductedPoints) {
+        this.player = player;
+        this.game = game;
+        this.pointsForCorrect = pointsForCorrect;
+        this.pointsForCorrectInOrder = pointsForCorrectInOrder;
+        this.timeTakenInMilliSec = timeTakenInMilliSec;
+        this.bonusPoints = bonusPoints;
+        this.deductedPoints = deductedPoints;
     }
 
     public int getId() {
@@ -88,12 +106,24 @@ public class Result {
         return pointsForCorrect;
     }
 
+    public void setPointsForCorrect(int pointsForCorrect) {
+        this.pointsForCorrect = pointsForCorrect;
+    }
+
     public int getPointsForCorrectInOrder() {
         return pointsForCorrectInOrder;
     }
 
     public int getTimeTakenInMilliSec() {
         return timeTakenInMilliSec;
+    }
+
+    public int getBonusPoints() {
+        return bonusPoints;
+    }
+
+    public int getDeductedPoints() {
+        return deductedPoints;
     }
 
     @Override
@@ -105,6 +135,7 @@ public class Result {
                 ", pointsForCorrect=" + getPointsForCorrect() +
                 ", pointsForCorrectInOrder=" + getPointsForCorrectInOrder() +
                 ", timeTakenInMilliSec=" + getTimeTakenInMilliSec() +
+                ", bonusPoints=" + getBonusPoints() +
                 '}';
     }
 }
