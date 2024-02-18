@@ -53,6 +53,9 @@ public class Result {
     @Column(name="time_taken_in_ms")
     private int timeTakenInMilliSec;
 
+    @Column(name="bonus_points")
+    private int bonusPoints;
+
     public Result() {
     }
 
@@ -62,6 +65,16 @@ public class Result {
         this.pointsForCorrect = pointsForCorrect;
         this.pointsForCorrectInOrder = pointsForCorrectInOrder;
         this.timeTakenInMilliSec = timeTakenInMilliSec;
+        this.bonusPoints = 0;
+    }
+
+    public Result(Player player, Game game, int pointsForCorrect, int pointsForCorrectInOrder, int timeTakenInMilliSec, int bonusPoints) {
+        this.player = player;
+        this.game = game;
+        this.pointsForCorrect = pointsForCorrect;
+        this.pointsForCorrectInOrder = pointsForCorrectInOrder;
+        this.timeTakenInMilliSec = timeTakenInMilliSec;
+        this.bonusPoints = bonusPoints;
     }
 
     public int getId() {
@@ -100,6 +113,10 @@ public class Result {
         return timeTakenInMilliSec;
     }
 
+    public int getBonusPoints() {
+        return bonusPoints;
+    }
+
     @Override
     public String toString() {
         return "Result{" +
@@ -109,6 +126,7 @@ public class Result {
                 ", pointsForCorrect=" + getPointsForCorrect() +
                 ", pointsForCorrectInOrder=" + getPointsForCorrectInOrder() +
                 ", timeTakenInMilliSec=" + getTimeTakenInMilliSec() +
+                ", bonusPoints=" + getBonusPoints() +
                 '}';
     }
 }
