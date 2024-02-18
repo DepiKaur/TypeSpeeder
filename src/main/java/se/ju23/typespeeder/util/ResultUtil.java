@@ -1,4 +1,4 @@
-package se.ju23.typespeeder.service;
+package se.ju23.typespeeder.util;
 
 /**
  * @author Depinder Kaur

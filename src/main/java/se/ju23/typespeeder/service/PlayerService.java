@@ -2,7 +2,7 @@ package se.ju23.typespeeder.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.ju23.typespeeder.ScannerHelper;
+import se.ju23.typespeeder.util.ScannerHelper;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.repo.PlayerRepo;

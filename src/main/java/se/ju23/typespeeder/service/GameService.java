@@ -2,8 +2,8 @@ package se.ju23.typespeeder.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.ju23.typespeeder.GameDifficultyLevel;
-import se.ju23.typespeeder.GameType;
+import se.ju23.typespeeder.game.GameDifficultyLevel;
+import se.ju23.typespeeder.game.GameType;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
@@ -11,15 +11,18 @@ import se.ju23.typespeeder.entity.Result;
 import se.ju23.typespeeder.repo.GameRepo;
 import se.ju23.typespeeder.repo.PlayerRepo;
 import se.ju23.typespeeder.repo.ResultRepo;
+import se.ju23.typespeeder.util.PointsEvaluation;
+import se.ju23.typespeeder.util.ResultUtil;
+import se.ju23.typespeeder.util.UserInputEvaluation;
 
 import java.util.List;
 import java.util.Optional;
 
-import static se.ju23.typespeeder.service.ResultUtil.calculateNumOfCorrect;
-import static se.ju23.typespeeder.service.ResultUtil.calculateNumOfMostCorrectInOrder;
-import static se.ju23.typespeeder.service.ResultUtil.calculateNumOfQuestionMarks;
-import static se.ju23.typespeeder.service.ResultUtil.calculatePointsFromAccuracy;
-import static se.ju23.typespeeder.service.ResultUtil.getAccuracyRoundedToTwoDigits;
+import static se.ju23.typespeeder.util.ResultUtil.calculateNumOfCorrect;
+import static se.ju23.typespeeder.util.ResultUtil.calculateNumOfMostCorrectInOrder;
+import static se.ju23.typespeeder.util.ResultUtil.calculateNumOfQuestionMarks;
+import static se.ju23.typespeeder.util.ResultUtil.calculatePointsFromAccuracy;
+import static se.ju23.typespeeder.util.ResultUtil.getAccuracyRoundedToTwoDigits;
 
 /**
  * @author Depinder Kaur

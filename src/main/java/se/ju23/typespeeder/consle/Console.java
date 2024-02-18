@@ -1,8 +1,8 @@
 package se.ju23.typespeeder.consle;
 
 import org.springframework.stereotype.Component;
-import se.ju23.typespeeder.GameDifficultyLevel;
-import se.ju23.typespeeder.GameType;
+import se.ju23.typespeeder.game.GameDifficultyLevel;
+import se.ju23.typespeeder.game.GameType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

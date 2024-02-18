@@ -1,6 +1,6 @@
 package se.ju23.typespeeder.menu;
 
-import se.ju23.typespeeder.ScannerHelper;
+import se.ju23.typespeeder.util.ScannerHelper;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
 

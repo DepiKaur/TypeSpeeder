@@ -1,7 +1,7 @@
 package se.ju23.typespeeder;
 
 import org.junit.jupiter.api.Test;
-import se.ju23.typespeeder.service.ResultUtil;
+import se.ju23.typespeeder.util.ResultUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

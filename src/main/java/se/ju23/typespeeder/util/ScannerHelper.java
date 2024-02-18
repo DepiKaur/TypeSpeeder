@@ -1,6 +1,8 @@
-package se.ju23.typespeeder;
+package se.ju23.typespeeder.util;
 
 import se.ju23.typespeeder.consle.Console;
+import se.ju23.typespeeder.game.GameDifficultyLevel;
+import se.ju23.typespeeder.game.GameType;
 
 import java.util.InputMismatchException;
 import java.util.Locale;
