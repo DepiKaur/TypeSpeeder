@@ -9,8 +9,10 @@ import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.entity.Result;
 import se.ju23.typespeeder.repo.GameRepo;
+import se.ju23.typespeeder.repo.PlayerRepo;
 import se.ju23.typespeeder.repo.ResultRepo;
 
+import java.util.List;
 import java.util.Optional;
 
 import static se.ju23.typespeeder.service.ResultUtil.calculateNumOfCorrect;
@@ -39,11 +41,14 @@ public class GameService {
     private Console console;
     private GameRepo gameRepo;
     private ResultRepo resultRepo;
+    private PlayerRepo playerRepo;
 
     @Autowired
-    public GameService(GameRepo gameRepo, ResultRepo resultRepo) {
+    public GameService(GameRepo gameRepo, ResultRepo resultRepo, PlayerRepo playerRepo, Console console) {
         this.gameRepo = gameRepo;
         this.resultRepo = resultRepo;
+        this.playerRepo = playerRepo;
+        this.console = console;
     }
 
 /*
@@ -89,7 +94,7 @@ public class GameService {
      * @param timeInMilli The time (in milliseconds) user takes to write input.
      * @return The result of the game played by the user.
      */
-    public Result calculateResultAndSave(Player player, Game game, String userInput, int timeInMilli) {
+    public void calculateAndSaveResult(Player player, Game game, String userInput, int timeInMilli) {
 
         Evaluation evaluation = evaluateUserInput(game, userInput);
         int numOfCorrect = evaluation.numOfCorrect();
@@ -101,9 +106,43 @@ public class GameService {
 
         int pointsForCorrect = calculatePointsFromAccuracy(accuracyForCorrect);
         int pointsForMostCorrectInOrder = calculatePointsFromAccuracy(accuracyForMostCorrectInOrder);
+        int bonusPoints = 0;
+        if (pointsForCorrect == 10 && isEligibleForBonus(player)) {
+            bonusPoints = calculateBonusPoints(player);
+        }
 
-        Result result = new Result(player, game, pointsForCorrect, pointsForMostCorrectInOrder, timeInMilli);
-        return resultRepo.save(result);
+        Result result = new Result(player, game, pointsForCorrect, pointsForMostCorrectInOrder, timeInMilli, bonusPoints);
+        resultRepo.save(result);
+        printResult(result);
+        int updatedLevel = ResultUtil.getLevelFromPoints(getTotalPointsOfPlayer(player));
+        player.setLevel(updatedLevel);
+        playerRepo.save(player);
+    }
+
+    private boolean isEligibleForBonus(Player player) {
+        List<Result> listOfLastTwoResultsOfPlayer = resultRepo.listOfTwoMostRecentResultsOfPlayer(player.getId());
+
+        if (listOfLastTwoResultsOfPlayer.size() == 2) {
+            int result1 = listOfLastTwoResultsOfPlayer.get(0).getPointsForCorrect();
+            int result2 = listOfLastTwoResultsOfPlayer.get(1).getPointsForCorrect();
+            return result1 == 10 && result2 == 10;
+        }
+        return false;
+    }
+
+    private int calculateBonusPoints(Player player) {
+        int pointsForCorrect = 10;
+        int totalPointsOfPlayer = getTotalPointsOfPlayer(player) + pointsForCorrect;
+        int nextLevel = player.getLevel() + 1;
+        int minPointsToGoToNextLevel = ResultUtil.getPointsFromLevel(nextLevel);
+        return (minPointsToGoToNextLevel - totalPointsOfPlayer);
+    }
+
+    private int getTotalPointsOfPlayer(Player player) {
+        int playerId = player.getId();
+        int bonusPoints = resultRepo.sumOfBonusPointsOfAPlayer(playerId);
+        int sumOfPointsForCorrect = resultRepo.sumOfPointsOfAPlayer(playerId);
+        return sumOfPointsForCorrect + bonusPoints;
     }
 
     /**
@@ -116,13 +155,30 @@ public class GameService {
      * @param result This is used to print the result in the terminal.
      */
     public void printResult(Result result) {
-        int pointsForCorrect = result.getPointsForCorrect();;
+        Player player = result.getPlayer();
+        int pointsForCorrect = result.getPointsForCorrect();
         int pointsForMostCorrectInOrder = result.getPointsForCorrectInOrder();
         int timeInMilli = result.getTimeTakenInMilliSec();
-
         int timeInSec = Math.round((float)timeInMilli / 1000);
-        console.tln("** Result **\nCorrect: " + pointsForCorrect + " points\nCorrect in order: " +
-                pointsForMostCorrectInOrder + " points\nTime taken: " + timeInSec + " sec");
+
+        int bonusPoints = result.getBonusPoints();
+
+        console.tln("\n            ********   RESULT   ********");
+        System.out.printf("%n%s \t\t%20s \t%15s%n", "Correct", "Most Correct in order", "Time taken");
+        System.out.printf("%4d p %20d p %20d s%n%n", pointsForCorrect, pointsForMostCorrectInOrder, timeInSec);
+
+        int currentLevel = player.getLevel();
+        if (result.getBonusPoints() != 0) {
+            console.tln("BONUS: " + bonusPoints + " points");
+            player.setLevel(currentLevel + 1);
+            currentLevel = player.getLevel();
+        }
+        console.tln("Current Level: " + currentLevel);
+        int totalPoints = getTotalPointsOfPlayer(player);
+        console.tln("Total points: " + totalPoints);
+        int nextLevel = currentLevel + 1;
+        int pointsNeededToGoToNextLevel = ResultUtil.getPointsFromLevel(nextLevel) - totalPoints;
+        console.tln("Points needed to go to Level " + nextLevel + ": " + pointsNeededToGoToNextLevel);
     }
 
     /**

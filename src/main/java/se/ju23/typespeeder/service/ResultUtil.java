@@ -75,7 +75,6 @@ public class ResultUtil {
                 }
             }
         }
-
         return numOfQuestionMarks;
     }
 
@@ -113,6 +112,75 @@ public class ResultUtil {
             return 10;
         } else {
             return 0;
+        }
+    }
+
+    public static int getLevelFromPoints(int points) {
+        if (points >= 1 && points < 50) {
+            return 1;
+        } else if (points >= 50 && points < 100) {
+            return 2;
+        } else if (points >= 100 && points < 150) {
+            return 3;
+        } else if (points >= 150 && points < 200) {
+            return 4;
+        } else if (points >= 200 && points < 250) {
+            return 5;
+        } else if (points >= 250 && points < 300) {
+            return 6;
+        } else if (points >= 300 && points < 350) {
+            return 7;
+        } else if (points >= 350 && points < 400) {
+            return 8;
+        } else if (points >= 400 && points < 450) {
+            return 9;
+        } else if (points >= 450 && points < 500) {
+            return 10;
+        }  else if (points >= 500 && points < 600) {
+            return 11;
+        } else {
+            return 0;
+        }
+    }
+
+    public static int getPointsFromLevel(int level) {
+        switch(level) {
+            case 1 -> {
+                return 1;
+            }
+            case 2 -> {
+                return 50;
+            }
+            case 3 -> {
+                return 100;
+            }
+            case 4 -> {
+                return 150;
+            }
+            case 5 -> {
+                return 200;
+            }
+            case 6 -> {
+                return 250;
+            }
+            case 7 -> {
+                return 300;
+            }
+            case 8 -> {
+                return 350;
+            }
+            case 9 -> {
+                return 400;
+            }
+            case 10 -> {
+                return 450;
+            }
+            case 11 -> {
+                return 500;
+            }
+            default -> {
+                return 0;
+            }
         }
     }
 }

@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.entity.Result;
 import se.ju23.typespeeder.repo.GameRepo;
+import se.ju23.typespeeder.repo.PlayerRepo;
 import se.ju23.typespeeder.repo.ResultRepo;
 import se.ju23.typespeeder.service.GameService;
 
@@ -17,6 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,10 +33,14 @@ public class GameServiceTest {
     private GameRepo gameRepo;
     @Mock
     private ResultRepo resultRepo;
+    @Mock
+    private PlayerRepo playerRepo;
+    @Mock
+    private Console console;
 
     @BeforeEach
     public void setup() {
-        gameService = new GameService(gameRepo, resultRepo);
+        gameService = new GameService(gameRepo, resultRepo, playerRepo, console);
     }
 
     @Test
@@ -62,10 +69,10 @@ public class GameServiceTest {
         Result result = new Result(player, game, 8, 6, 15000);
 
         when(resultRepo.save(any(Result.class))).thenReturn(result);
+        when(resultRepo.sumOfPointsOfAPlayer(anyInt())).thenReturn(20);
+        when(playerRepo.save(any(Player.class))).thenReturn(player);
 
-        Result savedResult = gameService.calculateResultAndSave(player, game, userInput, timeInMilli);
-        assertEquals(result.getTimeTakenInMilliSec(), savedResult.getTimeTakenInMilliSec());
-        assertEquals(result.getPlayer().getUsername(), savedResult.getPlayer().getUsername());
+        gameService.calculateAndSaveResult(player, game, userInput, timeInMilli);
         verify(resultRepo, times(1)).save(any(Result.class));
         assertNotNull(player);
     }
