@@ -34,7 +34,7 @@ public class Player {
     @Column(name="display_name")
     private String displayName;
 
-    private int gameLevel;
+    private int level;
 
     public Player() {
     }
@@ -43,7 +43,7 @@ public class Player {
         this.username = username;
         this.password = password;
         this.displayName = displayName;
-        this.gameLevel = 0;
+        this.level = 0;
     }
 
     public int getId() {
@@ -74,8 +74,12 @@ public class Player {
         this.displayName = displayName;
     }
 
-    public int getGameLevel() {
-        return gameLevel;
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     @Override
@@ -85,7 +89,7 @@ public class Player {
                 ", username='" + getUsername() + '\'' +
                 ", password='" + getPassword() + '\'' +
                 ", displayName='" + getDisplayName() + '\'' +
-                ", gameLevel='" + getGameLevel() + '\'' +
+                ", level='" + getLevel() + '\'' +
                 '}';
     }
 }

@@ -88,6 +88,10 @@ public class Result {
         return pointsForCorrect;
     }
 
+    public void setPointsForCorrect(int pointsForCorrect) {
+        this.pointsForCorrect = pointsForCorrect;
+    }
+
     public int getPointsForCorrectInOrder() {
         return pointsForCorrectInOrder;
     }
