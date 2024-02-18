@@ -56,6 +56,9 @@ public class Result {
     @Column(name="bonus_points")
     private int bonusPoints;
 
+    @Column(name="deducted_points")
+    private int deductedPoints;
+
     public Result() {
     }
 
@@ -66,15 +69,17 @@ public class Result {
         this.pointsForCorrectInOrder = pointsForCorrectInOrder;
         this.timeTakenInMilliSec = timeTakenInMilliSec;
         this.bonusPoints = 0;
+        this.deductedPoints = 0;
     }
 
-    public Result(Player player, Game game, int pointsForCorrect, int pointsForCorrectInOrder, int timeTakenInMilliSec, int bonusPoints) {
+    public Result(Player player, Game game, int pointsForCorrect, int pointsForCorrectInOrder, int timeTakenInMilliSec, int bonusPoints, int deductedPoints) {
         this.player = player;
         this.game = game;
         this.pointsForCorrect = pointsForCorrect;
         this.pointsForCorrectInOrder = pointsForCorrectInOrder;
         this.timeTakenInMilliSec = timeTakenInMilliSec;
         this.bonusPoints = bonusPoints;
+        this.deductedPoints = deductedPoints;
     }
 
     public int getId() {
@@ -115,6 +120,10 @@ public class Result {
 
     public int getBonusPoints() {
         return bonusPoints;
+    }
+
+    public int getDeductedPoints() {
+        return deductedPoints;
     }
 
     @Override
