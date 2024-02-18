@@ -16,3 +16,8 @@ Three files are now added to the project:
 * ChallengeTest.java
 * MenuPerformanceTest.java
 
+## Update 3 of 3
+Two files are now added to the project:
+
+* NewsLetterTest.java
+* PatchTest.java
