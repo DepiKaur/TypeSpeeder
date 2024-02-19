@@ -15,7 +15,7 @@ public class MyMain implements CommandLineRunner {
     private GameService gameService;
     private PlayerService playerService;
 
-    private MenuHandler menu ;
+    private MenuHandler menu;
     private Console console = new Console();
 
     @Autowired
@@ -26,8 +26,7 @@ public class MyMain implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-       menu.run(playerService, gameService);
-
+        menu.run(playerService, gameService);
     }
 
 }

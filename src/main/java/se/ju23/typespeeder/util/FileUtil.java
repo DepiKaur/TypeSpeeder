@@ -1,4 +1,4 @@
-package se.ju23.typespeeder.File;
+package se.ju23.typespeeder.util;
 
 import se.ju23.typespeeder.consle.Console;
 

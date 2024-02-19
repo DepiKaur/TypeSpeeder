@@ -2,19 +2,19 @@ package se.ju23.typespeeder.menu;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.ju23.typespeeder.game.GameDifficultyLevel;
-import se.ju23.typespeeder.game.GameType;
-import se.ju23.typespeeder.util.ScannerHelper;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
 import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
+import se.ju23.typespeeder.game.GameDifficultyLevel;
+import se.ju23.typespeeder.game.GameType;
 import se.ju23.typespeeder.service.GameService;
 import se.ju23.typespeeder.service.MenuService;
 import se.ju23.typespeeder.service.PlayerService;
-import se.ju23.typespeeder.service.ResultService;
+import se.ju23.typespeeder.util.RankUtil;
+import se.ju23.typespeeder.util.ScannerHelper;
 
-import java.util.*;
+import java.util.Optional;
 
 /**
  * @author Sofie Van Dingenen
@@ -29,7 +29,7 @@ import java.util.*;
 @Component
 public class MenuHandler {
     @Autowired
-    private ResultService resultService;
+    private RankUtil rankUtil;
     private Console console;
     private MenuService menu;
     private boolean languageChose = false;
@@ -133,7 +133,7 @@ public class MenuHandler {
         }
     }
 
-    private void showRankingList() {
+    public void showRankingList() {
         console.printDashes();
         console.tln("rankinglist.title");
 
@@ -141,51 +141,7 @@ public class MenuHandler {
         console.tln("rankinglist.show");
         console.printLine("----------------------------------------------------------------");
 
-       console.printList(calculateRank());
+        console.printList(rankUtil.calculateRank());
 
-        }
-
-
-    private ArrayList<String> calculateRank(){
-        ArrayList<String> rankingList;
-        List<String> mostCorrect = resultService.sortRank(resultService.getPlayerAverageMostCorrectPoints());
-        List< String> fastest = resultService.sortRank(resultService.getPlayerAverageTime());
-        List< String> mostCorrectInOrder = resultService.sortRank(resultService.getPlayerAverageMostCorrectPointsInOrder());
-
-        ArrayList<String> templist =combine(fastest, mostCorrect);
-        rankingList = combine(templist, mostCorrectInOrder);
-
-        return rankingList;
-    }
-    /*private List<String> sortRank(HashMap<String, Integer> rankingList) {
-        ArrayList<String> sortedList = new ArrayList<>();
-        List<Map.Entry<String, Integer>> entries = new ArrayList<>(rankingList.entrySet());
-        Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
-            @Override
-            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-
-               return o1.getValue().compareTo(o2.getValue());
-            }
-        });
-
-        for(Map.Entry<String, Integer> entry: entries){
-            sortedList.add(entry.getKey() +": "+ entry.getValue());
-        }
-
-                return sortedList;
-    }*/
-
-    /**
-     * Returns a combined ArrayList of two lists.
-     * @param list1 List that will be combined, must be of the same length as the other list
-     * @param list2 second list that will be combined, must have the same length as the other list
-     * @return A combined ArrayList looking like: display name: score | display name: score
-     */
-    private ArrayList<String> combine(List<String> list1, List<String> list2){
-        ArrayList<String> newList = new ArrayList<>();
-        for(int i=0; i <list1.size(); i++){
-            newList.add(list1.get(i)+"    |   " + list2.get(i));
-        }
-        return newList;
     }
 }

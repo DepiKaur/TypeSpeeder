@@ -1,6 +1,6 @@
 package se.ju23.typespeeder.consle;
 
-import se.ju23.typespeeder.File.FileUtil;
+import se.ju23.typespeeder.util.FileUtil;
 
 import java.util.HashMap;
 
