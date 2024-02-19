@@ -9,7 +9,17 @@ import java.util.Optional;
 
 /**
  * @author Depinder Kaur
- * since 2024-02-08
+ * @version 0.1.0
+ * <h2>PlayerRepo</h2>
+ * <p>
+ *     PlayerRepo is an interface to fetch player data from the database.
+ *     It has methods to find a player by:
+ *     <ul>
+ *         <li>Username</li>
+ *         <li>Username and password</li>
+ *     </ul>
+ * </p>
+ * @date 2024-02-08
  */
 @Repository
 public interface PlayerRepo extends JpaRepository<Player, Integer> {

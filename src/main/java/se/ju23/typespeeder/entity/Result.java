@@ -11,7 +11,20 @@ import jakarta.persistence.Table;
 
 /**
  * @author Depinder Kaur
- * @version <h2></h2>
+ * @version 0.1.0
+ * <h2>Result</h2>
+ * <p>
+ *     Result class is a <i>Java POJO class</i> with the following fields:
+ * <ul>
+ *     <li>id: integer</li>
+ *     <li>player: Player</li>
+ *     <li>game: Game</li>
+ *     <li>pointsForCorrect: int</li>
+ *     <li>pointsForCorrectInOrder: int</li>
+ *     <li>timeTakenInMilliSec: int</li>
+ * </ul>
+ * along with constructors as well as getters and setters.
+ * </p>
  * @date 2024-02-10
  */
 
@@ -40,6 +53,12 @@ public class Result {
     @Column(name="time_taken_in_ms")
     private int timeTakenInMilliSec;
 
+    @Column(name="bonus_points")
+    private int bonusPoints;
+
+    @Column(name="deducted_points")
+    private int deductedPoints;
+
     public Result() {
     }
 
@@ -49,6 +68,18 @@ public class Result {
         this.pointsForCorrect = pointsForCorrect;
         this.pointsForCorrectInOrder = pointsForCorrectInOrder;
         this.timeTakenInMilliSec = timeTakenInMilliSec;
+        this.bonusPoints = 0;
+        this.deductedPoints = 0;
+    }
+
+    public Result(Player player, Game game, int pointsForCorrect, int pointsForCorrectInOrder, int timeTakenInMilliSec, int bonusPoints, int deductedPoints) {
+        this.player = player;
+        this.game = game;
+        this.pointsForCorrect = pointsForCorrect;
+        this.pointsForCorrectInOrder = pointsForCorrectInOrder;
+        this.timeTakenInMilliSec = timeTakenInMilliSec;
+        this.bonusPoints = bonusPoints;
+        this.deductedPoints = deductedPoints;
     }
 
     public int getId() {
@@ -83,23 +114,28 @@ public class Result {
         return pointsForCorrectInOrder;
     }
 
-    public void setPointsForCorrectInOrder(int pointsForCorrectInOrder) {
-        this.pointsForCorrectInOrder = pointsForCorrectInOrder;
-    }
-
     public int getTimeTakenInMilliSec() {
         return timeTakenInMilliSec;
+    }
+
+    public int getBonusPoints() {
+        return bonusPoints;
+    }
+
+    public int getDeductedPoints() {
+        return deductedPoints;
     }
 
     @Override
     public String toString() {
         return "Result{" +
-                "id=" + id +
-                ", player=" + player.getDisplayName() +
-                ", game=" + game.getType() + "(level:" + game.getDifficultyLevel() + ")" +
-                ", pointsForCorrect=" + pointsForCorrect +
-                ", pointsForCorrectInOrder=" + pointsForCorrectInOrder +
-                ", timeTakenInMilliSec=" + timeTakenInMilliSec +
+                "id=" + getId() +
+                ", player=" + getPlayer().getDisplayName() +
+                ", game=" + getGame().getType() + "(level:" + getGame().getDifficultyLevel() + ")" +
+                ", pointsForCorrect=" + getPointsForCorrect() +
+                ", pointsForCorrectInOrder=" + getPointsForCorrectInOrder() +
+                ", timeTakenInMilliSec=" + getTimeTakenInMilliSec() +
+                ", bonusPoints=" + getBonusPoints() +
                 '}';
     }
 }

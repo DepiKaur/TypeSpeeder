@@ -1,6 +1,8 @@
-package se.ju23.typespeeder;
+package se.ju23.typespeeder.util;
 
 import se.ju23.typespeeder.consle.Console;
+import se.ju23.typespeeder.game.GameDifficultyLevel;
+import se.ju23.typespeeder.game.GameType;
 
 import java.util.InputMismatchException;
 import java.util.Locale;
@@ -19,7 +21,6 @@ import java.util.Scanner;
 public class ScannerHelper {
    private static final Console console = new Console();
    private static final Scanner scanner = new Scanner(System.in).useLocale(Locale.FRANCE);
-
 
     /**
      * Returns an int that the users chooses between 1 and the max value.
@@ -58,11 +59,6 @@ public class ScannerHelper {
     }
 
     public static String getStringInputForPassword() {
-        //scanner.nextLine();
-        /*console.print("NOTE: A password must contain at least 1 capital letter, " +
-                "\n1 small letter, 2 digits and be 6 characters long.\n");
-        console.print("Enter password: ");*/
-
         String input = null;
         boolean match = false;
 
@@ -101,5 +97,4 @@ public class ScannerHelper {
         } while (input.trim().isEmpty());
         return input;
     }
-
 }

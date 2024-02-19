@@ -1,4 +1,4 @@
-package se.ju23.typespeeder;
+package se.ju23.typespeeder.game;
 
 /**
  * @author Depinder Kaur

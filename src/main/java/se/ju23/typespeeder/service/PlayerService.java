@@ -2,7 +2,7 @@ package se.ju23.typespeeder.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.ju23.typespeeder.ScannerHelper;
+import se.ju23.typespeeder.util.ScannerHelper;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.repo.PlayerRepo;
@@ -25,10 +25,15 @@ import java.util.Optional;
 public class PlayerService {
 
     private Console console;
-    @Autowired
+
     private PlayerRepo playerRepo;
 
-     public void setConsole(Console console){
+    @Autowired
+    public PlayerService(PlayerRepo playerRepo) {
+        this.playerRepo = playerRepo;
+    }
+
+    public void setConsole(Console console){
         this.console = console;
      }
 
