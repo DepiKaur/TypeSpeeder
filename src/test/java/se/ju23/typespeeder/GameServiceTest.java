@@ -19,9 +19,13 @@ import se.ju23.typespeeder.service.GameService;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -63,19 +67,38 @@ public class GameServiceTest {
 
     @Test
     public void testCalculateResultAndSave() {
-        Player player = new Player("TestUsername", "TestPassword", "TestDisplayName");
-        Game game = new Game("TestLevel", "Write words- only small letters", "TestContent");
+        Player player = new Player("Username", "Password12", "DisplayName");
+        Game game = new Game("Level", "Write case-sensitive text", "TestContent");
         String userInput = "TestContest";
         int timeInMilli = 15000;
 
-        Result result = new Result(player, game, 8, 6, 15000);
+        Result result = new Result(player, game, 8, 6, 15000, 0, 0);
 
         when(resultRepo.save(any(Result.class))).thenReturn(result);
+        when(resultRepo.sumOfBonusPointsOfPlayer(anyInt())).thenReturn(6);
         when(resultRepo.sumOfPointsOfAPlayer(anyInt())).thenReturn(20);
+        when(resultRepo.sumOfDeductedPointsOfPlayer(anyInt())).thenReturn(-2);
         when(playerRepo.save(any(Player.class))).thenReturn(player);
 
         gameService.calculateAndSaveResult(player, game, userInput, timeInMilli);
         verify(resultRepo, times(1)).save(any(Result.class));
+        verify(resultRepo, atLeastOnce()).sumOfBonusPointsOfPlayer(anyInt());
+        verify(playerRepo, atMostOnce()).save(any(Player.class));
         assertNotNull(player);
+    }
+
+    @Test
+    public void testGetTotalPointsOfPlayer() {
+        Player player = new Player("Username", "Password12", "DisplayName");
+        player.setLevel(2);
+        when(resultRepo.sumOfBonusPointsOfPlayer(anyInt())).thenReturn(6);
+        when(resultRepo.sumOfPointsOfAPlayer(anyInt())).thenReturn(20);
+        when(resultRepo.sumOfDeductedPointsOfPlayer(anyInt())).thenReturn(-2);
+
+        int totalPointsOfPlayer = gameService.getTotalPointsOfPlayer(player);
+        assertEquals(24, totalPointsOfPlayer);
+        assertNotEquals(20, totalPointsOfPlayer);
+        assertEquals(2, player.getLevel());
+        verify(resultRepo, atMostOnce()).sumOfPointsOfAPlayer(anyInt());
     }
 }
