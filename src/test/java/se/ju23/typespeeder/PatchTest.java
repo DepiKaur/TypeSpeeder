@@ -41,7 +41,7 @@ public class PatchTest {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formattedDateTime = dateTimeValue.format(formatter);
-            assertEquals("Expected format", formattedDateTime, "'realeaseDateTime' field should have format 'yyyy-MM-dd HH:mm:ss'.");
+            assertEquals("2024-02-20 10:25:15", formattedDateTime, "'realeaseDateTime' field should have format 'yyyy-MM-dd HH:mm:ss'.");
 
             Method getterMethod = someClass.getDeclaredMethod("getRealeaseDateTime");
             assertNotNull(getterMethod, "Getter method for field 'realeaseDateTime' should exist.");
