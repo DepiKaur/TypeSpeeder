@@ -5,13 +5,15 @@ package se.ju23.typespeeder.util;
  * @version 0.1.0
  * <h2>ResultUtil</h2>
  * ResultUtil is a helper class to the <i>GameService</i> class.
- * This class only contains the following static methods:
+ * This class contains the following static methods:
  * <ul>
  *     <li>calculateNumOfCorrect</li>
  *     <li>calculateNumOfMostCorrectInOrder</li>
  *     <li>calculateNumOfQuestionMarks</li>
  *     <li>getAccuracyRoundedToTwoDigits</li>
  *     <li>calculatePointsFromAccuracy</li>
+ *     <li>getLevelFromPoints</li>
+ *     <li>getMinimumPointsForLevel</li>
  * </ul>
  * These methods contain pure logic and are used in the <i>GameService</i> class.
  * @date 2024-02-16
@@ -115,6 +117,11 @@ public class ResultUtil {
         }
     }
 
+    /**
+     * This method returns the level number depending upon the points earned by the user.
+     * @param points These are the total points earned by the user which decide the user's current level.
+     * @return Level number according to the given points.
+     */
     public static int getLevelFromPoints(int points) {
         if (points >= 0 && points < 50) {
             return 1;
@@ -143,6 +150,11 @@ public class ResultUtil {
         }
     }
 
+    /**
+     * This method returns the minimum number of points needed to stay at a specific level.
+     * @param level Level number
+     * @return Minimum points needed to stay on the given level.
+     */
     public static int getMinimumPointsForLevel(int level) {
         switch(level) {
             case 1 -> {
@@ -183,6 +195,4 @@ public class ResultUtil {
             }
         }
     }
-
-
 }

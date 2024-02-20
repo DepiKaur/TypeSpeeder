@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  * @author Sofie Van Dingenen, Depinder Kaur
- * since 2024-02-08
+ * @date 2024-02-08
  * @version 1.0.0
  *
  * <H2>ScannerHelper</H2>

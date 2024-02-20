@@ -30,7 +30,7 @@ import static se.ju23.typespeeder.util.ResultUtil.getAccuracyRoundedToTwoDigits;
  * <h2>GameService</h2>
  * <p>
  *  GameService is a helper class that contains methods for the game logic.
- *  This class contains method for calculating a game's result, printing it
+ *  This class contains methods for calculating a game's result, printing it
  *  in the terminal as well as saving it in the database.
  * <p>
  *    It even contains methods to evaluate user input, depending on the type
@@ -54,37 +54,12 @@ public class GameService {
         this.console = console;
     }
 
-/*
-    public void loadSampleGames(boolean enabled) {
-
-        Game game1 = new Game(GameDifficultyLevel.EASY.getDifficultyLevel(),
-                GameType.WRITE_SENTENCE.getType(),
-                "Heidi soon came to her, and was delighted to have the beautiful picture books to look at.");
-
-        Game game2 = new Game(GameDifficultyLevel.MEDIUM.getDifficultyLevel(),
-                GameType.WRITE_SENTENCE.getType(),
-                "Punctually at nine o'clock, he left the room and anxiously went to find Miss Sesemann in the forest.");
-
-        Game game3 = new Game(GameDifficultyLevel.HARD.getDifficultyLevel(),
-                GameType.WRITE_SENTENCE.getType(),
-                "Sebastian and Tinette sped to the dining-room, all rather dishevelled to find Miss Rottenmeier as cheerful as usual.");
-
-        if (enabled) {
-            gameRepo.save(game1);
-            gameRepo.save(game2);
-            gameRepo.save(game3);
-        }
-    }
-
- */
-
     /**
      * This method returns optional game using its difficulty level and type.
      * @param level This is of type GameDifficultyLevel which is an enum.
      * @param type This is of type GameType which is an enum.
      * @return Optional game
      */
-
     public Optional<Game> getGameByLevelAndType(GameDifficultyLevel level, GameType type) {
         return gameRepo.findByDifficultyLevelAndType(level.getDifficultyLevel(), type.getType());
     }
@@ -122,6 +97,15 @@ public class GameService {
         playerRepo.save(player);
     }
 
+    /**
+     * This method evaluates points earned by user to find the bonus points
+     * (if the user performs well for 3rd time in a row) or points that need to be deducted
+     * (if the user performs bad for 3rd time in a row, and the user hasn't yet reached the
+     * minimum number of points for current level).
+     * @param player The user who is currently logged in the system.
+     * @param pointsForCorrect The points earned by the user for input.
+     * @return A new object of type PointsEvaluation record to save both bonus and deducted points.
+     */
     private PointsEvaluation evaluatePointsForBonusOrDeduction(Player player, int pointsForCorrect) {
         int bonusPoints = 0, deductedPoints = 0;
 
@@ -135,6 +119,12 @@ public class GameService {
         return new PointsEvaluation(bonusPoints, deductedPoints);
     }
 
+    /**
+     * This method checks two recent results of the current user in the database.
+     * If the user got maximum points in both, he gets eligible to get a bonus.
+     * @param player The user who is currently logged in the system.
+     * @return Returns true if the user is eligible for bonus and false otherwise.
+     */
     private boolean isEligibleForBonus(Player player) {
         List<Result> listOfLastTwoResultsOfPlayer = resultRepo.listOfTwoMostRecentResultsOfPlayer(player.getId());
 
@@ -146,6 +136,11 @@ public class GameService {
         return false;
     }
 
+    /**
+     * This method calculates the bonus points awarded to the user to go to the next level.
+     * @param player The user who is currently logged in the system.
+     * @return The bonus points awarded to the current user.
+     */
     private int calculateBonusPoints(Player player) {
         int pointsForCorrect = 10;
         int totalPointsOfPlayer = getTotalPointsOfPlayer(player) + pointsForCorrect;
@@ -154,8 +149,15 @@ public class GameService {
         return (minPointsToGoToNextLevel - totalPointsOfPlayer);
     }
 
+    /**
+     * This method checks if the user is eligible for deduction of points.
+     * It makes sure that the user does not drop game-level, even though he loses points for
+     * performing poorly three times in a row.
+     * @param player The user who is currently logged in the system.
+     * @return True if it is allowed to deduct points, and false otherwise.
+     */
     private boolean isEligibleForDeduction(Player player) {
-        List<Result> listOfTwoRecentResultsForDeduction = resultRepo.listOfResultsForDeduction(player.getId());
+        List<Result> listOfTwoRecentResultsForDeduction = resultRepo.listOfTwoMostRecentResultsOfPlayer(player.getId());
 
         if (listOfTwoRecentResultsForDeduction.size() == 2) {
             int result1 = listOfTwoRecentResultsForDeduction.get(0).getPointsForCorrect();
@@ -165,6 +167,13 @@ public class GameService {
         return false;
     }
 
+    /**
+     * This method checks the total points earned by the user and makes sure the value does not
+     * go below the minimum value needed to remain at the current level.
+     * @param player The user who is currently logged in the system.
+     * @return True if the total points of the user is more than the minimum points at the current level,
+     * and otherwise false.
+     */
     private boolean isPointDeductionAllowed(Player player) {
         int currentLevel = player.getLevel();
         int minPointsForCurrentLevel = ResultUtil.getMinimumPointsForLevel(currentLevel);
@@ -175,6 +184,11 @@ public class GameService {
         return currentPoints > minPointsForCurrentLevel;
     }
 
+    /**
+     * This method calculates the total points earned by the player in all the games played.
+     * @param player The user who is currently logged in the system.
+     * @return The total number of points including bonus and deductions.
+     */
     public int getTotalPointsOfPlayer(Player player) {
         int playerId = player.getId();
         int sumOfBonusPoints = resultRepo.sumOfBonusPointsOfPlayer(playerId);
@@ -189,7 +203,12 @@ public class GameService {
      *     <li>points for correct</li>
      *     <li>points for most correct in order</li>
      *     <li>time taken (in seconds)</li>
+     *     <li>player's current level</li>
+     *     <li>total points earned</li>
+     *     <li>bonus/deducted points</li>
+     *     <li>minimum points needed to go to next level</li>
      * </ul>
+     *
      * @param result This is used to print the result in the terminal.
      */
     public void printResult(Result result) {
@@ -222,6 +241,11 @@ public class GameService {
         console.tln("Points needed to go to Level " + nextLevel + ": " + pointsNeededToGoToNextLevel);
     }
 
+    /**
+     * This method informs the player before the BONUS game and even warns
+     * if the player needs to perform well to avoid points deduction.
+     * @param player The player who is currently logged in the application.
+     */
     public void printWarnings(Player player) {
         if (isEligibleForBonus(player)) {
             console.error("IMPORTANT: Try to get 10 points in the next game for added BONUS !!");
@@ -254,6 +278,13 @@ public class GameService {
         return new UserInputEvaluation(correct, mostCorrectInOrder, gameContent.length());
     }
 
+    /**
+     * This method evaluates the user input for games which require a number input.
+     * @param gameContent The content of the game chosen by the user.
+     * @param userInput The input given by user.
+     * @return An object of type UserInputEvaluation record to save the number of correct,
+     * number of most correct in order and number of special characters respectively.
+     */
     private UserInputEvaluation evaluateInputForCountGame(String gameContent, String userInput) {
 
         int numOfCorrect = 0;
@@ -267,5 +298,4 @@ public class GameService {
         int numOfSpecialChar = calculateNumOfQuestionMarks(gameContent);
         return new UserInputEvaluation(numOfCorrect, numOfMostCorrectInOrder, numOfSpecialChar);
     }
-
 }

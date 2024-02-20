@@ -28,16 +28,8 @@ public interface ResultRepo extends JpaRepository<Result, Integer> {
     int sumOfBonusPointsOfPlayer(int playerId);
 
     @Query(nativeQuery = true,
-            value = "select * from result " +
-                    "where player_id=:playerId " +
-                    "order by id desc limit 2")
+            value = "select * from result where player_id=:playerId order by id desc limit 2")
     List<Result> listOfTwoMostRecentResultsOfPlayer(int playerId);
-
-    @Query(nativeQuery = true,
-            value = "select * from result " +
-                    "where player_id=:playerId " +
-                    "order by id desc limit 2")
-    List<Result> listOfResultsForDeduction(int playerId);
 
     @Query(nativeQuery = true,
             value = "select sum(deducted_points) from result where player_id=:playerId")

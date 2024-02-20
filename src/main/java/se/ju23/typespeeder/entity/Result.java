@@ -22,6 +22,8 @@ import jakarta.persistence.Table;
  *     <li>pointsForCorrect: int</li>
  *     <li>pointsForCorrectInOrder: int</li>
  *     <li>timeTakenInMilliSec: int</li>
+ *     <li>bonusPoints: int</li>
+ *     <li>deductedPoints: int</li>
  * </ul>
  * along with constructors as well as getters and setters.
  * </p>
@@ -104,10 +106,6 @@ public class Result {
 
     public int getPointsForCorrect() {
         return pointsForCorrect;
-    }
-
-    public void setPointsForCorrect(int pointsForCorrect) {
-        this.pointsForCorrect = pointsForCorrect;
     }
 
     public int getPointsForCorrectInOrder() {
