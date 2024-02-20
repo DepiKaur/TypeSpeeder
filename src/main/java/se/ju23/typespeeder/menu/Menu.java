@@ -30,7 +30,9 @@ public class Menu implements MenuService {
     public void displayMenu() {
         System.out.println("------------------------");
         System.out.println("menu.option.chooseOption");
-        System.out.println(getMenuOptions());
+        for(String s: getMenuOptions()){
+            System.out.println(s);
+        }
     }
 
     /**

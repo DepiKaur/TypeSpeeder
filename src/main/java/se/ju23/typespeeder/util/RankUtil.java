@@ -14,7 +14,7 @@ import java.util.*;
  * since 2024-02-19
  *
  * <h2>RankUtil</h2>
- *
+ * <p>
  * Rankutil is a class that calculates the rank of the players in TypeSpeeder, accoring to how quick they were,
  * how many they got correct and how many they got correct in a specific order.
  */
@@ -36,10 +36,11 @@ public class RankUtil {
     /**
      * Returen a map with the player's display name and the average points of the most correct points.
      * If a player has not played any games they are not included in the map.
+     *
      * @return Map with player's display name as key and the players average point of their most correct points.
      */
     private HashMap<String, Integer> getPlayerAverageMostCorrectPoints() {
-        HashMap<String, Integer> players = new HashMap<>();
+        HashMap<String, Integer> playersAndPoints = new HashMap<>();
         List<Player> allPlayers = playerRepo.findAll();
         for (Player player : allPlayers) {
             int nGames = 0;
@@ -54,20 +55,21 @@ public class RankUtil {
             }
             if (nGames > 0) {
                 int average = totalpointsForCorrect / nGames;
-                players.put(player.getDisplayName(), average);
+                playersAndPoints.put(player.getDisplayName(), average);
             }
         }
-        return players;
+        return playersAndPoints;
     }
 
     /**
      * Returen a map with the player's display name and the average points of the most correct in order points.
      * If a player has not played any games they are not included in the map.
+     *
      * @return Map with player's display name as key and the players average point of their most correct in order points.
      */
 
     private HashMap<String, Integer> getPlayerAverageMostCorrectPointsInOrder() {
-        HashMap<String, Integer> players = new HashMap<>();
+        HashMap<String, Integer> playersAndPoints = new HashMap<>();
         List<Player> allPlayers = playerRepo.findAll();
 
         for (Player player : allPlayers) {
@@ -83,20 +85,21 @@ public class RankUtil {
             }
             if (nGames > 0) {
                 int average = totalpointsForCorrectInOrder / nGames;
-                players.put(player.getDisplayName(), average);
+                playersAndPoints.put(player.getDisplayName(), average);
             }
         }
 
-        return players;
+        return playersAndPoints;
     }
 
     /**
      * Returen a map with the player's display name and the average time. If a player has not played any games they are
      * not included in the map.
+     *
      * @return Map with player's display name as key and the players average time.
      */
     private HashMap<String, Integer> getPlayerAverageTime() {
-        HashMap<String, Integer> players = new HashMap<>();
+        HashMap<String, Integer> playersAndTime = new HashMap<>();
         List<Player> allPlayers = playerRepo.findAll();
         for (Player player : allPlayers) {
             int nGames = 0;
@@ -113,20 +116,21 @@ public class RankUtil {
             }
             if (nGames > 0) {
                 int average = totalTime / nGames;
-                players.put(player.getDisplayName(), average);
+                playersAndTime.put(player.getDisplayName(), average);
             }
         }
 
-        return players;
+        return playersAndTime;
     }
 
     /**
      * Returns a sorted list of a map with a players display name and their score (average points or time) .
      * The list is sorted by having the lowest score as the first element.
+     *
      * @param rankingList a map with the players display name and their score.
      * @return sorted list of strings looking like; display name: score
      */
-    private List<String> sortRank(HashMap<String, Integer> rankingList) {
+    private List<String> sortRankLowToHigh(HashMap<String, Integer> rankingList) {
         ArrayList<String> sortedList = new ArrayList<>();
         List<Map.Entry<String, Integer>> entries = new ArrayList<>(rankingList.entrySet());
         Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
@@ -137,44 +141,112 @@ public class RankUtil {
             }
         });
 
-        for(Map.Entry<String, Integer> entry: entries){
-            sortedList.add(entry.getKey() +": "+ entry.getValue());
+        for (Map.Entry<String, Integer> entry : entries) {
+            sortedList.add(entry.getKey() + ": " + (entry.getValue()*0.001)+"s");
         }
 
         return sortedList;
     }
 
-    private List<String> sortRankHighToLow(List<String> list){
-        Collections.reverse(list);
-        return list;
+    private List<String> sortRankHighToLow(HashMap<String, Integer> rankingList) {
+        ArrayList<String> sortedList = new ArrayList<>();
+        List<Map.Entry<String, Integer>> entries = new ArrayList<>(rankingList.entrySet());
+        Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        for (Map.Entry<String, Integer> entry : entries) {
+            sortedList.add(entry.getKey() + ": " + entry.getValue()+"p");
+        }
+
+        return sortedList;
     }
-
-    public ArrayList<String> calculateRank(){
+    public ArrayList<String> calculateRank() {
         ArrayList<String> rankingList;
-        List<String> mostCorrect = sortRankHighToLow(sortRank(getPlayerAverageMostCorrectPoints()));
-        List< String> fastest = sortRank(getPlayerAverageTime());
-        List< String> mostCorrectInOrder = sortRankHighToLow(sortRank(getPlayerAverageMostCorrectPointsInOrder()));
+        List<String> mostCorrect = sortRankHighToLow(getPlayerAverageMostCorrectPoints());
+        List<String> fastest = sortRankLowToHigh(getPlayerAverageTime());
+        List<String> mostCorrectInOrder = sortRankHighToLow(getPlayerAverageMostCorrectPointsInOrder());
+        List<String> totalRank = calculateTotalRank(getPlayerTototalPoints());
 
-        ArrayList<String> templist =combine(fastest, mostCorrect);
-        rankingList = combine(templist, mostCorrectInOrder);
+        ArrayList<String> templist = combineList(fastest, mostCorrect);
+        ArrayList<String> templist2 = combineList(mostCorrectInOrder, totalRank);
+        rankingList = combineList(templist, templist2);
 
         return rankingList;
     }
 
     /**
      * Returns a combined ArrayList of two lists.
+     *
      * @param list1 List that will be combined, must be of the same length as the other list
      * @param list2 second list that will be combined, must have the same length as the other list
      * @return A combined ArrayList looking like: display name: score | display name: score
      */
-    private ArrayList<String> combine(List<String> list1, List<String> list2){
+    private ArrayList<String> combineList(List<String> list1, List<String> list2) {
         ArrayList<String> newList = new ArrayList<>();
-        for(int i=0; i <list1.size(); i++){
-            newList.add(list1.get(i)+"    |   " + list2.get(i));
+        for (int i = 0; i < list1.size(); i++) {
+            newList.add(list1.get(i) + "    |   " + list2.get(i));
         }
         return newList;
     }
 
+    private HashMap<String, Integer[]> getPlayerTototalPoints() {
+        HashMap<String, Integer[]> playersAndPoints = new HashMap<>();
+        List<Player> allPlayers = playerRepo.findAll();
+        for (Player player : allPlayers) {
+            int nGames = 0;
+            int totalPoints = 0;
+            int totaltime = 0;
+            int id = player.getId();
+            Optional<List<Result>> resultList = resultRepo.findByPlayerId(id);
+            if (resultList.isPresent()) {
+                for (Result result : resultList.get()) {
+                    nGames++;
+                    totalPoints += result.getPointsForCorrect() + result.getPointsForCorrectInOrder() + result.getBonusPoints() + result.getDeductedPoints();
+                    totaltime += result.getTimeTakenInMilliSec();
+                }
+            }
+            if (nGames > 0) {
+                Integer[] total = {totalPoints, (int)(totaltime*0.001)};
+                playersAndPoints.put(player.getDisplayName(), total);
+            }
+        }
+        return playersAndPoints;
+    }
+
+    private List<String> calculateTotalRank(HashMap<String, Integer[]> rankMap) {
+
+        ArrayList<String> sortedList = new ArrayList<>();
+        List<Integer> tempList = new ArrayList<>();
+        List<Map.Entry<String, Integer[]>> entries = new ArrayList<>(rankMap.entrySet());
+        Collections.sort(entries, new Comparator<Map.Entry<String, Integer[]>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer[]> o1, Map.Entry<String, Integer[]> o2) {
+                if(o1.getValue()[0].compareTo(o2.getValue()[0])==0){
+                    return o1.getValue()[1].compareTo(o2.getValue()[1]);
+                }
+                return o2.getValue()[0].compareTo(o1.getValue()[0]);
+            }
+        });
+
+
+        Map<String, Integer[]> sordetMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer[]> entry : entries) {
+
+            sortedList.add(entry.getKey() + ": " + entry.getValue()[0] + "p " + entry.getValue()[1]+ "s");
+        }
+        return sortedList;
+    }
+
+
+
 
 
 }
+
+
+
