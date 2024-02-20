@@ -175,7 +175,7 @@ public class GameService {
         return currentPoints > minPointsForCurrentLevel;
     }
 
-    private int getTotalPointsOfPlayer(Player player) {
+    public int getTotalPointsOfPlayer(Player player) {
         int playerId = player.getId();
         int sumOfBonusPoints = resultRepo.sumOfBonusPointsOfPlayer(playerId);
         int sumOfPointsForCorrect = resultRepo.sumOfPointsOfAPlayer(playerId);

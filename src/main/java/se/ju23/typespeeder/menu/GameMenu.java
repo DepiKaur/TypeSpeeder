@@ -1,6 +1,8 @@
 package se.ju23.typespeeder.menu;
 
 import se.ju23.typespeeder.consle.Console;
+import se.ju23.typespeeder.entity.Player;
+import se.ju23.typespeeder.service.GameService;
 import se.ju23.typespeeder.service.MenuService;
 
 import java.util.ArrayList;
@@ -18,12 +20,21 @@ import java.util.ArrayList;
 public class GameMenu implements MenuService {
 
     private Console console;
+    private Player player;
+    private GameService service;
 
-    public GameMenu(Console console){
+    public GameMenu(Console console, Player player, GameService service){
         this.console = console;
+        this.player= player;
+        this.service = service;
     }
     @Override
     public void displayMenu() {
+        console.printDashes();
+        console.tln("menu.info.player");
+        console.print(player.getDisplayName()+"     Level: "+ player.getLevel()+ "  ");
+        console.t("points");
+        console.printLine(""+service.getTotalPointsOfPlayer(player));
         console.printDashes();
         console.tln("menu.option.chooseOption");
         console.print(getMenuOptions());

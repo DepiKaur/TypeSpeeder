@@ -87,7 +87,7 @@ public class MenuHandler {
             console.error("Incorrect Username or Password!");
             return;
         }
-        menu = new GameMenu(console);
+        menu = new GameMenu(console, currentPlayer.get(), gameService);
         while (currentPlayer.isPresent()) {
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
@@ -139,7 +139,7 @@ public class MenuHandler {
 
         console.printDashes();
         console.tln("rankinglist.show");
-        console.printLine("----------------------------------------------------------------");
+        console.printLine("--------------------------------------------------------------------------");
 
         console.printList(rankUtil.calculateRank());
 

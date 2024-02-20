@@ -1,8 +1,8 @@
 package se.ju23.typespeeder.menu;
 
-import se.ju23.typespeeder.util.ScannerHelper;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
+import se.ju23.typespeeder.util.ScannerHelper;
 
 import java.util.ArrayList;
 
@@ -20,14 +20,14 @@ public class LanguageMenu {
 
     public void displayMenu() {
         console.print("""
-                --------------------------------------
+                --------------------------------------------------------------------------
                 TypeSpeeder
-                                
+                                    
                 welcome/ välkommen 
-                --------------------------------------
-                                
+                --------------------------------------------------------------------------
+                                    
                 Choose a language to continue/ Välj ett språk för att fortsätta
-                                
+                                    
                 """);
     }
 
