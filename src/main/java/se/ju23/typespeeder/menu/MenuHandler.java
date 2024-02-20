@@ -111,9 +111,7 @@ public class MenuHandler {
             console.error("Desired game NOT found!");
             return;
         }
-        console.printDashes();
         gameService.printWarnings(player);
-        console.printDashes();
         String content = optionalGame.get().getContent();
         console.printLine(content);
 

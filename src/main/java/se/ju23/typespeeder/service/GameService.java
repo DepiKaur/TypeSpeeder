@@ -223,10 +223,6 @@ public class GameService {
 
         int currentLevel = player.getLevel();
 
-        console.tln("Current Level: " + currentLevel);
-        int totalPoints = getTotalPointsOfPlayer(player);
-        console.tln("Total points: " + totalPoints);
-
         if (result.getBonusPoints() != 0) {
             console.tln("BONUS: " + result.getBonusPoints() + " p");
             player.setLevel(currentLevel + 1);
@@ -234,6 +230,10 @@ public class GameService {
         } else if (result.getDeductedPoints() != 0) {
             console.error("Deducted points: " + result.getDeductedPoints() + " p");
         }
+
+        console.tln("Current Level: " + currentLevel);
+        int totalPoints = getTotalPointsOfPlayer(player);
+        console.tln("Total points: " + totalPoints);
 
         int nextLevel = currentLevel + 1;
         int pointsNeededToGoToNextLevel = ResultUtil.getMinimumPointsForLevel(nextLevel) - totalPoints;
@@ -246,11 +246,13 @@ public class GameService {
      * @param player The player who is currently logged in the application.
      */
     public void printWarnings(Player player) {
+        console.printDashes();
         if (isEligibleForBonus(player)) {
             console.error("IMPORTANT: Try to score 10 points in the next game for added BONUS !!");
         } else if (isEligibleForDeduction(player)) {
             console.error("WARNING: Try to score at least 1 point in the next game to AVOID POINTS DEDUCTION !!");
         }
+        console.printDashes();
     }
 
     /**
