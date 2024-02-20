@@ -78,4 +78,30 @@ public class ResultUtilTest {
         assertEquals(0, result3);
         assertEquals(10, result4);
     }
+
+    @Test
+    public void testGetLevelFromPoints() {
+        int points1 = 34, points2 = 200, points3 = 449;
+
+        int result1 = ResultUtil.getLevelFromPoints(points1);
+        int result2 = ResultUtil.getLevelFromPoints(points2);
+        int result3 = ResultUtil.getLevelFromPoints(points3);
+
+        assertEquals(1, result1);
+        assertEquals(5, result2);
+        assertEquals(9, result3);
+    }
+
+    @Test
+    public void testGetMinimumPointsForLevel() {
+        int level1 = 1, level2 = 5, level3 = 8;
+
+        int result1 = ResultUtil.getMinimumPointsForLevel(level1);
+        int result2 = ResultUtil.getMinimumPointsForLevel(level2);
+        int result3 = ResultUtil.getMinimumPointsForLevel(level3);
+
+        assertEquals(0, result1);
+        assertEquals(200, result2);
+        assertEquals(350, result3);
+    }
 }

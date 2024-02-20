@@ -208,7 +208,6 @@ public class GameService {
      *     <li>bonus/deducted points</li>
      *     <li>minimum points needed to go to next level</li>
      * </ul>
-     *
      * @param result This is used to print the result in the terminal.
      */
     public void printResult(Result result) {
@@ -248,9 +247,9 @@ public class GameService {
      */
     public void printWarnings(Player player) {
         if (isEligibleForBonus(player)) {
-            console.error("IMPORTANT: Try to get 10 points in the next game for added BONUS !!");
+            console.error("IMPORTANT: Try to score 10 points in the next game for added BONUS !!");
         } else if (isEligibleForDeduction(player)) {
-            console.error("WARNING: Try to get some points in the next game to AVOID POINTS DEDUCTION !!");
+            console.error("WARNING: Try to score at least 1 point in the next game to AVOID POINTS DEDUCTION !!");
         }
     }
 
