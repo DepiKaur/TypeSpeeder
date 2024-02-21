@@ -105,7 +105,8 @@ public class MenuHandler {
                 case 2 -> console.print("printing information such as username, display name, level and points");
                 case 3 -> gameService.startGame(currentPlayer.get());
                 case 4 -> showRankingList();
-                case 5 -> currentPlayer = Optional.empty();
+                case 5 -> showNewsletter();
+                case 6 -> currentPlayer = Optional.empty();
             }
         }
     }

@@ -21,16 +21,6 @@ public class LanguageMenu {
     private Console console = new Console();
 
     public void displayMenu() {
-     /*  console.print("""
-                --------------------------------------------------------------------------
-                TypeSpeeder
-                                    
-                welcome/ välkommen 
-                --------------------------------------------------------------------------
-                                    
-                Choose a language to continue/ Välj ett språk för att fortsätta
-                                    
-                """);*/
         console.printDashes();
         console.print("TypeSpeeder");
         showVersion();

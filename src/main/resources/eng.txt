@@ -50,3 +50,4 @@ instruction.count.number = Count the number of '?' below and enter the number.
 instruction.case.sensitive = Write the words below as fast and correct as possible. Note: the words contain capital letters.
 instruction.special.characters = Write the text below as fast and correct as possible. Note: the text contains special characters. 
 time starts = Timer started!
+menu.option.showNewsletter = Show newsletter

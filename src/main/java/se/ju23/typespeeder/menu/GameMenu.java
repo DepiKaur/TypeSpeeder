@@ -53,6 +53,7 @@ public class GameMenu implements MenuService {
         optionsList.add("menu.option.showUserInfo");
         optionsList.add("menu.option.chooseGame");
         optionsList.add("menu.option.showRankingList");
+        optionsList.add("menu.option.showNewsletter");
         optionsList.add("menu.option.logout");
 
         return optionsList;

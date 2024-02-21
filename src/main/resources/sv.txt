@@ -50,3 +50,4 @@ instruction.count.number = Ränka antalet "?" nedan och ange antalet.
 instruction.case.sensitive = Skriv orden nedan så snabbt och korrekt som möjligt. OBS: Orden innehåller stora bokstäver.
 instruction.special.characters = Skriv texten nedan så snabbt och korrekt som möjligt. OBS: Texten innehåller speciella tecken.
 time starts = Timer startade!
+menu.option.showNewsletter = Visa nyhetsbrevet
