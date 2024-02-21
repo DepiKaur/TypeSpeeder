@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"se.ju23.typespeeder"},{"l":"se.ju23.typespeeder.consle"},{"l":"se.ju23.typespeeder.entity"},{"l":"se.ju23.typespeeder.game"},{"l":"se.ju23.typespeeder.menu"},{"l":"se.ju23.typespeeder.repo"},{"l":"se.ju23.typespeeder.service"},{"l":"se.ju23.typespeeder.util"}];updateSearchResults();

@@ -12,14 +12,14 @@ import jakarta.persistence.Table;
  * @date 2024-02-08
  * @version 1.0
  * <h2>Game</h2>
- * Game is a Java POJO class with following fields:
+ * Game is a <i>Java POJO class</i> with following fields:
  * <ul>
  *     <li>id: type integer</li>
  *     <li>difficultyLevel: type String</li>
  *     <li>type: type String</li>
  *     <li>content: type String</li>
  * </ul>
- * along with the usual constructors as well as getters and setters.
+ * along with the usual constructors as well as getters.
  */
 
 @Entity
@@ -63,10 +63,6 @@ public class Game {
 
     public String getContent() {
         return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     @Override

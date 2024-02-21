@@ -16,23 +16,23 @@ public class PatchTest {
     @Test
     public void testPatchClassExists() {
         try {
-            Class.forName("Patch");
+            Class.forName("se.ju23.typespeeder.Patch");
         } catch (ClassNotFoundException e) {
-            throw new AssertionError("Patch class should exist.", e);
+            throw new AssertionError("se.ju23.typespeeder.Patch class should exist.", e);
         }
     }
 
     @Test
     public void testPatchProperties() {
         try {
-            Class<?> someClass = Class.forName("Patch");
+            Class<?> someClass = Class.forName("se.ju23.typespeeder.Patch");
 
             Field patchVersion = someClass.getDeclaredField("patchVersion");
-            assertNotNull(patchVersion, "Field 'patchVersion' should exist in the Patch class.");
+            assertNotNull(patchVersion, "Field 'patchVersion' should exist in the se.ju23.typespeeder.Patch class.");
             assertTrue(patchVersion.getType().equals(String.class), "Field 'patchVersion' should be of type String.");
 
             Field realeaseDateTime = someClass.getDeclaredField("realeaseDateTime");
-            assertNotNull(realeaseDateTime, "Field 'realeaseDateTime' should exist in Patch class.");
+            assertNotNull(realeaseDateTime, "Field 'realeaseDateTime' should exist in se.ju23.typespeeder.Patch class.");
 
             assertTrue(realeaseDateTime.getType().equals(LocalDateTime.class), "Field 'realeaseDateTime' should be of type LocalDateTime.");
 
@@ -41,14 +41,14 @@ public class PatchTest {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formattedDateTime = dateTimeValue.format(formatter);
-            assertEquals("Expected format", formattedDateTime, "'realeaseDateTime' field should have format 'yyyy-MM-dd HH:mm:ss'.");
+            assertEquals("2024-02-20 10:25:15", formattedDateTime, "'realeaseDateTime' field should have format 'yyyy-MM-dd HH:mm:ss'.");
 
             Method getterMethod = someClass.getDeclaredMethod("getRealeaseDateTime");
             assertNotNull(getterMethod, "Getter method for field 'realeaseDateTime' should exist.");
 
 
         } catch (ClassNotFoundException | NoSuchFieldException | NoSuchMethodException e) {
-            fail("Error occurred while testing properties of Patch.", e);
+            fail("Error occurred while testing properties of se.ju23.typespeeder.Patch.", e);
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         } catch (InstantiationException e) {

@@ -12,12 +12,13 @@ import jakarta.persistence.Table;
  * @date 2024-02-08
  * @version 1.0
  * <h2>Player</h2>
- * Player class is a Java POJO class with the following fields: id, username, password and displayName
+ * Player class is a <i>Java POJO class</i> with the following fields:
  * <ul>
- *     <li>id: type integer</li>
- *     <li>username: type String</li>
- *     <li>password: type String</li>
- *     <li>displayName: type String</li>
+ *     <li>id: integer</li>
+ *     <li>username: String</li>
+ *     <li>password: String</li>
+ *     <li>displayName: String</li>
+ *     <li>gameLevel: int</li>
  * </ul>
  * along with constructors as well as getters and setters.
  */
@@ -30,9 +31,10 @@ public class Player {
     private int id;
     private String username;
     private String password;
-
     @Column(name="display_name")
     private String displayName;
+
+    private int level;
 
     public Player() {
     }
@@ -41,6 +43,15 @@ public class Player {
         this.username = username;
         this.password = password;
         this.displayName = displayName;
+        this.level = 0;
+    }
+
+    public Player(int id, String username, String password, String displayName) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.displayName = displayName;
+        this.level = 0;
     }
 
     public int getId() {
@@ -71,6 +82,14 @@ public class Player {
         this.displayName = displayName;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
@@ -78,6 +97,7 @@ public class Player {
                 ", username='" + getUsername() + '\'' +
                 ", password='" + getPassword() + '\'' +
                 ", displayName='" + getDisplayName() + '\'' +
+                ", level='" + getLevel() + '\'' +
                 '}';
     }
 }
