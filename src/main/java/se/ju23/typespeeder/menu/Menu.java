@@ -1,8 +1,6 @@
 package se.ju23.typespeeder.menu;
 
 import org.springframework.stereotype.Component;
-import se.ju23.typespeeder.consle.Console;
-import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.service.MenuService;
 
 import java.util.ArrayList;

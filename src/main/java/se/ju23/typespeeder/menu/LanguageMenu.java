@@ -5,7 +5,6 @@ import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
 import se.ju23.typespeeder.util.ScannerHelper;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**

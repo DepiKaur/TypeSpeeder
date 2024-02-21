@@ -1,15 +1,13 @@
 package se.ju23.typespeeder;
 
-import org.springframework.cglib.core.Local;
-
 import java.time.LocalDateTime;
 
 /**
  * @author Depinder Kaur
  * @version 0.1.0
- * <h2>se.ju23.typespeeder.NewsLetter</h2>
+ * <h2>NewsLetter</h2>
  * <p>
- *     se.ju23.typespeeder.NewsLetter class contains methods to fulfil the requirements of the third and last update.
+ *     NewsLetter class contains methods to fulfil the requirements of the third and last update.
  * </p>
  * @date 2024-02-19
  */

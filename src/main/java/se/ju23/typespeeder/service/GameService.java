@@ -2,12 +2,12 @@ package se.ju23.typespeeder.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.ju23.typespeeder.game.GameDifficultyLevel;
-import se.ju23.typespeeder.game.GameType;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.entity.Result;
+import se.ju23.typespeeder.game.GameDifficultyLevel;
+import se.ju23.typespeeder.game.GameType;
 import se.ju23.typespeeder.repo.GameRepo;
 import se.ju23.typespeeder.repo.PlayerRepo;
 import se.ju23.typespeeder.repo.ResultRepo;

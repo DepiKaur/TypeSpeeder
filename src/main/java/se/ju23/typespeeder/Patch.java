@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 /**
  * @author Depinder Kaur
  * @version 0.1.0
- * <h2>se.ju23.typespeeder.Patch</h2>
+ * <h2>Patch</h2>
  * <p>
- *     se.ju23.typespeeder.Patch class contains methods to fulfil the requirements of the third and last update.
+ *     Patch class contains methods to fulfil the requirements of the third and last update.
  * </p>
  * @date 2024-02-19
  */
