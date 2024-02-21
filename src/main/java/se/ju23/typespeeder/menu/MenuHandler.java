@@ -2,6 +2,7 @@ package se.ju23.typespeeder.menu;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.ju23.typespeeder.consle.Color;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
 import se.ju23.typespeeder.entity.Game;
@@ -14,6 +15,7 @@ import se.ju23.typespeeder.service.PlayerService;
 import se.ju23.typespeeder.util.RankUtil;
 import se.ju23.typespeeder.util.ScannerHelper;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -132,14 +134,21 @@ public class MenuHandler {
     }
 
     public void showRankingList() {
-        console.printDashes();
-        console.tln("rankinglist.title");
+        console.printDashes(Color.BLUE);
+        console.tln("rankinglist.title", Color.BLUE);
 
-        console.printDashes();
-        console.tln("rankinglist.show");
-        console.printLine("--------------------------------------------------------------------------");
+        console.printDashes(Color.BLUE);
+        console.tln("rankinglist.show", Color.BLUE);
+        console.printLine("--------------------------------------------------------------------------", Color.BLUE);
 
-        console.printList(rankUtil.calculateRank());
+        printList(rankUtil.calculateRank());
 
+    }
+
+    public void printList(ArrayList<String> stringList) {
+        for (int i = 0; i < stringList.size(); i++) {
+            console.print(i + 1 + ".", Color.BLUE);
+            console.printLine(stringList.get(i), Color.BLUE);
+        }
     }
 }

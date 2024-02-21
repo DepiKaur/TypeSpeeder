@@ -21,13 +21,7 @@ import java.util.HashMap;
 @Component
 public class Console {
     private HashMap<String, String> languageMap;
-    private final String ANSI_RED = "\u001B[31m";
-    private final String ANSI_RESET = "\u001B[0m";
-
-    private final String ANSI_BLUE = "\u001B[34m";
-
-    private final String ANSI_BLACK = "\u001B[30m";
-
+    private Color color;
 
     /**
      * Initilizes a new Console object with a given language. The constructor will set the map of the given language.
@@ -36,9 +30,14 @@ public class Console {
      */
     public Console(Language language) {
         this.languageMap = language.getLanguageMap();
+        this.color= Color.WHITE;
     }
 
     public Console() {
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public void print(String message) {
@@ -74,6 +73,14 @@ public class Console {
             tln(stringList[i]);
         }
     }
+
+    public void printLine(String message, Color color){
+        System.out.println(color.getCode()+ message+ Color.WHITE.getCode());
+    }
+    public void print(String message, Color color){
+        System.out.print(color.getCode() + message+ Color.WHITE.getCode());
+    }
+
     public void print(GameType[] list){
         int choicenumber = 1;
         for (GameType menuChoice : list) {
@@ -119,6 +126,34 @@ public class Console {
     }
 
     /**
+     * Prints a translated text without adding a new line at the end.
+     *
+     * @param text The text that will be translated.
+     */
+    public void t(String text, Color color) {
+        if (languageMap != null) {
+            print( languageMap.get(text), color);
+        }
+        if (languageMap == null) {
+            print(text, color);
+        }
+    }
+
+    /**
+     * Prints a translated text while adding a new line at the end.
+     * @param text The test that will be translated.
+     */
+    public void tln(String text, Color color) {
+        if (languageMap != null) {
+            printLine(languageMap.get(text), color);
+        } else {
+
+            printLine(text, color);
+        }
+    }
+
+
+    /**
      * Prints a dashed line.
      */
     public void printDashes() {
@@ -127,8 +162,17 @@ public class Console {
                 --------------------------------------------------------------------------
                 """);
     }
+    /**
+     * Prints a dashed line.
+     */
+    public void printDashes(Color color) {
+        System.out.print(color.getCode()+ """ 
+                
+                --------------------------------------------------------------------------
+                """+ Color.WHITE.getCode());
+    }
 
     public void error(String message) {
-        System.out.println(ANSI_RED + message + ANSI_RESET);
+        System.out.println(Color.RED.getCode() + message+ Color.WHITE.getCode());
     }
 }
