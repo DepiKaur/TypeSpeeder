@@ -54,6 +54,10 @@ public class GameService {
         this.console = console;
     }
 
+    public void setConsole(Console console) {
+        this.console = console;
+    }
+
     /**
      * This method returns optional game using its difficulty level and type.
      * @param level This is of type GameDifficultyLevel which is an enum.
@@ -217,27 +221,33 @@ public class GameService {
         int timeInMilli = result.getTimeTakenInMilliSec();
         int timeInSec = Math.round((float)timeInMilli / 1000);
 
-        console.tln("\n            ********   RESULT   ********");
-        System.out.printf("%n%s \t\t%20s \t%15s%n", "Correct", "Most Correct in order", "Time taken");
-        System.out.printf("%4d p %20d p %20d s%n%n", pointsForCorrect, pointsForMostCorrectInOrder, timeInSec);
+        console.printLine("");
+        console.tln("result.title");
+        console.tln("result.show");
+        //System.out.printf("%n%s \t\t%20s \t%15s%n", "Correct", "Most Correct in order", "Time taken");
+        console.printf("%4d p %20d p %20d s%n%n", pointsForCorrect, pointsForMostCorrectInOrder, timeInSec);
 
         int currentLevel = player.getLevel();
 
         if (result.getBonusPoints() != 0) {
-            console.tln("BONUS: " + result.getBonusPoints() + " p");
+            console.t("BONUS");
+            console.printLine(result.getBonusPoints()+ "P");
             player.setLevel(currentLevel + 1);
             currentLevel = player.getLevel();
         } else if (result.getDeductedPoints() != 0) {
             console.error("Deducted points: " + result.getDeductedPoints() + " p");
         }
 
-        console.tln("Current Level: " + currentLevel);
+        console.t("current.level");
+        console.printLine(""+currentLevel);
         int totalPoints = getTotalPointsOfPlayer(player);
-        console.tln("Total points: " + totalPoints);
+        console.t("total.points");
+        console.printLine(""+ totalPoints);
 
         int nextLevel = currentLevel + 1;
         int pointsNeededToGoToNextLevel = ResultUtil.getMinimumPointsForLevel(nextLevel) - totalPoints;
-        console.tln("Points needed to go to Level " + nextLevel + ": " + pointsNeededToGoToNextLevel);
+        console.t("points.to.next.level");
+        console.printLine( nextLevel + ": " + pointsNeededToGoToNextLevel);
     }
 
     /**

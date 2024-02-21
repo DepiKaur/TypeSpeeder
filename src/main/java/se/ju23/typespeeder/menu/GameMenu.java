@@ -1,5 +1,6 @@
 package se.ju23.typespeeder.menu;
 
+import se.ju23.typespeeder.consle.Color;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.service.GameService;
@@ -31,10 +32,10 @@ public class GameMenu implements MenuService {
     @Override
     public void displayMenu() {
         console.printDashes();
-        console.tln("menu.info.player");
-        console.print(player.getDisplayName()+"     Level: "+ player.getLevel()+ "  ");
-        console.t("points");
-        console.printLine(""+service.getTotalPointsOfPlayer(player));
+        console.tln("menu.info.player", Color.BLUE);
+        console.print(player.getDisplayName()+"     Level: "+ player.getLevel()+ "  ", Color.BLUE);
+        console.t("points", Color.BLUE);
+        console.printLine(""+service.getTotalPointsOfPlayer(player), Color.BLUE);
         console.printDashes();
         console.tln("menu.option.chooseOption");
         console.print(getMenuOptions());

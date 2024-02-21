@@ -72,12 +72,10 @@ public class ScannerHelper {
         return input;
     }
     public static GameType getGameType(GameType[] options){
-        console.print(options);
         int userchoice = getInt(options.length);
         return options[userchoice-1];
     }
     public static GameDifficultyLevel getDificultyLevel(GameDifficultyLevel[] options){
-        console.print(options);
         int userchoice = getInt(options.length);
         return options[userchoice-1];
     }
