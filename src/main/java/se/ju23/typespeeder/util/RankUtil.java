@@ -123,7 +123,6 @@ public class RankUtil {
                 playersAndTime.put(player.getDisplayName(), average);
             }
         }
-
         return playersAndTime;
     }
 
@@ -192,10 +191,13 @@ public class RankUtil {
      */
     private ArrayList<String> combineList(List<String> list1, List<String> list2) {
         ArrayList<String> newList = new ArrayList<>();
-        for (int i = 0; i < list1.size(); i++) {
-            newList.add(list1.get(i) + "    |   " + list2.get(i));
+        if (list1.size() == list2.size()){
+            for (int i = 0; i < list1.size(); i++) {
+                newList.add(list1.get(i) + "    |   " + list2.get(i));
+            }
+            return newList;
         }
-        return newList;
+       return newList;
     }
 
     private HashMap<String, Integer[]> getPlayerTototalPoints() {
@@ -225,7 +227,6 @@ public class RankUtil {
     private List<String> calculateTotalRank(HashMap<String, Integer[]> rankMap) {
 
         ArrayList<String> sortedList = new ArrayList<>();
-        List<Integer> tempList = new ArrayList<>();
         List<Map.Entry<String, Integer[]>> entries = new ArrayList<>(rankMap.entrySet());
         Collections.sort(entries, new Comparator<Map.Entry<String, Integer[]>>() {
             @Override
@@ -236,10 +237,7 @@ public class RankUtil {
                 return o2.getValue()[0].compareTo(o1.getValue()[0]);
             }
         });
-
-        Map<String, Integer[]> sordetMap = new LinkedHashMap<>();
         for (Map.Entry<String, Integer[]> entry : entries) {
-
             sortedList.add(entry.getKey() + ": " + entry.getValue()[0] + "p " + entry.getValue()[1]+ "s");
         }
         return sortedList;
