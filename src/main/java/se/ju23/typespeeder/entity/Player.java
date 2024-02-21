@@ -46,6 +46,14 @@ public class Player {
         this.level = 0;
     }
 
+    public Player(int id, String username, String password, String displayName) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.displayName = displayName;
+        this.level = 0;
+    }
+
     public int getId() {
         return id;
     }

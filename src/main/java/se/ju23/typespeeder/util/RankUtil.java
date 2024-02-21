@@ -21,10 +21,14 @@ import java.util.*;
 
 @Component
 public class RankUtil {
+    private PlayerRepo playerRepo;
+    private ResultRepo resultRepo;
+
     @Autowired
-    PlayerRepo playerRepo;
-    @Autowired
-    ResultRepo resultRepo;
+    public RankUtil(PlayerRepo playerRepo, ResultRepo resultRepo) {
+        this.playerRepo = playerRepo;
+        this.resultRepo = resultRepo;
+    }
 
 
     /**
