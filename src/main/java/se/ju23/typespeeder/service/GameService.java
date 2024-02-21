@@ -13,6 +13,7 @@ import se.ju23.typespeeder.repo.PlayerRepo;
 import se.ju23.typespeeder.repo.ResultRepo;
 import se.ju23.typespeeder.util.PointsEvaluation;
 import se.ju23.typespeeder.util.ResultUtil;
+import se.ju23.typespeeder.util.ScannerHelper;
 import se.ju23.typespeeder.util.UserInputEvaluation;
 
 import java.util.List;
@@ -256,10 +257,11 @@ public class GameService {
      * @param player The player who is currently logged in the application.
      */
     public void printWarnings(Player player) {
-        console.printDashes();
         if (isEligibleForBonus(player)) {
+            console.printDashes();
             console.error("IMPORTANT: Try to score 10 points in the next game for added BONUS !!");
         } else if (isEligibleForDeduction(player)) {
+            console.printDashes();
             console.error("WARNING: Try to score at least 1 point in the next game to AVOID POINTS DEDUCTION !!");
         }
         console.printDashes();
@@ -309,4 +311,50 @@ public class GameService {
         int numOfSpecialChar = calculateNumOfQuestionMarks(gameContent);
         return new UserInputEvaluation(numOfCorrect, numOfMostCorrectInOrder, numOfSpecialChar);
     }
+
+    public void startGame(Player player) {
+        console.printDashes();
+        GameType gameChoice = getGameType(GameType.values());
+        GameDifficultyLevel difficultyLevel = getDificultyLevel(GameDifficultyLevel.values());
+        Optional<Game> optionalGame = getGameByLevelAndType(difficultyLevel, gameChoice);
+
+        if (optionalGame.isEmpty()) {
+            console.error("Desired game NOT found!");
+            return;
+        }
+        printWarnings(player);
+        console.tln(getInstuctions(gameChoice));
+        String content = optionalGame.get().getContent();
+        console.tln("time starts");
+        console.printLine(content);
+
+        long startTime = System.currentTimeMillis();
+        String userInput = ScannerHelper.getStringInput();
+        long stopTime = System.currentTimeMillis();
+        int timeTakenInMilliSec = Math.round(stopTime - startTime);
+
+        calculateAndSaveResult(player, optionalGame.get(), userInput, timeTakenInMilliSec);
+    }
+    private GameType getGameType(GameType[] options) {
+        console.print(options);
+        return ScannerHelper.getGameType(options);
+    }
+
+    private GameDifficultyLevel getDificultyLevel(GameDifficultyLevel[] options) {
+        console.print(options);
+        return ScannerHelper.getDificultyLevel(options);
+    }
+
+    private String getInstuctions(GameType gameType){
+        String instruction = "";
+        switch (gameType){
+            case WRITE_WORDS -> instruction = "instruction.write.words";
+            case WRITE_SENTENCE -> instruction ="instruction.write.sentence";
+            case COUNT_NUMBER ->  instruction = "instruction.count.number";
+            case CASE_SENSITIVE -> instruction = "instruction.case.sensitive";
+            case SPECIAL_CHARACTERS -> instruction = "instruction.special.characters";
+        }
+        return instruction;
+    }
+
 }

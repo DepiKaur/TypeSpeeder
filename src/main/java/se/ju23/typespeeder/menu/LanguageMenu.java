@@ -1,9 +1,11 @@
 package se.ju23.typespeeder.menu;
 
+import se.ju23.typespeeder.Patch;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
 import se.ju23.typespeeder.util.ScannerHelper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +21,7 @@ public class LanguageMenu {
     private Console console = new Console();
 
     public void displayMenu() {
-        console.print("""
+     /*  console.print("""
                 --------------------------------------------------------------------------
                 TypeSpeeder
                                     
@@ -28,7 +30,19 @@ public class LanguageMenu {
                                     
                 Choose a language to continue/ Välj ett språk för att fortsätta
                                     
+                """);*/
+        console.printDashes();
+        console.print("TypeSpeeder");
+        showVersion();
+        console.print("""
+                                    
+                welcome/ välkommen 
+                --------------------------------------------------------------------------
+                                    
+                Choose a language to continue/ Välj ett språk för att fortsätta
+                     
                 """);
+
     }
 
     private ArrayList<String> getMenuOptions() {
@@ -55,5 +69,11 @@ public class LanguageMenu {
             return new Language("sv");
         }
         return new Language();
+    }
+    private void showVersion(){
+        Patch patch = new Patch();
+        patch.setPatchVersion("1.1.2");
+        console.printLine(" Version: " +patch.getPatchVersion());
+
     }
 }

@@ -2,6 +2,8 @@ package se.ju23.typespeeder.menu;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.ju23.typespeeder.NewsLetter;
+import se.ju23.typespeeder.Patch;
 import se.ju23.typespeeder.consle.Color;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
@@ -15,6 +17,7 @@ import se.ju23.typespeeder.service.PlayerService;
 import se.ju23.typespeeder.util.RankUtil;
 import se.ju23.typespeeder.util.ScannerHelper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -38,6 +41,7 @@ public class MenuHandler {
     private boolean running = true;
     private static Language language;
     private GameService gameService;
+    private NewsLetter newsLetter = new NewsLetter();
 
     private Optional<Player> currentPlayer = Optional.empty();
 
@@ -48,6 +52,7 @@ public class MenuHandler {
         this.gameService = gameService;
         language = setLanguage();
         console = new Console(language);
+        showVersion();
         playerService.setConsole(console);
         gameService.setConsole(console);
 
@@ -91,47 +96,18 @@ public class MenuHandler {
             return;
         }
         menu = new GameMenu(console, currentPlayer.get(), gameService);
+        showNewsletter();
         while (currentPlayer.isPresent()) {
             menu.displayMenu();
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt) {
                 case 1 -> playerService.updateLoginInfo(currentPlayer.get());
                 case 2 -> console.print("printing information such as username, display name, level and points");
-                case 3 -> startGame(currentPlayer.get());
+                case 3 -> gameService.startGame(currentPlayer.get());
                 case 4 -> showRankingList();
                 case 5 -> currentPlayer = Optional.empty();
             }
         }
-    }
-
-    public void startGame(Player player) {
-        console.printDashes();
-        GameType gameChoice = getGameType(GameType.values());
-        GameDifficultyLevel difficultyLevel = getDificultyLevel(GameDifficultyLevel.values());
-        Optional<Game> optionalGame = gameService.getGameByLevelAndType(difficultyLevel, gameChoice);
-
-        if (optionalGame.isEmpty()) {
-            console.error("Desired game NOT found!");
-            return;
-        }
-        gameService.printWarnings(player);
-        String content = optionalGame.get().getContent();
-        console.printLine(content);
-
-        long startTime = System.currentTimeMillis();
-        String userInput = ScannerHelper.getStringInput();
-        long stopTime = System.currentTimeMillis();
-        int timeTakenInMilliSec = Math.round(stopTime - startTime);
-
-        gameService.calculateAndSaveResult(player, optionalGame.get(), userInput, timeTakenInMilliSec);
-    }
-    private GameType getGameType(GameType[] options){
-        console.print(options);
-        return ScannerHelper.getGameType(options);
-    }
-    private GameDifficultyLevel getDificultyLevel(GameDifficultyLevel[] options){
-        console.print(options);
-        return ScannerHelper.getDificultyLevel(options);
     }
 
     private void login(PlayerService playerService) {
@@ -159,5 +135,18 @@ public class MenuHandler {
             console.print(i + 1 + ".", Color.BLUE);
             console.printLine(stringList.get(i), Color.BLUE);
         }
+    }
+    private void showNewsletter(){
+        console.printDashes();
+        console.t("newsletter");
+        console.printLine(newsLetter.toString());
+    }
+
+    private void showVersion(){
+        Patch patch = new Patch();
+        patch.setPatchVersion("1.1.2");
+        console.printDashes();
+        console.printLine("Version: " +patch.getPatchVersion());
+
     }
 }

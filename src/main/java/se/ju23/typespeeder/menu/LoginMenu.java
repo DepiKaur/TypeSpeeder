@@ -1,8 +1,8 @@
 package se.ju23.typespeeder.menu;
 
 import se.ju23.typespeeder.consle.Console;
-import se.ju23.typespeeder.consle.Language;
 import se.ju23.typespeeder.service.MenuService;
+import se.ju23.typespeeder.service.PlayerService;
 
 import java.util.ArrayList;
 
@@ -30,6 +30,7 @@ public class LoginMenu implements MenuService {
         console.printLine("");
         console.tln("menu.option.chooseOption");
         console.print(getMenuOptions());
+
     }
 
     @Override
