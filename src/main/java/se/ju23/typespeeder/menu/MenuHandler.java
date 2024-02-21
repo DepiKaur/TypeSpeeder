@@ -49,6 +49,7 @@ public class MenuHandler {
         language = setLanguage();
         console = new Console(language);
         playerService.setConsole(console);
+        gameService.setConsole(console);
 
         while (running) {
             menuToLogin(playerService, new LoginMenu(console));
@@ -105,8 +106,8 @@ public class MenuHandler {
 
     public void startGame(Player player) {
         console.printDashes();
-        GameType gameChoice = ScannerHelper.getGameType(GameType.values());
-        GameDifficultyLevel difficultyLevel = ScannerHelper.getDificultyLevel(GameDifficultyLevel.values());
+        GameType gameChoice = getGameType(GameType.values());
+        GameDifficultyLevel difficultyLevel = getDificultyLevel(GameDifficultyLevel.values());
         Optional<Game> optionalGame = gameService.getGameByLevelAndType(difficultyLevel, gameChoice);
 
         if (optionalGame.isEmpty()) {
@@ -123,6 +124,14 @@ public class MenuHandler {
         int timeTakenInMilliSec = Math.round(stopTime - startTime);
 
         gameService.calculateAndSaveResult(player, optionalGame.get(), userInput, timeTakenInMilliSec);
+    }
+    private GameType getGameType(GameType[] options){
+        console.print(options);
+        return ScannerHelper.getGameType(options);
+    }
+    private GameDifficultyLevel getDificultyLevel(GameDifficultyLevel[] options){
+        console.print(options);
+        return ScannerHelper.getDificultyLevel(options);
     }
 
     private void login(PlayerService playerService) {

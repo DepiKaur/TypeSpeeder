@@ -233,7 +233,6 @@ public class RankUtil {
             }
         });
 
-
         Map<String, Integer[]> sordetMap = new LinkedHashMap<>();
         for (Map.Entry<String, Integer[]> entry : entries) {
 

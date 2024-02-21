@@ -81,6 +81,9 @@ public class Console {
         System.out.print(color.getCode() + message+ Color.WHITE.getCode());
     }
 
+    public void printf(String format, Object ... args){
+        System.out.printf(format, args);
+    }
     public void print(GameType[] list){
         int choicenumber = 1;
         for (GameType menuChoice : list) {
@@ -122,6 +125,14 @@ public class Console {
         } else {
 
             System.out.println(text);
+        }
+    }
+    public void tf(String format, Object... args){
+        if(languageMap!= null){
+            System.out.printf(format,languageMap.get(args));
+        }
+        else {
+            System.out.printf(format, args);
         }
     }
 
