@@ -15,6 +15,7 @@ import se.ju23.typespeeder.util.RankUtil;
 import se.ju23.typespeeder.util.ScannerHelper;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -86,9 +87,17 @@ public class MenuHandler {
     }
 
     private void loggedInMenu(PlayerService playerService) {
-        login(playerService);
+        try {
+            for (int i = 0; i < 3; i++) {
+                login(playerService);
+                if (currentPlayer.isEmpty()) {
+                    console.error("Incorrect Username or Password!");
+                }
+            }
+        } catch (NoSuchElementException ignored) {
+
+        }
         if (currentPlayer.isEmpty()) {
-            console.error("Incorrect Username or Password!");
             return;
         }
         menu = new GameMenu(console, currentPlayer.get(), gameService);
@@ -110,8 +119,6 @@ public class MenuHandler {
     private void login(PlayerService playerService) {
         if (currentPlayer.isEmpty()) {
             currentPlayer = playerService.playerLogin();
-        } else {
-            console.error("you are already logged in");
         }
     }
 
