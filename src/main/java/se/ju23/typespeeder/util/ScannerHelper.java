@@ -66,7 +66,7 @@ public class ScannerHelper {
             input = scanner.nextLine();
             match = input.matches("^(?=.*\\d{2,})(?=.*[a-z])(?=.*[A-Z]).{6,}$");
             if (!match) {
-                console.print("Try again: ");
+                console.error("Try again: ");
             }
         }
         return input;
