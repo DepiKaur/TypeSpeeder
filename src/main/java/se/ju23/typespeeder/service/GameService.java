@@ -19,23 +19,19 @@ import se.ju23.typespeeder.util.UserInputEvaluation;
 import java.util.List;
 import java.util.Optional;
 
-import static se.ju23.typespeeder.util.ResultUtil.calculateNumOfCorrect;
-import static se.ju23.typespeeder.util.ResultUtil.calculateNumOfMostCorrectInOrder;
-import static se.ju23.typespeeder.util.ResultUtil.calculateNumOfQuestionMarks;
-import static se.ju23.typespeeder.util.ResultUtil.calculatePointsFromAccuracy;
-import static se.ju23.typespeeder.util.ResultUtil.getAccuracyRoundedToTwoDigits;
+import static se.ju23.typespeeder.util.ResultUtil.*;
 
 /**
  * @author Depinder Kaur
  * @version 0.1.0
  * <h2>GameService</h2>
  * <p>
- *  GameService is a helper class that contains methods for the game logic.
- *  This class contains methods for calculating a game's result, printing it
- *  in the terminal as well as saving it in the database.
+ * GameService is a helper class that contains methods for the game logic.
+ * This class contains methods for calculating a game's result, printing it
+ * in the terminal as well as saving it in the database.
  * <p>
- *    It even contains methods to evaluate user input, depending on the type
- *    of game played by the user.
+ * It even contains methods to evaluate user input, depending on the type
+ * of game played by the user.
  * </p>
  * @date 2024-02-10
  */
@@ -61,8 +57,9 @@ public class GameService {
 
     /**
      * This method returns optional game using its difficulty level and type.
+     *
      * @param level This is of type GameDifficultyLevel which is an enum.
-     * @param type This is of type GameType which is an enum.
+     * @param type  This is of type GameType which is an enum.
      * @return Optional game
      */
     public Optional<Game> getGameByLevelAndType(GameDifficultyLevel level, GameType type) {
@@ -71,9 +68,10 @@ public class GameService {
 
     /**
      * This method calculates the result of a game played by the user and saves it in the database.
-     * @param player The user which plays a game.
-     * @param game The game played by the user.
-     * @param userInput The input given by the user.
+     *
+     * @param player      The user which plays a game.
+     * @param game        The game played by the user.
+     * @param userInput   The input given by the user.
      * @param timeInMilli The time (in milliseconds) user takes to write input.
      * @return The result of the game played by the user.
      */
@@ -107,7 +105,8 @@ public class GameService {
      * (if the user performs well for 3rd time in a row) or points that need to be deducted
      * (if the user performs bad for 3rd time in a row, and the user hasn't yet reached the
      * minimum number of points for current level).
-     * @param player The user who is currently logged in the system.
+     *
+     * @param player           The user who is currently logged in the system.
      * @param pointsForCorrect The points earned by the user for input.
      * @return A new object of type PointsEvaluation record to save both bonus and deducted points.
      */
@@ -127,6 +126,7 @@ public class GameService {
     /**
      * This method checks two recent results of the current user in the database.
      * If the user got maximum points in both, he gets eligible to get a bonus.
+     *
      * @param player The user who is currently logged in the system.
      * @return Returns true if the user is eligible for bonus and false otherwise.
      */
@@ -143,6 +143,7 @@ public class GameService {
 
     /**
      * This method calculates the bonus points awarded to the user to go to the next level.
+     *
      * @param player The user who is currently logged in the system.
      * @return The bonus points awarded to the current user.
      */
@@ -158,6 +159,7 @@ public class GameService {
      * This method checks if the user is eligible for deduction of points.
      * It makes sure that the user does not drop game-level, even though he loses points for
      * performing poorly three times in a row.
+     *
      * @param player The user who is currently logged in the system.
      * @return True if it is allowed to deduct points, and false otherwise.
      */
@@ -175,6 +177,7 @@ public class GameService {
     /**
      * This method checks the total points earned by the user and makes sure the value does not
      * go below the minimum value needed to remain at the current level.
+     *
      * @param player The user who is currently logged in the system.
      * @return True if the total points of the user is more than the minimum points at the current level,
      * and otherwise false.
@@ -191,10 +194,15 @@ public class GameService {
 
     /**
      * This method calculates the total points earned by the player in all the games played.
+     *
      * @param player The user who is currently logged in the system.
      * @return The total number of points including bonus and deductions.
      */
     public int getTotalPointsOfPlayer(Player player) {
+        Optional<List<Result>> resultList = resultRepo.findByPlayerId(player.getId());
+        if (resultList.isEmpty() || resultList.get().isEmpty()) {
+            return 0;
+        }
         int playerId = player.getId();
         int sumOfBonusPoints = resultRepo.sumOfBonusPointsOfPlayer(playerId);
         int sumOfPointsForCorrect = resultRepo.sumOfPointsOfAPlayer(playerId);
@@ -213,6 +221,7 @@ public class GameService {
      *     <li>bonus/deducted points</li>
      *     <li>minimum points needed to go to next level</li>
      * </ul>
+     *
      * @param result This is used to print the result in the terminal.
      */
     public void printResult(Result result) {
@@ -220,19 +229,18 @@ public class GameService {
         int pointsForCorrect = result.getPointsForCorrect();
         int pointsForMostCorrectInOrder = result.getPointsForCorrectInOrder();
         int timeInMilli = result.getTimeTakenInMilliSec();
-        int timeInSec = Math.round((float)timeInMilli / 1000);
+        int timeInSec = Math.round((float) timeInMilli / 1000);
 
         console.printLine("");
         console.tln("result.title");
         console.tln("result.show");
-        //System.out.printf("%n%s \t\t%20s \t%15s%n", "Correct", "Most Correct in order", "Time taken");
         console.printf("%4d p %20d p %20d s%n%n", pointsForCorrect, pointsForMostCorrectInOrder, timeInSec);
 
         int currentLevel = player.getLevel();
 
         if (result.getBonusPoints() != 0) {
             console.t("BONUS");
-            console.printLine(result.getBonusPoints()+ "P");
+            console.printLine(result.getBonusPoints() + "P");
             player.setLevel(currentLevel + 1);
             currentLevel = player.getLevel();
         } else if (result.getDeductedPoints() != 0) {
@@ -240,20 +248,21 @@ public class GameService {
         }
 
         console.t("current.level");
-        console.printLine(""+currentLevel);
+        console.printLine("" + currentLevel);
         int totalPoints = getTotalPointsOfPlayer(player);
         console.t("total.points");
-        console.printLine(""+ totalPoints);
+        console.printLine("" + totalPoints);
 
         int nextLevel = currentLevel + 1;
         int pointsNeededToGoToNextLevel = ResultUtil.getMinimumPointsForLevel(nextLevel) - totalPoints;
         console.t("points.to.next.level");
-        console.printLine( nextLevel + ": " + pointsNeededToGoToNextLevel);
+        console.printLine(nextLevel + ": " + pointsNeededToGoToNextLevel);
     }
 
     /**
      * This method informs the player before the BONUS game and even warns
      * if the player needs to perform well to avoid points deduction.
+     *
      * @param player The player who is currently logged in the application.
      */
     public void printWarnings(Player player) {
@@ -269,14 +278,15 @@ public class GameService {
 
     /**
      * This method creates an evaluation of the user input depending on the type of game that was played.
-     * @param game This is used to get the type of game that was played by the user.
+     *
+     * @param game      This is used to get the type of game that was played by the user.
      * @param userInput This is the user input.
      * @return An object of type <i>UserInputEvaluation</i> which is a record.
      */
     private UserInputEvaluation evaluateUserInput(Game game, String userInput) {
         UserInputEvaluation userInputEvaluation = null;
 
-        switch (GameType.fromType(game.getType())){
+        switch (GameType.fromType(game.getType())) {
             case WRITE_WORDS, CASE_SENSITIVE, SPECIAL_CHARACTERS, WRITE_SENTENCE -> {
                 userInputEvaluation = evaluateInputForWordGame(game.getContent(), userInput);
             }
@@ -293,8 +303,9 @@ public class GameService {
 
     /**
      * This method evaluates the user input for games which require a number input.
+     *
      * @param gameContent The content of the game chosen by the user.
-     * @param userInput The input given by user.
+     * @param userInput   The input given by user.
      * @return An object of type UserInputEvaluation record to save the number of correct,
      * number of most correct in order and number of special characters respectively.
      */
@@ -305,7 +316,7 @@ public class GameService {
         try {
             numOfCorrect = Integer.parseInt(userInput);
             numOfMostCorrectInOrder = Integer.parseInt(userInput);
-        } catch(NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) {
 
         }
         int numOfSpecialChar = calculateNumOfQuestionMarks(gameContent);
@@ -335,6 +346,7 @@ public class GameService {
 
         calculateAndSaveResult(player, optionalGame.get(), userInput, timeTakenInMilliSec);
     }
+
     private GameType getGameType(GameType[] options) {
         console.print(options);
         return ScannerHelper.getGameType(options);
@@ -345,12 +357,12 @@ public class GameService {
         return ScannerHelper.getDificultyLevel(options);
     }
 
-    private String getInstuctions(GameType gameType){
+    private String getInstuctions(GameType gameType) {
         String instruction = "";
-        switch (gameType){
+        switch (gameType) {
             case WRITE_WORDS -> instruction = "instruction.write.words";
-            case WRITE_SENTENCE -> instruction ="instruction.write.sentence";
-            case COUNT_NUMBER ->  instruction = "instruction.count.number";
+            case WRITE_SENTENCE -> instruction = "instruction.write.sentence";
+            case COUNT_NUMBER -> instruction = "instruction.count.number";
             case CASE_SENSITIVE -> instruction = "instruction.case.sensitive";
             case SPECIAL_CHARACTERS -> instruction = "instruction.special.characters";
         }

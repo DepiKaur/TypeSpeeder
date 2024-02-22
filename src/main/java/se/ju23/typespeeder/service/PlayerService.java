@@ -77,8 +77,8 @@ public class PlayerService {
         String username = ScannerHelper.validateStringInputForLogin();
         console.t("player.menu.enter.password");
         String password = ScannerHelper.validateStringInputForLogin();
-
-        return playerRepo.findByUsernameAndPassword(username, password);
+        Optional<Player> op = playerRepo.findByUsernameAndPassword(username, password);
+        return op;
     }
 
     public void updateLoginInfo(Player player) {

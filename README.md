@@ -1,5 +1,7 @@
 # TypeSpeeder
 
+## NOTE: This project is a joint effort by Depinder Kaur & Sofie Van Dingenen.
+
 The warnings are written in english and make sure that you read the warnings carefully.
 
 ## Update 1 of 3
