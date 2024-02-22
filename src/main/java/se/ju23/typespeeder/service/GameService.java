@@ -199,11 +199,11 @@ public class GameService {
      * @return The total number of points including bonus and deductions.
      */
     public int getTotalPointsOfPlayer(Player player) {
-        Optional<List<Result>> resultList = resultRepo.findByPlayerId(player.getId());
+        int playerId = player.getId();
+        Optional<List<Result>> resultList = resultRepo.findByPlayerId(playerId);
         if (resultList.isEmpty() || resultList.get().isEmpty()) {
             return 0;
         }
-        int playerId = player.getId();
         int sumOfBonusPoints = resultRepo.sumOfBonusPointsOfPlayer(playerId);
         int sumOfPointsForCorrect = resultRepo.sumOfPointsOfAPlayer(playerId);
         int sumOfDeductedPoints = resultRepo.sumOfDeductedPointsOfPlayer(playerId);
