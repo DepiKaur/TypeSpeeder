@@ -107,7 +107,7 @@ public class MenuHandler {
             int chosenInt = ScannerHelper.getInt(menu.getMenuOptions().size());
             switch (chosenInt) {
                 case 1 -> playerService.updateLoginInfo(currentPlayer.get());
-                case 2 -> console.print("printing information such as username, display name, level and points");
+                case 2 -> showUserInformation();
                 case 3 -> gameService.startGame(currentPlayer.get());
                 case 4 -> showRankingList();
                 case 5 -> showNewsletter();
@@ -133,10 +133,24 @@ public class MenuHandler {
         printList(rankUtil.calculateRank());
 
     }
+    private void showUserInformation(){
+        console.printDashes();
+        console.tln("menu.info.player");
+        console.t("menu.show.username");
+        console.print(currentPlayer.get().getUsername()+ "\t\t");
+        console.t("menu.show.displayname");
+        console.printLine(currentPlayer.get().getDisplayName());
+        console.t("current.level");
+        console.printLine(currentPlayer.get().getLevel()+"");
+        console.t("total.points");
+        console.printLine(""+gameService.getTotalPointsOfPlayer(currentPlayer.get()));
+        console.t("number.games.played");
+        console.printLine(rankUtil.getPlayerNumberOfgames(currentPlayer.get())+"");
 
-    public void printList(ArrayList<String> stringList) {
+    }
+
+    private void printList(ArrayList<String> stringList) {
         for (int i = 0; i < stringList.size(); i++) {
-            console.print(i + 1 + ".", Color.BLUE);
             console.printLine(stringList.get(i), Color.BLUE);
         }
     }

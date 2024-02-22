@@ -129,6 +129,7 @@ public class RankUtil {
                 playersAndTime.put(player.getDisplayName(), average);
             }
         }
+
         return playersAndTime;
     }
 
@@ -141,6 +142,7 @@ public class RankUtil {
      */
     private List<String> sortRankLowToHigh(HashMap<String, Integer> rankingList) {
         ArrayList<String> sortedList = new ArrayList<>();
+        ArrayList<String> templist = new ArrayList<>();
         List<Map.Entry<String, Integer>> entries = new ArrayList<>(rankingList.entrySet());
         Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
             @Override
@@ -151,7 +153,10 @@ public class RankUtil {
         });
 
         for (Map.Entry<String, Integer> entry : entries) {
-            sortedList.add(entry.getKey() + ": " + (entry.getValue()*0.001)+"s");
+            templist.add(entry.getKey() + ": " + (entry.getValue() * 0.001) + "s \t");
+        }
+        for(int i= 0;i <templist.size(); i++){
+            sortedList.add(i+1+". "+ templist.get(i));
         }
 
         return sortedList;
@@ -159,6 +164,7 @@ public class RankUtil {
 
     private List<String> sortRankHighToLow(HashMap<String, Integer> rankingList) {
         ArrayList<String> sortedList = new ArrayList<>();
+        ArrayList<String> templist = new ArrayList<>();
         List<Map.Entry<String, Integer>> entries = new ArrayList<>(rankingList.entrySet());
         Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
             @Override
@@ -169,17 +175,23 @@ public class RankUtil {
         });
 
         for (Map.Entry<String, Integer> entry : entries) {
-            sortedList.add(entry.getKey() + ": " + entry.getValue()+"p");
+
+            templist.add(entry.getKey() + ": " + entry.getValue() + "p\t");
+        }
+
+        for(int i= 0;i <templist.size(); i++){
+            sortedList.add(i+1+". "+ templist.get(i));
         }
 
         return sortedList;
     }
+
     public ArrayList<String> calculateRank() {
         ArrayList<String> rankingList;
         List<String> mostCorrect = sortRankHighToLow(getPlayerAverageMostCorrectPoints());
         List<String> fastest = sortRankLowToHigh(getPlayerAverageTime());
         List<String> mostCorrectInOrder = sortRankHighToLow(getPlayerAverageMostCorrectPointsInOrder());
-        List<String> totalRank = calculateTotalRank(getPlayerTototalPoints());
+        List<String> totalRank = calculateTotalRank(getPlayerTototalPointsRank());
 
         ArrayList<String> templist = combineList(fastest, mostCorrect);
         ArrayList<String> templist2 = combineList(mostCorrectInOrder, totalRank);
@@ -197,16 +209,13 @@ public class RankUtil {
      */
     private ArrayList<String> combineList(List<String> list1, List<String> list2) {
         ArrayList<String> newList = new ArrayList<>();
-        if (list1.size() == list2.size()){
-            for (int i = 0; i < list1.size(); i++) {
-                newList.add(list1.get(i) + "    |   " + list2.get(i));
-            }
-            return newList;
+        for (int i = 0; i < list1.size(); i++) {
+            newList.add(list1.get(i) + "|\t" + list2.get(i));
         }
-       return newList;
+        return newList;
     }
 
-    private HashMap<String, Integer[]> getPlayerTototalPoints() {
+    private HashMap<String, Integer[]> getPlayerTototalPointsRank() {
         HashMap<String, Integer[]> playersAndPoints = new HashMap<>();
         List<Player> allPlayers = playerRepo.findAll();
         for (Player player : allPlayers) {
@@ -223,7 +232,7 @@ public class RankUtil {
                 }
             }
             if (nGames > 0) {
-                Integer[] total = {totalPoints, (int)(totaltime*0.001)};
+                Integer[] total = {totalPoints, (int) (totaltime * 0.001)};
                 playersAndPoints.put(player.getDisplayName(), total);
             }
         }
@@ -233,24 +242,36 @@ public class RankUtil {
     private List<String> calculateTotalRank(HashMap<String, Integer[]> rankMap) {
 
         ArrayList<String> sortedList = new ArrayList<>();
+        List<String> tempList = new ArrayList<>();
         List<Map.Entry<String, Integer[]>> entries = new ArrayList<>(rankMap.entrySet());
         Collections.sort(entries, new Comparator<Map.Entry<String, Integer[]>>() {
             @Override
             public int compare(Map.Entry<String, Integer[]> o1, Map.Entry<String, Integer[]> o2) {
-                if(o1.getValue()[0].compareTo(o2.getValue()[0])==0){
+                if (o1.getValue()[0].compareTo(o2.getValue()[0]) == 0) {
                     return o1.getValue()[1].compareTo(o2.getValue()[1]);
                 }
                 return o2.getValue()[0].compareTo(o1.getValue()[0]);
             }
         });
         for (Map.Entry<String, Integer[]> entry : entries) {
-            sortedList.add(entry.getKey() + ": " + entry.getValue()[0] + "p " + entry.getValue()[1]+ "s");
+            tempList.add(entry.getKey() + ": " + entry.getValue()[0] + "p " + entry.getValue()[1] + "s");
+        }
+        for(int i= 0;i <tempList.size(); i++){
+            sortedList.add(i+1+". "+ tempList.get(i));
         }
         return sortedList;
     }
 
-
-
+    public int getPlayerNumberOfgames(Player player) {
+        Optional<List<Result>> resultList = resultRepo.findByPlayerId(player.getId());
+        int numberOfGames = 0;
+        if (resultList.isPresent()) {
+            for (Result result : resultList.get()) {
+                numberOfGames++;
+            }
+        }
+        return numberOfGames;
+    }
 
 
 }
