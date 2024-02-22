@@ -53,9 +53,7 @@ public class MenuHandler {
         playerService.setConsole(console);
         gameService.setConsole(console);
 
-        while (running) {
-            menuToLogin(playerService, new LoginMenu(console));
-        }
+        menuToLogin(playerService, new LoginMenu(console));
     }
 
     /**
@@ -92,6 +90,8 @@ public class MenuHandler {
                 login(playerService);
                 if (currentPlayer.isEmpty()) {
                     console.error("Incorrect Username or Password!");
+                } else {
+                    break;
                 }
             }
         } catch (NoSuchElementException ignored) {

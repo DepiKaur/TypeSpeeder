@@ -195,6 +195,10 @@ public class GameService {
      * @return The total number of points including bonus and deductions.
      */
     public int getTotalPointsOfPlayer(Player player) {
+        Optional<List<Result>> resultList = resultRepo.findByPlayerId(player.getId());
+        if (resultList.isEmpty() || resultList.get().isEmpty()) {
+            return 0;
+        }
         int playerId = player.getId();
         int sumOfBonusPoints = resultRepo.sumOfBonusPointsOfPlayer(playerId);
         int sumOfPointsForCorrect = resultRepo.sumOfPointsOfAPlayer(playerId);
@@ -225,7 +229,6 @@ public class GameService {
         console.printLine("");
         console.tln("result.title");
         console.tln("result.show");
-        //System.out.printf("%n%s \t\t%20s \t%15s%n", "Correct", "Most Correct in order", "Time taken");
         console.printf("%4d p %20d p %20d s%n%n", pointsForCorrect, pointsForMostCorrectInOrder, timeInSec);
 
         int currentLevel = player.getLevel();
