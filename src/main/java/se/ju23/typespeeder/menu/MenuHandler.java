@@ -162,7 +162,7 @@ public class MenuHandler {
 
     private void showVersion(){
         Patch patch = new Patch();
-        patch.setPatchVersion("1.1.2");
+        patch.setPatchVersion("2.2.1");
         console.printDashes();
         console.printLine("Version: " +patch.getPatchVersion());
 
