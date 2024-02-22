@@ -7,7 +7,13 @@ import se.ju23.typespeeder.entity.Result;
 import se.ju23.typespeeder.repo.PlayerRepo;
 import se.ju23.typespeeder.repo.ResultRepo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Sofie Van Dingenen
@@ -247,8 +253,6 @@ public class RankUtil {
                 return o2.getValue()[0].compareTo(o1.getValue()[0]);
             }
         });
-
-        Map<String, Integer[]> sordetMap = new LinkedHashMap<>();
         for (Map.Entry<String, Integer[]> entry : entries) {
             tempList.add(entry.getKey() + ": " + entry.getValue()[0] + "p " + entry.getValue()[1] + "s");
         }

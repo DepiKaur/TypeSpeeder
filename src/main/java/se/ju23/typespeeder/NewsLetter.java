@@ -1,15 +1,13 @@
 package se.ju23.typespeeder;
 
-import org.springframework.cglib.core.Local;
-
 import java.time.LocalDateTime;
 
 /**
  * @author Depinder Kaur
  * @version 0.1.0
- * <h2>se.ju23.typespeeder.NewsLetter</h2>
+ * <h2>NewsLetter</h2>
  * <p>
- *     se.ju23.typespeeder.NewsLetter class contains methods to fulfil the requirements of the third and last update.
+ *     NewsLetter class contains methods to fulfil the requirements of the third and last update.
  * </p>
  * @date 2024-02-19
  */
@@ -19,9 +17,12 @@ public class NewsLetter {
 
     public NewsLetter() {
         this.content = """
-                As each day passed I would learn, in our talk, something about the little prince's planet, 
-                his departure from it, his journey.""";
-        this.publishDateTime = LocalDateTime.parse("2024-02-20T10:25:15");
+                Today's riddle-
+                What four-letter word can be written forward, backward or upside down, 
+                and can still be read from left to right?
+                Answer: NOON. 
+                """;
+        this.publishDateTime = LocalDateTime.parse("2024-02-22T10:15:15");
     }
 
     public String getContent() {
@@ -34,6 +35,9 @@ public class NewsLetter {
 
     @Override
     public String toString() {
-        return content + publishDateTime ;
+        return content + "\nPublished: " + publishDateTime.getDayOfMonth() + " " +
+                publishDateTime.getMonth().toString().substring(0,1) +
+                publishDateTime.getMonth().toString().substring(1).toLowerCase() +
+                " " + publishDateTime.getYear();
     }
 }

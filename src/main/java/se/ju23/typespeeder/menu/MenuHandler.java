@@ -7,18 +7,15 @@ import se.ju23.typespeeder.Patch;
 import se.ju23.typespeeder.consle.Color;
 import se.ju23.typespeeder.consle.Console;
 import se.ju23.typespeeder.consle.Language;
-import se.ju23.typespeeder.entity.Game;
 import se.ju23.typespeeder.entity.Player;
-import se.ju23.typespeeder.game.GameDifficultyLevel;
-import se.ju23.typespeeder.game.GameType;
 import se.ju23.typespeeder.service.GameService;
 import se.ju23.typespeeder.service.MenuService;
 import se.ju23.typespeeder.service.PlayerService;
 import se.ju23.typespeeder.util.RankUtil;
 import se.ju23.typespeeder.util.ScannerHelper;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -90,9 +87,17 @@ public class MenuHandler {
     }
 
     private void loggedInMenu(PlayerService playerService) {
-        login(playerService);
+        try {
+            for (int i = 0; i < 3; i++) {
+                login(playerService);
+                if (currentPlayer.isEmpty()) {
+                    console.error("Incorrect Username or Password!");
+                }
+            }
+        } catch (NoSuchElementException ignored) {
+
+        }
         if (currentPlayer.isEmpty()) {
-            console.error("Incorrect Username or Password!");
             return;
         }
         menu = new GameMenu(console, currentPlayer.get(), gameService);
@@ -114,8 +119,6 @@ public class MenuHandler {
     private void login(PlayerService playerService) {
         if (currentPlayer.isEmpty()) {
             currentPlayer = playerService.playerLogin();
-        } else {
-            console.error("you are already logged in");
         }
     }
 
