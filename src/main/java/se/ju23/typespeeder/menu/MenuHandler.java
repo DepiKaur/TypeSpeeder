@@ -124,11 +124,6 @@ public class MenuHandler {
         if (currentPlayer.isEmpty()) {
             currentPlayer = playerService.playerLogin();
         }
-        /*else {
-            console.error("you are already logged in");
-        }
-
-         */
     }
 
     public void showRankingList() {
