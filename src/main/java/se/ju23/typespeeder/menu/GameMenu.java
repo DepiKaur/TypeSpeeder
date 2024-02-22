@@ -32,11 +32,7 @@ public class GameMenu implements MenuService {
     @Override
     public void displayMenu() {
         console.printDashes();
-        console.tln("menu.info.player", Color.BLUE);
-        console.print(player.getDisplayName()+"     Level: "+ player.getLevel()+ "  ", Color.BLUE);
-        console.t("points", Color.BLUE);
-        console.printLine(""+service.getTotalPointsOfPlayer(player), Color.BLUE);
-        console.printDashes();
+        showUserinformation();
         console.tln("menu.option.chooseOption");
         console.print(getMenuOptions());
     }
@@ -57,6 +53,13 @@ public class GameMenu implements MenuService {
         optionsList.add("menu.option.logout");
 
         return optionsList;
+    }
+    private void showUserinformation(){
+        console.tln("menu.info.player", Color.BLUE);
+        console.print("\t"+player.getDisplayName()+"\t\tLevel: "+ player.getLevel()+ "\t\t", Color.BLUE);
+        console.t("points", Color.BLUE);
+        console.printLine(""+service.getTotalPointsOfPlayer(player), Color.BLUE);
+        console.printDashes();
     }
 
 }
