@@ -38,6 +38,13 @@ Go to `Project` --> `src` --> `main` --> `resources` --> `application.properties
 Enter username and password to connect with the database before running this application either in IntelliJ or Command
 Terminal.
 
+## Quick-start this application
+Set up a database with the same path as given in the `application.properties` file.
+
+Enter username: `DepiAdmin`
+
+Enter password: `Depi1234`
+
 ## Instructions to run this application
 
 In this application, one can check one's typing speed. To begin with, there exists an opportunity to choose a language- 
