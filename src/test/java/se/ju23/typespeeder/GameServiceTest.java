@@ -16,6 +16,8 @@ import se.ju23.typespeeder.repo.PlayerRepo;
 import se.ju23.typespeeder.repo.ResultRepo;
 import se.ju23.typespeeder.service.GameService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -75,9 +77,14 @@ public class GameServiceTest {
         Result result = new Result(player, game, 8, 6, 15000, 0, 0);
 
         when(resultRepo.save(any(Result.class))).thenReturn(result);
+        List<Result> resultList = new ArrayList<>();
+        resultList.add(result);
+
+        when(resultRepo.findByPlayerId(anyInt())).thenReturn(Optional.of(resultList));
         when(resultRepo.sumOfBonusPointsOfPlayer(anyInt())).thenReturn(6);
         when(resultRepo.sumOfPointsOfAPlayer(anyInt())).thenReturn(20);
         when(resultRepo.sumOfDeductedPointsOfPlayer(anyInt())).thenReturn(-2);
+
         when(playerRepo.save(any(Player.class))).thenReturn(player);
 
         gameService.calculateAndSaveResult(player, game, userInput, timeInMilli);
@@ -91,6 +98,13 @@ public class GameServiceTest {
     public void testGetTotalPointsOfPlayer() {
         Player player = new Player("Username", "Password12", "DisplayName");
         player.setLevel(2);
+        Game game = new Game("Level", "Write case-sensitive text", "TestContent");
+
+        Result result = new Result(player, game, 8, 6, 25000);
+        List<Result> resultList = new ArrayList<>();
+        resultList.add(result);
+
+        when(resultRepo.findByPlayerId(anyInt())).thenReturn(Optional.of(resultList));
         when(resultRepo.sumOfBonusPointsOfPlayer(anyInt())).thenReturn(6);
         when(resultRepo.sumOfPointsOfAPlayer(anyInt())).thenReturn(20);
         when(resultRepo.sumOfDeductedPointsOfPlayer(anyInt())).thenReturn(-2);
