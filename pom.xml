@@ -10,7 +10,7 @@
     </parent>
     <groupId>se.ju23</groupId>
     <artifactId>TypeSpeeder</artifactId>
-    <version>2.2.2</version>
+    <version>2.2.3</version>
     <name>TypeSpeeder</name>
     <description>TypeSpeeder</description>
     <properties>

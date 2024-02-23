@@ -61,7 +61,7 @@ public class LanguageMenu {
     }
     private void showVersion(){
         Patch patch = new Patch();
-        patch.setPatchVersion("1.1.2");
+        patch.setPatchVersion("2.2.3");
         console.printLine(" Version: " +patch.getPatchVersion());
 
     }
