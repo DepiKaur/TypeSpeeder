@@ -2,8 +2,6 @@ package se.ju23.typespeeder.util;
 
 import se.ju23.typespeeder.consle.Console;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,9 +31,9 @@ public class FileUtil {
         try {
             ArrayList<String> fileInformation = new ArrayList<>();
 
-            //File file = new File(fileName);
-            InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(fileName);
-            Scanner textFromFile = new Scanner(in);
+            InputStream inputStream = FileUtil.class. getResourceAsStream(fileName);
+            assert inputStream != null;
+            Scanner textFromFile = new Scanner(inputStream);
             while (textFromFile.hasNextLine()) {
                 fileInformation.add(textFromFile.nextLine());
             }
@@ -58,7 +56,7 @@ public class FileUtil {
 
     public static HashMap<String, String> readLanguageFile(String lang) {
         HashMap<String, String> languageMap = new HashMap<>();
-        ArrayList<String> languageInfoFromFile = readFile(lang + ".txt");
+        ArrayList<String> languageInfoFromFile = readFile("/" + lang + ".txt");
 
         for (String languageInfo : languageInfoFromFile) {
             String[] languageInfoString = languageInfo.split(" = ");
